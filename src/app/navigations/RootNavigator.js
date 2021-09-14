@@ -11,6 +11,6 @@ export default () => (
   <Stack.Navigator>
     <Stack.Screen name='SignIn' component={SignInScreen} />
     <Stack.Screen name='OTPVerify' component={OTPVerifyScreen} />
-    <Stack.Screen name='SuccessScreen' component={SuccessScreen} />
+    <Stack.Screen name='Success' component={SuccessScreen} />
   </Stack.Navigator>
 );

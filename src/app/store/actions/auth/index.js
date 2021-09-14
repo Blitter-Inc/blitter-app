@@ -25,6 +25,11 @@ export const confirmCodeSent = (phoneNumber, verificationId) => ({
   },
 });
 
+export const confirmCodeVerification = (firebaseId) => ({
+  type: actionType.CONFIRM_CODE_VERIFICATION,
+  payload: { firebaseId },
+});
+
 export const toggleLoading = () => ({
   type: actionType.TOGGLE_LOADING,
 });

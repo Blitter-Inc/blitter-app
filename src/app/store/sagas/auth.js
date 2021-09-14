@@ -1,7 +1,7 @@
 import '@firebase/auth'
 import Firebase from '@config/firebase';
 import { call, put } from 'redux-saga/effects';
-import { setVerificationId, confirmCodeSent } from '@store/actions/auth';
+import { confirmCodeSent, confirmCodeVerification } from '@store/actions/auth';
 
 
 export function* initPhoneSignIn({ payload: { phoneNumber, recaptchaVerifier } }) {
@@ -9,19 +9,18 @@ export function* initPhoneSignIn({ payload: { phoneNumber, recaptchaVerifier } }
     const authProvider = new Firebase.auth.PhoneAuthProvider();
     const verificationId = yield call([authProvider, authProvider.verifyPhoneNumber], phoneNumber, recaptchaVerifier);
     yield put(confirmCodeSent(phoneNumber, verificationId));
-    console.log(verificationId);
   } catch (e) {
     console.error(e);
   }
 }
 
-export function* checkVerificationCode({payload: {code, verificationId}}) {
+export function* checkVerificationCode({ payload: { code, verificationId } }) {
   try {
     const credential = Firebase.auth.PhoneAuthProvider.credential(verificationId, code);
-    console.log('CREDENTIAL:', credential);
     const auth = Firebase.auth();
-    const res = yield call([auth, auth.signInWithCredential], credential);
-    console.log(res);
+    const authRes = yield call([auth, auth.signInWithCredential], credential);
+    const { user: { uid: firebaseId } } = authRes;
+    yield put(confirmCodeVerification(firebaseId));
   } catch (e) {
     console.error(e);
   }

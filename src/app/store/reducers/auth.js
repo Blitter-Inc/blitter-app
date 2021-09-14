@@ -4,7 +4,9 @@ import actionType from '@store/actions/auth';
 const initialState = {
   isLoading: false,
   codeSent: false,
+  codeVerified: false,
   credentials: {
+    firebaseId: null,
     verificationId: null,
     accessToken: null,
     refreshToken: null,
@@ -36,6 +38,18 @@ export default (state = initialState, action) => {
             ...state.credentials.user,
             phoneNumber,
           },
+        },
+      };
+
+    case actionType.CONFIRM_CODE_VERIFICATION:
+      const { payload: { firebaseId } } = action;
+      return {
+        ...state,
+        isLoading: false,
+        codeVerified: true,
+        credentials: {
+          ...state.credentials,
+          firebaseId,
         },
       };
 

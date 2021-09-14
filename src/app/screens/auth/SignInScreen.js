@@ -10,7 +10,7 @@ import { initPhoneSignIn, toggleLoading } from '@store/actions/auth';
 const SignInScreen = ({ state, dispatcher, navigation }) => {
   const recaptchaVerifier = useRef(null);
 
-  const [phoneNumber, setPhoneNumber] = useState();
+  const [phoneNumber, setPhoneNumber] = useState(state.phoneNumber);
 
   useEffect(() => {
     if (state.codeSent) {
@@ -20,7 +20,6 @@ const SignInScreen = ({ state, dispatcher, navigation }) => {
 
   return (
     <View>
-      {/* {state.isLoading && <Loader />} */}
       <FirebaseRecaptchaVerifierModal
         ref={recaptchaVerifier}
         firebaseConfig={Firebase.app().options}
@@ -28,6 +27,7 @@ const SignInScreen = ({ state, dispatcher, navigation }) => {
       />
       <Text>Enter Phone Number</Text>
       <TextInput
+        value={phoneNumber}
         placeholder='+91 XXXXX XXXXX'
         autoFocus
         autoCompleteType='tel'
@@ -43,6 +43,7 @@ const SignInScreen = ({ state, dispatcher, navigation }) => {
           dispatcher.initPhoneSignIn(phoneNumber, recaptchaVerifier.current);
         }}
       />
+      {state.isLoading && <Loader />}
     </View>
   );
 };
@@ -51,6 +52,7 @@ const mapStateToProps = state => ({
   state: {
     isLoading: state.auth.isLoading,
     codeSent: state.auth.codeSent,
+    phoneNumber: state.auth.credentials.user.phoneNumber,
   },
 });
 
