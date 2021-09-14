@@ -14,3 +14,6 @@ web-build/
 
 .vscode
 .expo-shared
+
+.env*
+!.env.sample

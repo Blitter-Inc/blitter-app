@@ -1,10 +1,7 @@
 import Firebase from 'firebase/app';
+import { FIREBASE_CONFIG } from './env';
 
-
-const config = {
-  //...
-};
-
-Firebase.initializeApp(config);
+console.log(FIREBASE_CONFIG);
+Firebase.initializeApp(FIREBASE_CONFIG);
 
 export default Firebase;
