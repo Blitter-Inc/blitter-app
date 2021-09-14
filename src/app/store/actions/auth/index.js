@@ -17,9 +17,16 @@ export const initPhoneSignIn = (phoneNumber, recaptchaVerifier) => ({
   },
 });
 
-export const setVerificationId = verificationId => ({
-  type: actionType.SET_VERIFICATION_ID,
-  payload: { verificationId },
+export const confirmCodeSent = (phoneNumber, verificationId) => ({
+  type: actionType.CONFIRM_CODE_SENT,
+  payload: {
+    phoneNumber,
+    verificationId,
+  },
+});
+
+export const toggleLoading = () => ({
+  type: actionType.TOGGLE_LOADING,
 });
 
 export default actionType;

@@ -2,20 +2,43 @@ import actionType from '@store/actions/auth';
 
 
 const initialState = {
-  verificationId: null,
-  accessToken: null,
-  refreshToken: null,
-  user: null,
+  isLoading: false,
+  codeSent: false,
+  credentials: {
+    verificationId: null,
+    accessToken: null,
+    refreshToken: null,
+    user: {
+      phoneNumber: null,
+    },
+  },
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case actionType.SET_VERIFICATION_ID:
-      const { payload: { verificationId } } = action;
+
+    case actionType.TOGGLE_LOADING:
       return {
         ...state,
-        verificationId,
+        isLoading: !state.isLoading,
       };
+
+    case actionType.CONFIRM_CODE_SENT:
+      const { payload: { phoneNumber, verificationId } } = action;
+      return {
+        ...state,
+        isLoading: false,
+        codeSent: true,
+        credentials: {
+          ...state.credentials,
+          verificationId,
+          user: {
+            ...state.credentials.user,
+            phoneNumber,
+          },
+        },
+      };
+
     default:
       return state;
   }
