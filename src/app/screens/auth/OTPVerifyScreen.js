@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { Alert, View, Text, TextInput, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { Loader } from '@components/ui';
 import { checkVerificationCode, toggleLoading } from '@store/actions/auth';
@@ -10,7 +10,11 @@ const OTPVerifyScreen = ({ state, dispatcher, navigation }) => {
 
   useEffect(() => {
     if (state.codeVerified) {
-      navigation.push('Success');
+      Alert.alert('You are now logged in!');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Home' }],
+      });
     }
   }, [state.codeVerified]);
 
