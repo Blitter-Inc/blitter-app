@@ -8,7 +8,7 @@ import { HomeScreen } from '@screens/home';
 const Stack = createStackNavigator();
 
 const RootNavigator = ({ state: { isAuthenticated } }) => (
-  <Stack.Navigator>
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
     {isAuthenticated ? (
       <>
         <Stack.Screen name='Home' component={HomeScreen} />

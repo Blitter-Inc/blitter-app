@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 
 export default () => {
   return (
@@ -7,23 +7,24 @@ export default () => {
       <Text style={styles.text}>Loading</Text>
     </View>
   );
-}
+};
 
-const dimentions = Dimensions.get('window');
+const dimentions = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     height: dimentions.height,
     width: dimentions.width,
-    backgroundColor: 'black',
+    backgroundColor: "black",
     opacity: 0.5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 100,
   },
   text: {
-    color: 'white',
+    color: "white",
   },
 });

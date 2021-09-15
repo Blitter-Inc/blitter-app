@@ -1,6 +1,7 @@
-import Loader from './Loader';
+import Loader from "./Loader";
+import OTPInput from "./OTPInput";
+import RootView from "./RootView";
+import BigText from "./BigText";
+import SmallText from "./SmallText";
 
-
-export {
-  Loader,
-};
+export { BigText, OTPInput, Loader, RootView, SmallText };
