@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button } from 'react-native';
 
 
-export default SuccessScreen = () => {
+const SuccessScreen = () => {
   return (
     <View>
       <Text>You're logged in.</Text>
@@ -10,3 +10,6 @@ export default SuccessScreen = () => {
     </View>
   );
 };
+
+
+export default SuccessScreen;
