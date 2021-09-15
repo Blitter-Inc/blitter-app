@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
-import { SignInScreen, OTPVerifyScreen, SuccessScreen } from '@screens/auth'
+import { SignInScreen, OTPVerifyScreen } from '@screens/auth';
 import { HomeScreen } from '@screens/home';
 
 
@@ -17,7 +17,6 @@ const RootNavigator = ({ state: { isAuthenticated } }) => (
       <>
         <Stack.Screen name='SignIn' component={SignInScreen} />
         <Stack.Screen name='OTPVerify' component={OTPVerifyScreen} />
-        <Stack.Screen name='Success' component={SuccessScreen} />
       </>
     )}
   </Stack.Navigator>
