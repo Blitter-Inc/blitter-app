@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, Button } from "react-native";
 
+
 const SuccessScreen = () => {
   return (
     <View>
@@ -9,5 +10,6 @@ const SuccessScreen = () => {
     </View>
   );
 };
+
 
 export default SuccessScreen;

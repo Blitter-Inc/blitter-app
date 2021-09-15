@@ -42,7 +42,7 @@ export default (state = initialState, action) => {
       };
 
     case actionType.CONFIRM_CODE_VERIFICATION:
-      const { payload: { firebaseId } } = action;
+      const { payload: { firebaseId, user, accessToken, refreshToken } } = action;
       return {
         ...state,
         isLoading: false,
@@ -50,6 +50,12 @@ export default (state = initialState, action) => {
         credentials: {
           ...state.credentials,
           firebaseId,
+          accessToken,
+          refreshToken,
+          user: {
+            ...state.credentials.user,
+            ...user,
+          },
         },
       };
 
