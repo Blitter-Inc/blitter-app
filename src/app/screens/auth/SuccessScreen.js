@@ -1,12 +1,13 @@
-import React from 'react';
-import { View, Text, Button } from 'react-native';
+import React from "react";
+import { View, Text, Button } from "react-native";
 
-
-export default SuccessScreen = () => {
+const SuccessScreen = () => {
   return (
     <View>
       <Text>You're logged in.</Text>
-      <Button title='Sign Out' />
+      <Button title="Sign Out" />
     </View>
   );
 };
+
+export default SuccessScreen;

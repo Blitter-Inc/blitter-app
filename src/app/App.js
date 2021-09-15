@@ -1,11 +1,9 @@
-import 'react-native-gesture-handler';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from '@store';
-import Navigation from '@navigations';
-
+import "react-native-gesture-handler";
+import React from "react";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "@store";
+import Navigation from "@navigations";
 
 export default function App() {
   return (
@@ -16,12 +14,3 @@ export default function App() {
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
