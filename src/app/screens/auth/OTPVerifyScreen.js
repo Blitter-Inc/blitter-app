@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Alert, View, Button, Text, TextInput } from "react-native";
 import { connect } from "react-redux";
-import { Loader, RootView } from "@components/ui";
+import { AuthContainer } from "@components/auth";
+import { Loader } from "@components/ui";
 import { checkVerificationCode, toggleLoading } from "@store/actions/auth";
 import Styles from "./styles";
 
@@ -49,7 +50,7 @@ const OTPVerifyScreen = ({ state, dispatcher, navigation }) => {
   }
 
   return (
-    <RootView>
+    <AuthContainer>
       <View style={Styles.cardContainer}>
         <Text style={Styles.bigText}>Verify Your Account</Text>
         <Text style={Styles.smallText}>Enter OTP send to {state.phone}</Text>
@@ -83,7 +84,7 @@ const OTPVerifyScreen = ({ state, dispatcher, navigation }) => {
         </View>
       </View>
       {state.isLoading && <Loader />}
-    </RootView>
+    </AuthContainer>
   );
 };
 

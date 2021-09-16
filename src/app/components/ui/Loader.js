@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 
-export default () => {
+const Loader = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Loading</Text>
@@ -28,3 +28,6 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
+
+
+export default Loader;

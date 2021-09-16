@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { View, Text, TextInput, Button } from "react-native";
 import { connect } from "react-redux";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
-import { Loader, RootView } from "@components/ui";
+import { AuthContainer } from "@components/auth";
+import { Loader } from "@components/ui";
 import Firebase from "@config/firebase";
 import { initPhoneSignIn, toggleLoading } from "@store/actions/auth";
 import Styles from "./styles";
@@ -19,7 +20,7 @@ const SignInScreen = ({ state, dispatcher, navigation }) => {
   }, [state.codeSent]);
 
   return (
-    <RootView>
+    <AuthContainer>
       <FirebaseRecaptchaVerifierModal
         ref={recaptchaVerifier}
         firebaseConfig={Firebase.app().options}
@@ -49,7 +50,7 @@ const SignInScreen = ({ state, dispatcher, navigation }) => {
         </View>
       </View>
       {state.isLoading && <Loader />}
-    </RootView>
+    </AuthContainer>
   );
 };
 

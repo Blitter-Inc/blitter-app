@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Image, StyleSheet } from "react-native";
 
-const RootView = ({ children, style = {} }) => (
+
+export const AuthContainer = ({ children, style = {} }) => (
   <View style={{ ...styles.screen, ...style }}>
     <Image
       style={styles.image}
@@ -24,5 +25,3 @@ const styles = StyleSheet.create({
     width: "80%",
   },
 });
-
-export default RootView;
