@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Alert, View, Button, StyleSheet } from "react-native";
+import { Alert, View, Button, Text, TextInput } from "react-native";
 import { connect } from "react-redux";
-import { BigText, OTPInput, Loader, RootView, SmallText } from "@components/ui";
+import { Loader, RootView } from "@components/ui";
 import { checkVerificationCode, toggleLoading } from "@store/actions/auth";
+import Styles from "./styles";
 
 
 const OTPVerifyScreen = ({ state, dispatcher, navigation }) => {
@@ -49,28 +50,30 @@ const OTPVerifyScreen = ({ state, dispatcher, navigation }) => {
 
   return (
     <RootView>
-      <View style={styles.cardContainer}>
-        <BigText style={styles.bigText}>Verify Your Account</BigText>
-        <SmallText style={styles.smallText}>
-          Enter OTP send to {state.phone}
-        </SmallText>
-        <View style={styles.otpContainer}>
+      <View style={Styles.cardContainer}>
+        <Text style={Styles.bigText}>Verify Your Account</Text>
+        <Text style={Styles.smallText}>Enter OTP send to {state.phone}</Text>
+        <View style={Styles.otpContainer}>
           {codeRef.map((inputRef, index) => {
             return (
-              <OTPInput
-                value={codeArray[index].code}
-                onChangeText={onCodeEntry(index)}
-                onKeyPress={onCodeChange(index)}
-                keyboardType="numeric"
-                maxLength={1}
-                refCallback={inputRef}
-                key={index}
-                autoFocus={index === 0}
-              />
+              <View key={index} style={Styles.otpContainerStyle}>
+                <></>
+                <TextInput
+                  value={codeArray[index].code}
+                  ref={inputRef}
+                  style={[Styles.otpTextInputStyle]}
+                  keyboardType="numeric"
+                  maxLength={1}
+                  autoFocus={index === 0}
+                  onChangeText={onCodeEntry(index)}
+                  onKeyPress={onCodeChange(index)}
+                />
+                <></>
+              </View>
             );
           })}
         </View>
-        <View style={styles.button}>
+        <View style={Styles.button}>
           <Button
             title="Verify OTP"
             color="#065A82"
@@ -101,34 +104,5 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-const styles = StyleSheet.create({
-  cardContainer: {
-    flex: 1,
-    justifyContent: "center",
-    width: "100%",
-  },
-  bigText: {
-    color: "#065A82",
-  },
-  smallText: {
-    color: "grey",
-  },
-  otpContainer: {
-    width: "100%",
-    marginTop: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    margin: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 0,
-  },
-  button: {
-    margin: 5,
-    width: "100%",
-    alignSelf: "center",
-    justifyContent: "center",
-  },
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(OTPVerifyScreen);

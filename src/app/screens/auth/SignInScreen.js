@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button } from "react-native";
 import { connect } from "react-redux";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
-import { Loader, RootView, BigText } from "@components/ui";
+import { Loader, RootView } from "@components/ui";
 import Firebase from "@config/firebase";
 import { initPhoneSignIn, toggleLoading } from "@store/actions/auth";
+import Styles from "./styles";
 
 
 const SignInScreen = ({ state, dispatcher, navigation }) => {
@@ -24,8 +25,8 @@ const SignInScreen = ({ state, dispatcher, navigation }) => {
         firebaseConfig={Firebase.app().options}
         attemptInvisibleVerification={true}
       />
-      <View style={styles.cardContainer}>
-        <BigText style={styles.bigText}>Enter Phone Number</BigText>
+      <View style={Styles.cardContainer}>
+        <Text style={Styles.bigText}>Enter Phone Number</Text>
         <TextInput
           value={phoneNumber}
           placeholder="+91 XXXXX XXXXX"
@@ -35,7 +36,7 @@ const SignInScreen = ({ state, dispatcher, navigation }) => {
           textContentType="telephoneNumber"
           onChangeText={setPhoneNumber}
         />
-        <View style={styles.button}>
+        <View style={Styles.button}>
           <Button
             title="Generate OTP"
             color="#065A82"
@@ -67,21 +68,5 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-const styles = StyleSheet.create({
-  cardContainer: {
-    flex: 1,
-    justifyContent: "center",
-    width: "100%",
-  },
-  bigText: {
-    color: "#065A82",
-  },
-  button: {
-    margin: 5,
-    width: "100%",
-    alignSelf: "center",
-    justifyContent: "center",
-  },
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);
