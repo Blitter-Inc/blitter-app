@@ -22,7 +22,7 @@ const rootReducer = persistReducer(persistConfig, Reducers);
 
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 const persistor = persistStore(store);
-// persistor.purge();   // Used to clear persist storage from devices.
+persistor.purge();   // Used to clear persist storage from devices.
 
 sagaMiddleware.run(watchAuth);
 
