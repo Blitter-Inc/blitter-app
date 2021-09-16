@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { ACCENT, FONT } from "@config/color";
 
 
 export default StyleSheet.create({
@@ -15,13 +16,13 @@ export default StyleSheet.create({
   },
   bigText: {
     fontSize: 25,
-    color: "#065A82",
+    color: ACCENT[2],
     fontWeight: "bold",
     margin: 5,
   },
   smallText: {
     fontSize: 12,
-    color: "grey",
+    color: FONT.SUBTEXT[1],
     marginHorizontal: 5,
   },
   otpContainer: {
@@ -44,7 +45,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   otpTextInputStyle: {
-    color: "#087aaf",
+    color: FONT.INPUT[1],
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
