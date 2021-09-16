@@ -1,118 +1,85 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Alert, View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
+import { Alert, View, Button, StyleSheet } from "react-native";
+import { connect } from "react-redux";
 import { BigText, OTPInput, Loader, RootView, SmallText } from "@components/ui";
-import { checkVerificationCode, toggleLoading } from '@store/actions/auth';
+import { checkVerificationCode, toggleLoading } from "@store/actions/auth";
 
 
 const OTPVerifyScreen = ({ state, dispatcher, navigation }) => {
-  const [otpArray, setOtpArray] = useState(["", "", "", "", "", ""]);
-  const [code, setCode] = useState(null);
-
-  const otp1 = useRef(null);
-  const otp2 = useRef(null);
-  const otp3 = useRef(null);
-  const otp4 = useRef(null);
-  const otp5 = useRef(null);
-  const otp6 = useRef(null);
+  const codeRef = Array.from(Array(6), () => useRef(null));
+  const codeArray = Array.from(Array(6), () => {
+    const [code, setCode] = useState("");
+    return { code, setCode };
+  });
 
   useEffect(() => {
     if (state.codeVerified) {
-      Alert.alert('You are now logged in!');
+      Alert.alert("You are now logged in!");
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Home' }],
+        routes: [{ name: "Home" }],
       });
     }
   }, [state.codeVerified]);
 
-  const onOtpChange = (index) => {
-    return (value) => {
-      if (isNaN(Number(value))) {
-        return;
-      }
-      const otpArrayCopy = [...otpArray];
-      otpArrayCopy[index] = value;
-      setOtpArray(otpArrayCopy);
-      const otp = otpArrayCopy.join("");
-      setCode(otp);
+  const onCodeEntry = index => text => {
+    if (isNaN(parseInt(text))) {
+      return;
+    }
+    codeArray[index].setCode(text);
+    if (index < 5) {
+      codeRef[index + 1].current.focus();
+    }
+  }
 
-      if (value !== "") {
-        if (index === 0) {
-          otp2.current.focus();
-        } else if (index === 1) {
-          otp3.current.focus();
-        } else if (index === 2) {
-          otp4.current.focus();
-        } else if (index === 3) {
-          otp5.current.focus();
-        } else if (index === 4 || index === 5) {
-          otp6.current.focus();
-        }
-      }
-    };
-  };
+  const onCodeChange = index => ({ nativeEvent: { key: eventValue } }) => {
+    if (eventValue !== "Backspace") {
+      return;
+    }
+    codeArray[index].setCode("");
+    if (index > 0) {
+      codeRef[index - 1].current.focus();
+    }
+  }
 
-  const onOtpKeyPress = (index) => {
-    return ({ nativeEvent: { key: value } }) => {
-      if (value === "Backspace" && otpArray[index] === "") {
-        if (index === 1) {
-          otp1.current.focus();
-        } else if (index === 2) {
-          otp2.current.focus();
-        } else if (index === 3) {
-          otp3.current.focus();
-        } else if (index === 4) {
-          otp4.current.focus();
-        } else if (index === 5) {
-          otp5.current.focus();
-        }
-
-        if (index > 0) {
-          const otpArrayCopy = otpArray.concat();
-          otpArrayCopy[index - 1] = "";
-          setOtpArray(otpArrayCopy);
-          const otp = otpArrayCopy.join("");
-          setCode(otp);
-        }
-      }
-    };
-  };
+  const onCodeSubmit = () => {
+    dispatcher.toggleLoading();
+    dispatcher.verifyCode(codeArray.map(el => el.code).join(""), state.verificationId);
+  }
 
   return (
-    <RootView style={styles.screen}>
-      {state.isLoading && <Loader />}
+    <RootView>
       <View style={styles.cardContainer}>
         <BigText style={styles.bigText}>Verify Your Account</BigText>
         <SmallText style={styles.smallText}>
           Enter OTP send to {state.phone}
         </SmallText>
         <View style={styles.otpContainer}>
-          {[otp1, otp2, otp3, otp4, otp5, otp6].map((inputRef, index) => (
-            <OTPInput
-              value={otpArray[index]}
-              onChangeText={onOtpChange(index)}
-              onKeyPress={onOtpKeyPress(index)}
-              keyboardType={"numeric"}
-              maxLength={1}
-              refCallback={inputRef}
-              key={index}
-              autoFocus={index === 0 ? true : undefined}
-            />
-          ))}
+          {codeRef.map((inputRef, index) => {
+            return (
+              <OTPInput
+                value={codeArray[index].code}
+                onChangeText={onCodeEntry(index)}
+                onKeyPress={onCodeChange(index)}
+                keyboardType="numeric"
+                maxLength={1}
+                refCallback={inputRef}
+                key={index}
+                autoFocus={index === 0}
+              />
+            );
+          })}
         </View>
         <View style={styles.button}>
           <Button
             title="Verify OTP"
             color="#065A82"
-            disabled={code == null || code.length != 6}
-            onPress={() => {
-              dispatcher.toggleLoading();
-              dispatcher.verifyCode(code, state.verificationId);
-            }}
+            disabled={codeArray.some(el => isNaN(parseInt(el.code)))}
+            onPress={onCodeSubmit}
           />
         </View>
       </View>
+      {state.isLoading && <Loader />}
     </RootView>
   );
 };
