@@ -1,13 +1,27 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Alert, View, Button, Text, TextInput } from "react-native";
-import { connect } from "react-redux";
 import { AuthContainer } from "@components/auth";
 import { Loader } from "@components/ui";
-import { checkVerificationCode, toggleLoading } from "@store/actions/auth";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { verifyCode } from "@store/slices/auth";
 import Styles from "./styles";
 
 
-const OTPVerifyScreen = ({ state, dispatcher, navigation }) => {
+const fetchRequiredState = () => {
+  const authState = useAppSelector(state => state.auth);
+  return {
+    isLoading: authState.isLoading,
+    codeSent: authState.codeSent,
+    codeVerified: authState.codeVerified,
+    verificationId: authState.credentials.verificationId,
+    phoneNumber: authState.credentials.user.phoneNumber,
+  };
+}
+
+const OTPVerifyScreen = ({ navigation }) => {
+  const state = fetchRequiredState();
+  const dispatch = useAppDispatch();
+
   const codeRef = Array.from(Array(6), () => useRef(null));
   const codeArray = Array.from(Array(6), () => {
     const [code, setCode] = useState("");
@@ -24,7 +38,7 @@ const OTPVerifyScreen = ({ state, dispatcher, navigation }) => {
     }
   }, [state.codeVerified]);
 
-  const onCodeEntry = index => text => {
+  const onCodeEntry = (index: number) => (text: string) => {
     if (isNaN(parseInt(text))) {
       return;
     }
@@ -34,7 +48,7 @@ const OTPVerifyScreen = ({ state, dispatcher, navigation }) => {
     }
   }
 
-  const onCodeChange = index => ({ nativeEvent: { key: eventValue } }) => {
+  const onCodeChange = (index: number) => ({ nativeEvent: { key: eventValue } }) => {
     if (eventValue !== "Backspace") {
       return;
     }
@@ -45,15 +59,17 @@ const OTPVerifyScreen = ({ state, dispatcher, navigation }) => {
   }
 
   const onCodeSubmit = () => {
-    dispatcher.toggleLoading();
-    dispatcher.verifyCode(codeArray.map(el => el.code).join(""), state.verificationId);
+    return dispatch(verifyCode(
+      codeArray.map(el => el.code).join(""),
+      state.verificationId,
+    ));
   }
 
   return (
     <AuthContainer>
       <View style={Styles.cardContainer}>
         <Text style={Styles.bigText}>Verify Your Account</Text>
-        <Text style={Styles.smallText}>Enter OTP send to {state.phone}</Text>
+        <Text style={Styles.smallText}>Enter OTP send to {state.phoneNumber}</Text>
         <View style={Styles.otpContainer}>
           {codeRef.map((inputRef, index) => {
             return (
@@ -88,22 +104,5 @@ const OTPVerifyScreen = ({ state, dispatcher, navigation }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  state: {
-    isLoading: state.auth.isLoading,
-    codeVerified: state.auth.codeVerified,
-    verificationId: state.auth.credentials.verificationId,
-    phone: state.auth.credentials.user.phoneNumber,
-  },
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatcher: {
-    verifyCode: (code, verificationId) =>
-      dispatch(checkVerificationCode(code, verificationId)),
-    toggleLoading: () => dispatch(toggleLoading()),
-  },
-});
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(OTPVerifyScreen);
+export default OTPVerifyScreen;

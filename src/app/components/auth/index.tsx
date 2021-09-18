@@ -1,8 +1,13 @@
-import React from "react";
+import React, { FC, ReactNode } from "react";
 import { View, Image, StyleSheet } from "react-native";
 
 
-export const AuthContainer = ({ children, style = {} }) => (
+type AuthContainerProps = {
+  children: ReactNode;
+  style: object;
+};
+
+export const AuthContainer: FC = ({ children, style = {} }: AuthContainerProps) => (
   <View style={{ ...styles.screen, ...style }}>
     <Image
       style={styles.image}

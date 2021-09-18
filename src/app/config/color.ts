@@ -30,8 +30,8 @@ const Color = {
   ACCENT: ACCENT[1],
 };
 
-export const changePrimary = choice => Color.PRIMARY = PRIMARY[choice];
-export const changeAccent = choice => Color.ACCENT = ACCENT[choice];
+export const changePrimary = (choice: number) => Color.PRIMARY = PRIMARY[choice];
+export const changeAccent = (choice: number) => Color.ACCENT = ACCENT[choice];
 
 
 export default Color;

@@ -1,15 +1,27 @@
 import React, { useEffect, useState, useRef } from "react";
 import { View, Text, TextInput, Button } from "react-native";
-import { connect } from "react-redux";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import { AuthContainer } from "@components/auth";
 import { Loader } from "@components/ui";
 import Firebase from "@config/firebase";
-import { initPhoneSignIn, toggleLoading } from "@store/actions/auth";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { initPhoneSignIn } from "@store/slices/auth";
 import Styles from "./styles";
 
 
-const SignInScreen = ({ state, dispatcher, navigation }) => {
+const fetchRequiredState = () => {
+  const authState = useAppSelector(state => state.auth);
+  return {
+    codeSent: authState.codeSent,
+    isLoading: authState.isLoading,
+    phoneNumber: authState.credentials.user.phoneNumber,
+  };
+}
+
+const SignInScreen = ({ navigation }) => {
+  const state = fetchRequiredState();
+  const dispatch = useAppDispatch();
+
   const [phoneNumber, setPhoneNumber] = useState(state.phoneNumber);
   const recaptchaVerifier = useRef(null);
 
@@ -42,10 +54,7 @@ const SignInScreen = ({ state, dispatcher, navigation }) => {
             title="Generate OTP"
             color="#065A82"
             disabled={phoneNumber == null || phoneNumber.length != 13}
-            onPress={() => {
-              dispatcher.toggleLoading();
-              dispatcher.initPhoneSignIn(phoneNumber, recaptchaVerifier.current);
-            }}
+            onPress={() => dispatch(initPhoneSignIn(phoneNumber, recaptchaVerifier.current))}
           />
         </View>
       </View>
@@ -54,20 +63,5 @@ const SignInScreen = ({ state, dispatcher, navigation }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  state: {
-    isLoading: state.auth.isLoading,
-    codeSent: state.auth.codeSent,
-    phoneNumber: state.auth.credentials.user.phoneNumber,
-  },
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatcher: {
-    initPhoneSignIn: (phoneNumber, recaptchaVerifier) => dispatch(initPhoneSignIn(phoneNumber, recaptchaVerifier)),
-    toggleLoading: () => dispatch(toggleLoading()),
-  },
-});
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);
+export default SignInScreen;

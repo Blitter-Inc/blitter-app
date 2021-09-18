@@ -1,7 +1,7 @@
-import React from "react";
+import React, { FC } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 
-const Loader = () => {
+const Loader: FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Loading</Text>

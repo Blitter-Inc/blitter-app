@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SignInScreen, OTPVerifyScreen } from '@screens/auth';
@@ -7,7 +7,7 @@ import { HomeScreen } from '@screens/home';
 
 const Stack = createStackNavigator();
 
-const RootNavigator = ({ state: { isAuthenticated } }) => (
+const RootNavigator: FC = ({ state: { isAuthenticated } }) => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     {isAuthenticated ? (
       <>
