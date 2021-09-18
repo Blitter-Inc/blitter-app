@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthReducer } from "@d/store";
+import { AuthReducer, AuthState } from "@d/store";
 
 
 const name = "auth";
 
-const initialState = {
+const initialState: AuthState = {
   isLoading: false,
   codeSent: false,
   codeVerified: false,
