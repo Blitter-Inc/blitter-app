@@ -1,6 +1,6 @@
 export const PRIMARY = {
-  1: "#DFDFDF",   // FAV
-  2: "#E8D7F1",
+  1: "#E8D7F1",
+  2: "#DFDFDF",
   3: "#DADDD8",
   4: "#D4E4BC",
   5: "#FECEE9",
@@ -26,7 +26,7 @@ export const FONT = {
 };
 
 const Color = {
-  PRIMARY: PRIMARY[2],
+  PRIMARY: PRIMARY[1],
   ACCENT: ACCENT[1],
   FONT: {
     INPUT: FONT.INPUT[1],

@@ -9,7 +9,6 @@ const HomeScreen = ({ navigation }) => {
       <Button title='Event Organizer' onPress={() => console.log('Event Organizer Pressed')} />
       <Button title='Bill Manager' onPress={() => console.log('Bill Manager Pressed')} />
       <Button title='Expence Tracker' onPress={() => console.log('Expence Tracker Pressed')} />
-      <Button title='Profile Screen' onPress={() => navigation.navigate('Profile')} />
     </View>
   );
 }

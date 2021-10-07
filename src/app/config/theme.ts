@@ -6,17 +6,6 @@ const RNE_COMPONENTS: Partial<FullTheme> = {
   Avatar: {
     rounded: true,
   },
-  Header: {
-    containerStyle: {
-      backgroundColor: ColorPalette.ACCENT,
-    },
-    leftComponent: {
-      style: {
-        fontSize: 24,
-        color: "white",
-      },
-    },
-  },
   Button: {
     buttonStyle: {
       backgroundColor: ColorPalette.ACCENT,
