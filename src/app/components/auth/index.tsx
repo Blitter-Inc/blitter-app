@@ -1,5 +1,6 @@
 import React, { FC, ReactNode } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import { Image, View } from "@components/ui";
 
 
 type AuthContainerProps = {

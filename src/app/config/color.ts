@@ -1,10 +1,9 @@
 export const PRIMARY = {
   1: "#DFDFDF",   // FAV
   2: "#E8D7F1",
-  3: "#E8D7F1",
+  3: "#DADDD8",
   4: "#D4E4BC",
   5: "#FECEE9",
-  6: "#DADDD8",
 };
 
 export const ACCENT = {
@@ -18,7 +17,8 @@ export const ACCENT = {
 
 export const FONT = {
   INPUT: {
-    1: "#087AAF",
+    1: "#86939e",
+    2: "#087AAF",
   },
   SUBTEXT: {
     1: "grey",
@@ -26,8 +26,11 @@ export const FONT = {
 };
 
 const Color = {
-  PRIMARY: PRIMARY[1],
+  PRIMARY: PRIMARY[2],
   ACCENT: ACCENT[1],
+  FONT: {
+    INPUT: FONT.INPUT[1],
+  },
 };
 
 export const changePrimary = (choice: number) => Color.PRIMARY = PRIMARY[choice];

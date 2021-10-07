@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { SignInScreen, OTPVerifyScreen } from '@screens/auth';
+import { SignInScreen, OTPVerifyScreen, ProfileScreen } from '@screens/auth';
 import { HomeScreen } from '@screens/home';
 import { useAppSelector } from '@store/hooks';
 
@@ -21,6 +21,7 @@ const RootNavigator: FC = () => {
       {isAuthenticated ? (
         <>
           <Stack.Screen name='Home' component={HomeScreen} />
+          <Stack.Screen name='Profile' component={ProfileScreen} />
         </>
       ) : (
         <>

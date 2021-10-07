@@ -7,6 +7,7 @@ import theme from "@config/theme";
 import { store, persistor } from "@store/index";
 import Navigation from "@navigations/index";
 
+
 export default function App() {
   return (
     <Provider store={store}>
