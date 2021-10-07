@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Alert, StyleSheet } from "react-native";
 import { Avatar, Button, Input, useTheme } from "react-native-elements";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import { launchImageLibraryAsync } from "expo-image-picker";
+import { launchImageLibraryAsync, requestMediaLibraryPermissionsAsync } from "expo-image-picker";
 import { SafeAreaView, View } from "@components/ui";
 
 
@@ -10,7 +10,7 @@ const ProfileScreen = ({ navigation }) => {
   const { theme: { ColorPalette } } = useTheme();
   const [avatarSource, setAvatarSource] = useState(require("@assets/avatar.png"));
   const [avatarPlaceholderActive, setAvatarPlaceholderActive] = useState(true);
-  const [profileUpdated, setProfileUpdated] = useState(false);    // TODO: To be removed after API integration
+  const [profileUpdated] = useState(false);    // TODO: To be removed after API integration
 
   useEffect(() => {
     if (profileUpdated) {
@@ -23,10 +23,15 @@ const ProfileScreen = ({ navigation }) => {
   }, [profileUpdated]);   // TODO: To be changed after API integration
 
   const pickAvatar = async () => {
-    const result = await launchImageLibraryAsync();
-    if (!result.cancelled) {
-      setAvatarSource({ uri: result.uri });
-      setAvatarPlaceholderActive(false);
+    const { status } = await requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Sorry, we need camera roll permissions to make this work!");
+    } else {
+      const result = await launchImageLibraryAsync();
+      if (!result.cancelled) {
+        setAvatarSource({ uri: result.uri });
+        setAvatarPlaceholderActive(false);
+      }
     }
   }
 
@@ -105,7 +110,7 @@ const styles = StyleSheet.create({
     resizeMode: "center"
   },
   avatarContainer: {
-    shadowColor: 'black',
+    shadowColor: "black",
     shadowOpacity: 1,
   },
   form: {
