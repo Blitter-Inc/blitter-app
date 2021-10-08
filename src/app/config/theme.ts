@@ -11,6 +11,18 @@ const RNE_COMPONENTS: Partial<FullTheme> = {
       backgroundColor: ColorPalette.ACCENT,
     },
   },
+  SearchBar: {
+    containerStyle: {
+      backgroundColor: ColorPalette.ACCENT,
+    },
+    inputContainerStyle: {
+      backgroundColor: ColorPalette.ACCENT,
+    },
+    inputStyle: {
+      backgroundColor: ColorPalette.SECONDARY,
+      color: ColorPalette.FONT.INPUT,
+    },
+  }
 };
 
 const RN_DEFAULT_COMPONENTS: ReactNativeDefault = {

@@ -6,6 +6,12 @@ export const PRIMARY = {
   5: "#FECEE9",
 };
 
+export const SECONDARY = {
+  1: "#371B37",
+  2: "#442244",
+  3: "#512951",
+};
+
 export const ACCENT = {
   1: "#231123",
   2: "#065A82",
@@ -23,13 +29,19 @@ export const FONT = {
   SUBTEXT: {
     1: "grey",
   },
+  TEXT: {
+    1: "#fff"
+  },
 };
 
 const Color = {
   PRIMARY: PRIMARY[1],
+  SECONDARY: SECONDARY[1],
   ACCENT: ACCENT[1],
   FONT: {
     INPUT: FONT.INPUT[1],
+    SUBTEXT: FONT.SUBTEXT[1],
+    TEXT: FONT.TEXT[1],
   },
 };
 

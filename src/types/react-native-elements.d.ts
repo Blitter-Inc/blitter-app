@@ -13,6 +13,7 @@ declare module 'react-native-elements' {
   export interface FontColorPalette {
     INPUT: string;
     SUBTEXT: string;
+    TEXT: string;
   }
 
   export interface ColorPalette {

@@ -30,7 +30,7 @@ const OTPVerifyScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (state.codeVerified) {
-      navigation.push("Update Profile");
+      navigation.push("UpdateProfile");
     }
   }, [state.codeVerified]);
 
