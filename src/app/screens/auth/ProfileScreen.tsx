@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Alert, StyleSheet } from "react-native";
 import { Avatar, Button, Input, useTheme } from "react-native-elements";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { launchImageLibraryAsync, requestMediaLibraryPermissionsAsync } from "expo-image-picker";
-import { SafeAreaView, View } from "@components/ui";
+import {
+  FormInputBioIcon,
+  FormInputEmailIcon,
+  FormInputNameIcon,
+  SafeAreaView,
+  View,
+} from "@components/ui";
 
 
 const ProfileScreen = ({ navigation }) => {
@@ -51,36 +56,18 @@ const ProfileScreen = ({ navigation }) => {
       </View>
       <View style={styles.form}>
         <Input
-          leftIcon={
-            <FontAwesomeIcon
-              name="user"
-              color={ColorPalette.FONT.INPUT}
-              size={25}
-            />
-          }
+          leftIcon={<FormInputNameIcon color={ColorPalette.FONT.INPUT} />}
           leftIconContainerStyle={{ paddingRight: 10 }}
           placeholder="Name"
         />
         <Input
-          leftIcon={
-            <FontAwesomeIcon
-              name="envelope"
-              color={ColorPalette.FONT.INPUT}
-              size={20}
-            />
-          }
+          leftIcon={<FormInputEmailIcon color={ColorPalette.FONT.INPUT} />}
           leftIconContainerStyle={{ paddingRight: 8 }}
           placeholder="Email (optional)"
           autoCapitalize="none"
         />
         <Input
-          leftIcon={
-            <FontAwesomeIcon
-              name="info-circle"
-              color={ColorPalette.FONT.INPUT}
-              size={20}
-            />
-          }
+          leftIcon={<FormInputBioIcon color={ColorPalette.FONT.INPUT} />}
           leftIconContainerStyle={{ paddingRight: 10 }}
           style={{ paddingTop: 10, maxHeight: 60 }}
           multiline={true}

@@ -1,8 +1,8 @@
 import React from "react";
 import { useTheme } from "react-native-elements";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import SearchBar from "./SearchBar";
+import { HeaderSearchIcon } from "./Icons";
 
 
 export default () => {
@@ -16,8 +16,6 @@ export default () => {
   };
 
   return (
-    <FontAwesomeIcon name="search" color={ColorPalette.FONT.TEXT} size={22} style={{
-      paddingHorizontal: 15,
-    }} onPress={openSearchBar} />
+    <HeaderSearchIcon color={ColorPalette.FONT.TEXT} onPress={openSearchBar} />
   );
 }

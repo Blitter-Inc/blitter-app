@@ -1,5 +1,6 @@
-import { ImageProps, ViewProps, TextProps } from "react-native";
+import { ImageProps, ViewProps, TextProps, StyleSheetProperties } from "react-native";
 import { FullTheme as DefaultFullTheme } from "react-native-elements";
+import { StyleProps } from "./theme/styles";
 
 
 declare module 'react-native-elements' {
@@ -25,5 +26,6 @@ declare module 'react-native-elements' {
   export interface FullTheme extends DefaultFullTheme {
     ReactNativeDefault: Partial<ReactNativeDefault>;
     ColorPalette: Partial<ColorPalette>;
+    Styles: StyleProps;
   }
 }

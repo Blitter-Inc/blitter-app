@@ -1,12 +1,15 @@
-import React from "react";
-import { SafeAreaView } from "@components/ui";
+import React, { useState } from "react";
+import { useTheme } from "react-native-elements";
+import { ActionBar, ListContainer, NotFound, SafeAreaView } from "@components/ui";
 import { BillManagerScreenNavigationProps } from "@d/navigation";
-import { Button } from "react-native-elements";
 
 
 interface BillManagerScreenProps extends BillManagerScreenNavigationProps { };
 
 export default ({ navigation }: BillManagerScreenProps) => {
+
+  const { theme: { Styles } } = useTheme();
+  const [bills, setBills] = useState([]);
 
   const closeSearchBar = () => {
     navigation.setOptions({
@@ -16,10 +19,19 @@ export default ({ navigation }: BillManagerScreenProps) => {
 
   return (
     <SafeAreaView
+      style={[Styles.ExpandedContainer, Styles.FlexCenteredContainer]}
       onTouchStart={closeSearchBar}
-      style={{ justifyContent: "center", alignItems: "center", height: "100%", paddingHorizontal: 80 }}
     >
-      <Button title="Sample Button" buttonStyle={{ maxWidth: 200, paddingHorizontal: 20 }} />
+      <ActionBar styles={[Styles.ActionBarContainer, Styles.FlexCenteredContainer]} />
+      <ListContainer styles={[Styles.ListContainer]}>
+        {
+          bills.length ? (
+            bills.map(() => { })   // TODO: Rendering BillCard Component
+          ) : (
+            <NotFound entity="bills" styles={[Styles.ExpandedContainer, Styles.FlexCenteredContainer]} />
+          )
+        }
+      </ListContainer>
     </SafeAreaView>
   );
 }
