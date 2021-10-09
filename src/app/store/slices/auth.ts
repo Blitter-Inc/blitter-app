@@ -9,6 +9,7 @@ const initialState: AuthState = {
   isLoading: false,
   codeSent: false,
   codeVerified: false,
+  authFlowComplete: false,
   credentials: {
     firebaseId: null,
     verificationId: null,
@@ -53,10 +54,10 @@ const confirmCodeVerificationReducer: AuthReducer = (state, action) => {
 
 const updateUserProfileReducer: AuthReducer = (state, action) => {
   const { payload: { user } } = action;
-  state.isLoading = false;
   state.credentials.user = user;
-  console.log(state)
-}
+  state.isLoading = false;
+  state.authFlowComplete = true;
+};
 
 const AuthSlice = createSlice({
   name,

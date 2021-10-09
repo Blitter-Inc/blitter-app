@@ -11,6 +11,7 @@ import { initUpdateProfile } from "@store/slices/auth";
 const useRequiredState = () => {
   const authState = useAppSelector(state => state.auth)
   return {
+    authFlowComplete: authState.authFlowComplete,
     avatar: authState.credentials.user.avatar,
     bio: authState.credentials.user.bio,
     email: authState.credentials.user.email,
@@ -25,21 +26,20 @@ const ProfileScreen = ({ navigation }) => {
 
   const { theme: { ColorPalette } } = useTheme();
   const [avatarSource, setAvatarSource] = useState(state.avatar || require("@assets/avatar.png"));
-  const [nameSource, setNameSource] = useState(state.name)
-  const [emailSource, setEmailSource] = useState(state.email)
-  const [bioSource, setBioSource] = useState(state.bio)
+  const [nameSource, setNameSource] = useState(state.name);
+  const [emailSource, setEmailSource] = useState(state.email);
+  const [bioSource, setBioSource] = useState(state.bio);
   const [avatarPlaceholderActive, setAvatarPlaceholderActive] = useState(true);
-  const [profileUpdated, setProfileUpdated] = useState(false);    // TODO: To be removed after API integration
 
-  // useEffect(() => {
-  //   if (profileUpdated) {
-  //     Alert.alert("You are now logged in!");
-  //     navigation.reset({
-  //       index: 0,
-  //       routes: [{ name: "Home" }],
-  //     });
-  //   }
-  // }, [profileUpdated]);   // TODO: To be changed after API integration
+  useEffect(() => {
+    if (state.authFlowComplete) {
+      Alert.alert("You are now logged in!");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Home" }],
+      });
+    }
+  }, [state.authFlowComplete]);
 
   const pickAvatar = async () => {
     const { status } = await requestMediaLibraryPermissionsAsync();

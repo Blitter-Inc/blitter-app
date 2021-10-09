@@ -8,8 +8,16 @@ interface userDataType {
   date_joined: string;
 }
 
-export const userDataSerializer = (data: userDataType) => ({
-  phoneNumber: data.phone,
-  dateJoined: data.date_joined,
+export const userDataSerializer = ({ phone, date_joined, ...data }: userDataType) => ({
+  phoneNumber: phone,
+  dateJoined: date_joined,
   ...data,
 });
+
+export const generateFormData = (obj: Object) => {
+  const formData = new FormData();
+  Object.entries((key: string, value: string | Blob) => {
+    formData.append(key, value);
+  });
+  return formData;
+};

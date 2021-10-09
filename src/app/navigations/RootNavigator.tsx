@@ -10,7 +10,7 @@ import { useAppSelector } from '@store/hooks';
 const useRequiredState = () => {
   const authState = useAppSelector(state => state.auth);
   return {
-    isAuthenticated: authState.credentials.accessToken != null,   // TODO: Replace this by 'authFlowComplete' key in state
+    isAuthenticated: authState.authFlowComplete,
   };
 }
 
@@ -47,7 +47,6 @@ const RootNavigator: FC = () => {
     >
       {isAuthenticated ? (
         <>
-          <Stack.Screen name='Update Profile' component={ProfileScreen} />
           <Stack.Screen name='Home' component={HomeScreen} options={{ headerTitleAlign: 'center' }} />
         </>
       ) : (

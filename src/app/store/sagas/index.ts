@@ -1,14 +1,14 @@
-import { takeEvery } from 'redux-saga/effects';
+import { takeEvery } from "redux-saga/effects";
 import {
-  initPhoneSignIn as initPhoneSignInAction ,
+  initPhoneSignIn as initPhoneSignInAction,
   verifyCode as verifyCodeAction,
   initUpdateProfile as initUpdateProfileAction,
-} from '../slices/auth';
+} from "../slices/auth";
 import {
   checkVerificationCode,
   initPhoneSignIn,
   updateProfile,
-} from './auth';
+} from "./auth";
 
 
 export function* watchAuth() {

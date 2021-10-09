@@ -23,6 +23,7 @@ export interface AuthState {
   isLoading: boolean;
   codeSent: boolean;
   codeVerified: boolean;
+  authFlowComplete: boolean;
   credentials?: AuthCredentils;
 };
 
