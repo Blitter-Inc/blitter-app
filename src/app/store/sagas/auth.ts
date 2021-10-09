@@ -4,7 +4,9 @@ import Firebase from '@config/firebase';
 import { Action } from '@d/store';
 import { signIn } from '@services/api';
 import { fetchSagaArgs } from './helpers';
-import { confirmCodeSent, confirmCodeVerification } from '../slices/auth';
+import { confirmCodeSent, confirmCodeVerification, updateUserProfile } from '../slices/auth';
+import { update } from '@services/api/auth';
+import { UpdateProfileResponse } from '@d/services/auth';
 
 
 export function* initPhoneSignIn(action: Action) {
@@ -29,5 +31,15 @@ export function* checkVerificationCode(action: Action) {
     yield put(confirmCodeVerification(firebaseId, apiRes));
   } catch (e) {
     console.error(e);
+  }
+}
+
+export function* updateProfile(action: Action) {
+  const { requestObj } = fetchSagaArgs(action);
+  try {
+    const apiRes: UpdateProfileResponse = yield call(update, requestObj)
+    yield put(updateUserProfile(apiRes))
+  } catch (e) {
+    console.log(e)
   }
 }

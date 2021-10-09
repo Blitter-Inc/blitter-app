@@ -1,9 +1,12 @@
 import Axios from 'axios';
 import ENV from '@config/env';
+import { UpdateProfileHandeler } from '@d/services/auth';
+import { userDataSerializer } from '@services/serializer';
 
 
 const URI = {
   signIn: () => '/user/login/',
+  updateProfile: () => '/user/update/'
 };
 
 const requestHandler = (method, uri, data = {}) => {
@@ -25,3 +28,16 @@ export const signIn = async ({ phoneNumber, firebaseId }) => {
 
   return { user, accessToken, refreshToken };
 }
+
+export const update: UpdateProfileHandeler = async ({
+  id,
+  ...payload
+}) => {
+  const { data } = await requestHandler(
+    "post",
+    `${URI.updateProfile}/${id}/`,
+    payload
+  );
+  const response = userDataSerializer(data)
+  return response;
+};

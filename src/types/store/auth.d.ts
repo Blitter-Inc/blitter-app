@@ -2,7 +2,13 @@ import { Action } from ".";
 
 
 export interface User {
+  id: number;
   phoneNumber: string;
+  name: string;
+  email: string;
+  avatar: string;
+  bio: string;
+  dateJoined: string;
 };
 
 export interface AuthCredentils {

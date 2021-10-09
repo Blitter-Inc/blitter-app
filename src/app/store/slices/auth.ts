@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthReducer, AuthState } from "@d/store";
+import { AuthReducer, AuthState, User } from "@d/store";
+import { InitUpdateProfileReducer } from "@d/reducers";
 
 
 const name = "auth";
@@ -14,7 +15,13 @@ const initialState: AuthState = {
     accessToken: null,
     refreshToken: null,
     user: {
+      id: null,
       phoneNumber: null,
+      name: null,
+      email: null,
+      avatar: null,
+      bio: null,
+      dateJoined: null
     },
   },
 };
@@ -44,6 +51,13 @@ const confirmCodeVerificationReducer: AuthReducer = (state, action) => {
   };
 };
 
+const updateUserProfileReducer: AuthReducer = (state, action) => {
+  const { payload: { user } } = action;
+  state.isLoading = false;
+  state.credentials.user = user;
+  console.log(state)
+}
+
 const AuthSlice = createSlice({
   name,
   initialState,
@@ -64,6 +78,14 @@ const AuthSlice = createSlice({
       reducer: toggleLoading,
       prepare: (code, verificationId) => ({ payload: { args: { code, verificationId } } }),
     },
+    initUpdateProfile: {
+      reducer: toggleLoading,
+      prepare: (updateData: InitUpdateProfileReducer) => ({ payload: { args: { requestObj: updateData } } })
+    },
+    updateUserProfile: {
+      reducer: updateUserProfileReducer,
+      prepare: (user: User) => ({ payload: { user } })
+    }
   }
 });
 
@@ -72,6 +94,8 @@ export const {
   confirmCodeVerification,
   initPhoneSignIn,
   verifyCode,
+  initUpdateProfile,
+  updateUserProfile,
 } = AuthSlice.actions;
 
 export default AuthSlice;

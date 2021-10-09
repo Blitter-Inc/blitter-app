@@ -1,0 +1,3 @@
+export {
+    InitUpdateProfileReducer
+} from "./auth"

@@ -3,13 +3,14 @@ import { StyleSheet } from "react-native";
 import { Image, View } from "@components/ui";
 
 
-type AuthContainerProps = {
+interface AuthContainerProps {
   children: ReactNode;
-  style: object;
 };
 
-export const AuthContainer: FC = ({ children, style = {} }: AuthContainerProps) => (
-  <View style={{ ...styles.screen, ...style }}>
+type AuthContainerComponent = (props: AuthContainerProps) => JSX.Element;
+
+export const AuthContainer: AuthContainerComponent = ({ children }) => (
+  <View style={styles.screen}>
     <Image
       style={styles.image}
       source={require("@assets/login-screen-image.png")}
