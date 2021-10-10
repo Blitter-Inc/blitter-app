@@ -1,32 +1,64 @@
 import React, { FC } from 'react';
-import { connect } from 'react-redux';
+import { View } from "react-native";
+import { useTheme } from 'react-native-elements';
 import { createStackNavigator } from '@react-navigation/stack';
-import { SignInScreen, OTPVerifyScreen } from '@screens/auth';
+import { SignInScreen, OTPVerifyScreen, ProfileScreen } from '@screens/auth';
 import { HomeScreen } from '@screens/home';
+import { useAppSelector } from '@store/hooks';
 
+
+const useRequiredState = () => {
+  const authState = useAppSelector(state => state.auth);
+  return {
+    isAuthenticated: authState.authFlowComplete,
+  };
+}
 
 const Stack = createStackNavigator();
 
-const RootNavigator: FC = ({ state: { isAuthenticated } }) => (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
-    {isAuthenticated ? (
-      <>
-        <Stack.Screen name='Home' component={HomeScreen} />
-      </>
-    ) : (
-      <>
-        <Stack.Screen name='SignIn' component={SignInScreen} />
-        <Stack.Screen name='OTPVerify' component={OTPVerifyScreen} />
-      </>
-    )}
-  </Stack.Navigator>
-);
+const RootNavigator: FC = () => {
+  const { isAuthenticated } = useRequiredState();
+  const { theme: { ColorPalette } } = useTheme();
 
-const mapStateToProps = state => ({
-  state: {
-    isAuthenticated: state.auth.credentials.accessToken != null,
-  },
-});
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerTitleAlign: 'left',
+        headerTitleContainerStyle: {
+          paddingLeft: 2,
+        },
+        headerStyle: {
+          backgroundColor: ColorPalette.ACCENT,
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
+        },
+        headerTitleStyle: {
+          color: '#fff',
+          fontSize: 20,
+        },
+        headerLeft: () => {
+          if (isAuthenticated) {
+            return;
+          }
+          return (<View />);
+        },
+      }}
+    >
+      {isAuthenticated ? (
+        <>
+          <Stack.Screen name='Home' component={HomeScreen} options={{ headerTitleAlign: 'center' }} />
+        </>
+      ) : (
+        <>
+          <Stack.Screen name='SignIn' component={SignInScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='OTPVerify' component={OTPVerifyScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='Update Profile' component={ProfileScreen} />
+        </>
+      )}
+    </Stack.Navigator>
+  );
+};
 
 
-export default connect(mapStateToProps)(RootNavigator);
+export default RootNavigator;

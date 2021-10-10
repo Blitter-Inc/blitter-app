@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Alert, View, Button, Text, TextInput } from "react-native";
+import { View, Button, Text, TextInput } from "react-native";
 import { AuthContainer } from "@components/auth";
 import { Loader } from "@components/ui";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
@@ -7,7 +7,7 @@ import { verifyCode } from "@store/slices/auth";
 import Styles from "./styles";
 
 
-const fetchRequiredState = () => {
+const useRequiredState = () => {
   const authState = useAppSelector(state => state.auth);
   return {
     isLoading: authState.isLoading,
@@ -19,7 +19,7 @@ const fetchRequiredState = () => {
 }
 
 const OTPVerifyScreen = ({ navigation }) => {
-  const state = fetchRequiredState();
+  const state = useRequiredState();
   const dispatch = useAppDispatch();
 
   const codeRef = Array.from(Array(6), () => useRef(null));
@@ -30,11 +30,7 @@ const OTPVerifyScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (state.codeVerified) {
-      Alert.alert("You are now logged in!");
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "Home" }],
-      });
+      navigation.push("Update Profile");
     }
   }, [state.codeVerified]);
 

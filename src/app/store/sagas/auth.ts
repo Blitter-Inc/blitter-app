@@ -1,14 +1,20 @@
 import '@firebase/auth'
 import { call, put } from 'redux-saga/effects';
 import Firebase from '@config/firebase';
+import { UpdateProfileSerializedResponseBody } from '@d/services/api';
 import { Action } from '@d/store';
-import { signIn } from '@services/api';
+import {
+  CheckVerificationCodeSagaArgs,
+  InitPhoneSignInSagaArgs,
+  UpdateProfileSagaArgs,
+} from '@d/store/sagas';
+import { signIn, update } from '@services/api';
 import { fetchSagaArgs } from './helpers';
-import { confirmCodeSent, confirmCodeVerification } from '../slices/auth';
+import { confirmCodeSent, confirmCodeVerification, updateUserProfile } from '../slices/auth';
 
 
 export function* initPhoneSignIn(action: Action) {
-  const { phoneNumber, recaptchaVerifier } = fetchSagaArgs(action);
+  const { phoneNumber, recaptchaVerifier } = fetchSagaArgs<InitPhoneSignInSagaArgs>(action);
   try {
     const authProvider = new Firebase.auth.PhoneAuthProvider();
     const verificationId = yield call([authProvider, authProvider.verifyPhoneNumber], phoneNumber, recaptchaVerifier);
@@ -19,7 +25,7 @@ export function* initPhoneSignIn(action: Action) {
 }
 
 export function* checkVerificationCode(action: Action) {
-  const { code, verificationId } = fetchSagaArgs(action);
+  const { code, verificationId } = fetchSagaArgs<CheckVerificationCodeSagaArgs>(action);
   try {
     const credential = Firebase.auth.PhoneAuthProvider.credential(verificationId, code);
     const auth = Firebase.auth();
@@ -31,3 +37,13 @@ export function* checkVerificationCode(action: Action) {
     console.error(e);
   }
 }
+
+export function* updateProfile(action: Action) {
+  const requestObj = fetchSagaArgs<UpdateProfileSagaArgs>(action);
+  try {
+    const apiRes: UpdateProfileSerializedResponseBody = yield call(update, requestObj);
+    yield put(updateUserProfile(apiRes));
+  } catch (e) {
+    console.error(e);
+  }
+};

@@ -7,10 +7,4 @@ export interface Action {
   payload?: ActionPayload;
 };
 
-export {
-  User,
-  AuthActionPayload,
-  AuthCredentils,
-  AuthReducer,
-  AuthState,
-} from "./auth";
+export * from "./auth";

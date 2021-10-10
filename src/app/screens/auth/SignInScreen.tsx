@@ -9,7 +9,7 @@ import { initPhoneSignIn } from "@store/slices/auth";
 import Styles from "./styles";
 
 
-const fetchRequiredState = () => {
+const useRequiredState = () => {
   const authState = useAppSelector(state => state.auth);
   return {
     codeSent: authState.codeSent,
@@ -19,7 +19,7 @@ const fetchRequiredState = () => {
 }
 
 const SignInScreen = ({ navigation }) => {
-  const state = fetchRequiredState();
+  const state = useRequiredState();
   const dispatch = useAppDispatch();
 
   const [phoneNumber, setPhoneNumber] = useState(state.phoneNumber);

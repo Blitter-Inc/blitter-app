@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Text, View, StyleSheet } from 'react-native';
 
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text>Click on any of the buttons to navigate</Text>
