@@ -4,23 +4,48 @@ import { Avatar, Button, Input, useTheme } from "react-native-elements";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { launchImageLibraryAsync, requestMediaLibraryPermissionsAsync } from "expo-image-picker";
 import { SafeAreaView, View } from "@components/ui";
+import { useAppSelector, useAppDispatch } from "@store/hooks";
+import { initUpdateProfile } from "@store/slices/auth";
 
+
+const useRequiredState = () => {
+  const authState = useAppSelector(state => state.auth);
+  return {
+    authFlowComplete: authState.authFlowComplete,
+    avatar: authState.credentials.user.avatar,
+    bio: authState.credentials.user.bio,
+    email: authState.credentials.user.email,
+    id: authState.credentials.user.id,
+    name: authState.credentials.user.name,
+  };
+};
 
 const ProfileScreen = ({ navigation }) => {
   const { theme: { ColorPalette } } = useTheme();
-  const [avatarSource, setAvatarSource] = useState(require("@assets/avatar.png"));
+
+  const state = useRequiredState();
+  const dispatch = useAppDispatch();
   const [avatarPlaceholderActive, setAvatarPlaceholderActive] = useState(true);
-  const [profileUpdated] = useState(false);    // TODO: To be removed after API integration
+  const [profile, setProfile] = useState({
+    id: state.id,
+    name: state.name,
+    email: state.email,
+    bio: state.bio,
+    avatar: state.avatar ? { uri: state.avatar, fromState: true } : require("@assets/avatar.png"),
+  });
 
   useEffect(() => {
-    if (profileUpdated) {
-      Alert.alert("You are now logged in!");
+    if (state.authFlowComplete) {
       navigation.reset({
         index: 0,
         routes: [{ name: "Home" }],
       });
     }
-  }, [profileUpdated]);   // TODO: To be changed after API integration
+  }, [state.authFlowComplete]);
+
+  const updateProfile = (change) => {
+    setProfile({ ...profile, ...change });
+  };
 
   const pickAvatar = async () => {
     const { status } = await requestMediaLibraryPermissionsAsync();
@@ -29,18 +54,25 @@ const ProfileScreen = ({ navigation }) => {
     } else {
       const result = await launchImageLibraryAsync();
       if (!result.cancelled) {
-        setAvatarSource({ uri: result.uri });
+        updateProfile({ avatar: { uri: result.uri, name: `${state.id}.jpg`, type: 'image/jpeg' } });
         setAvatarPlaceholderActive(false);
       }
     }
-  }
+  };
+
+  const onSubmit = () => {
+    dispatch(initUpdateProfile({
+      ...profile,
+      avatar: ((typeof profile.avatar === "number" || profile.avatar.fromState) ? "" : profile.avatar),
+    }));
+  };
 
   return (
     <SafeAreaView>
       <View style={styles.avatarWrapper}>
         <View style={[{ backgroundColor: ColorPalette.ACCENT }, styles.avatarWrapperBackground]} />
         <Avatar
-          source={avatarSource}
+          source={profile.avatar}
           onPress={pickAvatar}
           size={180}
           avatarStyle={avatarPlaceholderActive && styles.avatar}
@@ -60,6 +92,8 @@ const ProfileScreen = ({ navigation }) => {
           }
           leftIconContainerStyle={{ paddingRight: 10 }}
           placeholder="Name"
+          value={profile.name}
+          onChangeText={name => updateProfile({ name })}
         />
         <Input
           leftIcon={
@@ -72,6 +106,8 @@ const ProfileScreen = ({ navigation }) => {
           leftIconContainerStyle={{ paddingRight: 8 }}
           placeholder="Email (optional)"
           autoCapitalize="none"
+          value={profile.email}
+          onChangeText={email => updateProfile({ email })}
         />
         <Input
           leftIcon={
@@ -85,8 +121,10 @@ const ProfileScreen = ({ navigation }) => {
           style={{ paddingTop: 10, maxHeight: 60 }}
           multiline={true}
           placeholder="Bio"
+          value={profile.bio}
+          onChangeText={bio => updateProfile({ bio })}
         />
-        <Button title="Submit" style={{ marginVertical: 16 }} />
+        <Button title="Submit" style={{ marginVertical: 16 }} onPress={onSubmit} disabled={profile.name == ""} />
       </View>
     </SafeAreaView>
   );
@@ -112,6 +150,7 @@ const styles = StyleSheet.create({
   avatarContainer: {
     shadowColor: "black",
     shadowOpacity: 1,
+    elevation: 1,
   },
   form: {
     height: "65%",

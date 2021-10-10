@@ -1,5 +1,7 @@
+import { FirebaseAuthApplicationVerifier } from "expo-firebase-recaptcha";
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthReducer, AuthState } from "@d/store";
+import { AuthReducer, AuthState, User } from "@d/store";
+import { UpdateProfileSagaArgs } from "@d/store/sagas";
 
 
 const name = "auth";
@@ -8,13 +10,20 @@ const initialState: AuthState = {
   isLoading: false,
   codeSent: false,
   codeVerified: false,
+  authFlowComplete: false,
   credentials: {
     firebaseId: null,
     verificationId: null,
     accessToken: null,
     refreshToken: null,
     user: {
+      id: null,
       phoneNumber: null,
+      name: null,
+      email: null,
+      avatar: null,
+      bio: null,
+      dateJoined: null
     },
   },
 };
@@ -44,6 +53,13 @@ const confirmCodeVerificationReducer: AuthReducer = (state, action) => {
   };
 };
 
+const updateUserProfileReducer: AuthReducer = (state, action) => {
+  const { payload: { user } } = action;
+  state.credentials.user = user;
+  state.isLoading = false;
+  state.authFlowComplete = true;
+};
+
 const AuthSlice = createSlice({
   name,
   initialState,
@@ -54,16 +70,27 @@ const AuthSlice = createSlice({
     },
     confirmCodeVerification: {
       reducer: confirmCodeVerificationReducer,
-      prepare: (firebaseId, apiRes) => ({ payload: { firebaseId, ...apiRes } }),
+      prepare: (firebaseId: string, apiRes) => ({ payload: { firebaseId, ...apiRes } }),
     },
     initPhoneSignIn: {
       reducer: toggleLoading,
-      prepare: (phoneNumber: string, recaptchaVerifier) => ({ payload: { args: { phoneNumber, recaptchaVerifier } } }),
+      prepare: (
+        phoneNumber: string,
+        recaptchaVerifier: FirebaseAuthApplicationVerifier,
+      ) => ({ payload: { args: { phoneNumber, recaptchaVerifier } } }),
     },
     verifyCode: {
       reducer: toggleLoading,
-      prepare: (code, verificationId) => ({ payload: { args: { code, verificationId } } }),
+      prepare: (code: string, verificationId: string) => ({ payload: { args: { code, verificationId } } }),
     },
+    initUpdateProfile: {
+      reducer: toggleLoading,
+      prepare: (data: UpdateProfileSagaArgs) => ({ payload: { args: data } }),
+    },
+    updateUserProfile: {
+      reducer: updateUserProfileReducer,
+      prepare: (user: User) => ({ payload: { user } })
+    }
   }
 });
 
@@ -72,6 +99,8 @@ export const {
   confirmCodeVerification,
   initPhoneSignIn,
   verifyCode,
+  initUpdateProfile,
+  updateUserProfile,
 } = AuthSlice.actions;
 
 export default AuthSlice;

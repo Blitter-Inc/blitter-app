@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
+import Axios from '@services/axios';
 import createSecureStorage from './persist-secure-storage';
 import { watchAuth } from './sagas';
 import { AuthSlice } from './slices';
@@ -17,19 +18,28 @@ const Reducers = combineReducers({
 });
 const rootReducer = persistReducer(persistConfig, Reducers);
 
-const store = configureStore({
+const Store = configureStore({
   reducer: rootReducer,
   middleware: [sagaMiddleware],
 });
 
-const persistor = persistStore(store);
+const persistor = persistStore(Store);
 // persistor.purge();   // Used to clear persist storage from devices.
 
 sagaMiddleware.run(watchAuth);
 
+Axios.interceptors.request.use((config) => {
+  const { auth: { credentials: { accessToken } } } = Store.getState();
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  return config;
+});
+
 // Typings
-type RootState = ReturnType<typeof store.getState>;
-type AppDispatch = typeof store.dispatch;
+type RootState = ReturnType<typeof Store.getState>;
+type AppDispatch = typeof Store.dispatch;
 
 
-export { store, persistor, RootState, AppDispatch };
+export { persistor, RootState, AppDispatch };
+export default Store;
