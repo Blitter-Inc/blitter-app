@@ -12,7 +12,7 @@ import { getNavigatorScreenOptions, getNestedNavigatorOptions } from "./config";
 const useRequiredState = () => {
   const authState = useAppSelector(state => state.auth);
   return {
-    isAuthenticated: authState.credentials.accessToken != null,   // TODO: Replace this by "authFlowComplete" key in state
+    isAuthenticated: authState.authFlowComplete,
   };
 }
 
@@ -30,7 +30,6 @@ const RootNavigator: FC = () => {
     <Stack.Navigator screenOptions={navigatorScreenOptions} >
       {isAuthenticated ? (
         <>
-          {/* <Stack.Screen name="UpdateProfile" component={ProfileScreen} /> */}
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerTitleAlign: "center" }} />
           <Stack.Screen name="BillNavigator" component={BillNavigator} options={nestedNavigatorOptions} />
         </>

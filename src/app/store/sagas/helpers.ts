@@ -1,3 +1,4 @@
-import { Action } from "@d/store";
+import { FetchSagaArgsType } from "@d/store/sagas";
 
-export const fetchSagaArgs = (action: Action) => action.payload.args;
+
+export const fetchSagaArgs: FetchSagaArgsType = (action) => action.payload.args;
