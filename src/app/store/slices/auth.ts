@@ -1,6 +1,7 @@
+import { FirebaseAuthApplicationVerifier } from "expo-firebase-recaptcha";
 import { createSlice } from "@reduxjs/toolkit";
 import { AuthReducer, AuthState, User } from "@d/store";
-import { InitUpdateProfileReducer } from "@d/reducers";
+import { UpdateProfileSagaArgs } from "@d/store/sagas";
 
 
 const name = "auth";
@@ -69,19 +70,22 @@ const AuthSlice = createSlice({
     },
     confirmCodeVerification: {
       reducer: confirmCodeVerificationReducer,
-      prepare: (firebaseId, apiRes) => ({ payload: { firebaseId, ...apiRes } }),
+      prepare: (firebaseId: string, apiRes) => ({ payload: { firebaseId, ...apiRes } }),
     },
     initPhoneSignIn: {
       reducer: toggleLoading,
-      prepare: (phoneNumber: string, recaptchaVerifier) => ({ payload: { args: { phoneNumber, recaptchaVerifier } } }),
+      prepare: (
+        phoneNumber: string,
+        recaptchaVerifier: FirebaseAuthApplicationVerifier,
+      ) => ({ payload: { args: { phoneNumber, recaptchaVerifier } } }),
     },
     verifyCode: {
       reducer: toggleLoading,
-      prepare: (code, verificationId) => ({ payload: { args: { code, verificationId } } }),
+      prepare: (code: string, verificationId: string) => ({ payload: { args: { code, verificationId } } }),
     },
     initUpdateProfile: {
       reducer: toggleLoading,
-      prepare: (updateData: InitUpdateProfileReducer) => ({ payload: { args: { requestObj: updateData } } })
+      prepare: (data: UpdateProfileSagaArgs) => ({ payload: { args: data } }),
     },
     updateUserProfile: {
       reducer: updateUserProfileReducer,

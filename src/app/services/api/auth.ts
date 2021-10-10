@@ -1,10 +1,17 @@
-import Axios from "axios";
-import ENV from "@config/env";
-import { AxiosRequestHandler } from "@d/axios";
-import { UpdateProfileHandeler } from "@d/services/auth";
-import { userDataSerializer } from "@services/serializer";
-import { store } from "@store/index";
-import { generateFormData } from "../serializer";
+import {
+  SignInHandler,
+  SignInRequestPayload,
+  SignInResponseBody,
+  UpdateProfileHandler,
+  UpdateProfileResponseBody,
+} from "@d/services/api";
+import {
+  signInRequestSerializer,
+  signInResponseSerializer,
+  updateProfileRequestSerializer,
+  updateProfileResponseSerializer,
+} from "@services/serializers";
+import Client from "./client";
 
 
 const URI = {
@@ -12,40 +19,16 @@ const URI = {
   updateProfile: (id: number) => `/user/update/${id}/`
 };
 
-const requestHandler: AxiosRequestHandler = ({ url, ...config }) => Axios({
-  ...config,
-  url: `${ENV.API_BASE_URL}${url}`,
-});
+export const signIn: SignInHandler = async (args) => {
+  const { data } = await Client<SignInRequestPayload, SignInResponseBody>("post", URI.signIn(), signInRequestSerializer(args));
+  return signInResponseSerializer(data);
+};
 
-export const signIn = async ({ phoneNumber, firebaseId }) => {
-  const {
-    data: {
-      user,
-      access_token: accessToken,
-      refresh_token: refreshToken,
-    },
-  } = await requestHandler({
-    method: "post",
-    url: URI.signIn(),
-    data: {
-      firebase_id: firebaseId,
-      phone: phoneNumber,
-    },
-  });
-
-  return { user, accessToken, refreshToken };
-}
-
-export const update: UpdateProfileHandeler = async ({ id, ...payload }) => {
-  const { auth: { credentials: { accessToken } } } = store.getState()
-  const { data } = await requestHandler({
-    method: "patch",
-    url: URI.updateProfile(id),
-    data: generateFormData({ ...payload, avatar: { uri: payload.avatar, name: `${id}.jpg`, type: 'image/jpeg' } }),
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-  return userDataSerializer(data);
+export const update: UpdateProfileHandler = async ({ id, ...payload }) => {
+  const { data } = await Client<FormData, UpdateProfileResponseBody>(
+    "patch", URI.updateProfile(id),
+    updateProfileRequestSerializer(payload),
+    { headers: { "Content-Type": "multipart/form-data" } },
+  );
+  return updateProfileResponseSerializer(data);
 };

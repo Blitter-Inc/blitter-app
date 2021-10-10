@@ -9,7 +9,7 @@ import { initUpdateProfile } from "@store/slices/auth";
 
 
 const useRequiredState = () => {
-  const authState = useAppSelector(state => state.auth)
+  const authState = useAppSelector(state => state.auth);
   return {
     authFlowComplete: authState.authFlowComplete,
     avatar: authState.credentials.user.avatar,
@@ -17,29 +17,35 @@ const useRequiredState = () => {
     email: authState.credentials.user.email,
     id: authState.credentials.user.id,
     name: authState.credentials.user.name,
-  }
-}
+  };
+};
 
 const ProfileScreen = ({ navigation }) => {
-  const state = useRequiredState()
-  const dispatch = useAppDispatch()
-
   const { theme: { ColorPalette } } = useTheme();
-  const [avatarSource, setAvatarSource] = useState(state.avatar || require("@assets/avatar.png"));
-  const [nameSource, setNameSource] = useState(state.name);
-  const [emailSource, setEmailSource] = useState(state.email);
-  const [bioSource, setBioSource] = useState(state.bio);
+
+  const state = useRequiredState();
+  const dispatch = useAppDispatch();
   const [avatarPlaceholderActive, setAvatarPlaceholderActive] = useState(true);
+  const [profile, setProfile] = useState({
+    id: state.id,
+    name: state.name,
+    email: state.email,
+    bio: state.bio,
+    avatar: state.avatar ? { uri: state.avatar, fromState: true } : require("@assets/avatar.png"),
+  });
 
   useEffect(() => {
     if (state.authFlowComplete) {
-      Alert.alert("You are now logged in!");
       navigation.reset({
         index: 0,
         routes: [{ name: "Home" }],
       });
     }
   }, [state.authFlowComplete]);
+
+  const updateProfile = (change) => {
+    setProfile({ ...profile, ...change });
+  };
 
   const pickAvatar = async () => {
     const { status } = await requestMediaLibraryPermissionsAsync();
@@ -48,29 +54,25 @@ const ProfileScreen = ({ navigation }) => {
     } else {
       const result = await launchImageLibraryAsync();
       if (!result.cancelled) {
-        setAvatarSource({ uri: result.uri });
+        updateProfile({ avatar: { uri: result.uri, name: `${state.id}.jpg`, type: 'image/jpeg' } });
         setAvatarPlaceholderActive(false);
       }
     }
-  }
+  };
 
-  const onProfileUpdateSubmit = () => {
-    const payload = {
-      id: state.id,
-      name: nameSource,
-      email: emailSource,
-      bio: bioSource,
-      avatar: avatarSource
-    }
-    dispatch(initUpdateProfile(payload))
-  }
+  const onSubmit = () => {
+    dispatch(initUpdateProfile({
+      ...profile,
+      avatar: ((typeof profile.avatar === "number" || profile.avatar.fromState) ? "" : profile.avatar),
+    }));
+  };
 
   return (
     <SafeAreaView>
       <View style={styles.avatarWrapper}>
         <View style={[{ backgroundColor: ColorPalette.ACCENT }, styles.avatarWrapperBackground]} />
         <Avatar
-          source={avatarSource}
+          source={profile.avatar}
           onPress={pickAvatar}
           size={180}
           avatarStyle={avatarPlaceholderActive && styles.avatar}
@@ -83,29 +85,29 @@ const ProfileScreen = ({ navigation }) => {
         <Input
           leftIcon={
             <FontAwesomeIcon
-            name="user"
-            color={ColorPalette.FONT.INPUT}
-            size={25}
+              name="user"
+              color={ColorPalette.FONT.INPUT}
+              size={25}
             />
           }
           leftIconContainerStyle={{ paddingRight: 10 }}
           placeholder="Name"
-          value={nameSource}
-          onChangeText={setNameSource}
+          value={profile.name}
+          onChangeText={name => updateProfile({ name })}
         />
         <Input
           leftIcon={
             <FontAwesomeIcon
-            name="envelope"
-            color={ColorPalette.FONT.INPUT}
-            size={20}
+              name="envelope"
+              color={ColorPalette.FONT.INPUT}
+              size={20}
             />
           }
           leftIconContainerStyle={{ paddingRight: 8 }}
           placeholder="Email (optional)"
           autoCapitalize="none"
-          value={emailSource}
-          onChangeText={setEmailSource}
+          value={profile.email}
+          onChangeText={email => updateProfile({ email })}
         />
         <Input
           leftIcon={
@@ -119,10 +121,10 @@ const ProfileScreen = ({ navigation }) => {
           style={{ paddingTop: 10, maxHeight: 60 }}
           multiline={true}
           placeholder="Bio"
-          value={bioSource}
-          onChangeText={setBioSource}
+          value={profile.bio}
+          onChangeText={bio => updateProfile({ bio })}
         />
-        <Button title="Submit" style={{ marginVertical: 16 }} onPress={onProfileUpdateSubmit} />
+        <Button title="Submit" style={{ marginVertical: 16 }} onPress={onSubmit} disabled={profile.name == ""} />
       </View>
     </SafeAreaView>
   );
