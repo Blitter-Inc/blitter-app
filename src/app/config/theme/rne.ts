@@ -1,5 +1,6 @@
 import ColorPalette from "./color";
 import { FullTheme } from "react-native-elements";
+import adjust from "./adjust";
 
 
 const ComponentMap: Partial<FullTheme> = {
@@ -11,7 +12,36 @@ const ComponentMap: Partial<FullTheme> = {
       backgroundColor: ColorPalette.ACCENT,
     },
   },
+  Input: {
+    labelStyle: {
+      color: ColorPalette.ACCENT,
+    },
+    inputStyle: {
+      color: ColorPalette.ACCENT,
+      fontSize: adjust(13),
+    },
+    inputContainerStyle: {
+      borderBottomColor: ColorPalette.ACCENT,
+    },
+    placeholderTextColor: ColorPalette.FONT.INPUT,
+  },
+  Overlay: {
+    overlayStyle: {
+      maxHeight: "75%",
+      maxWidth: "90%",
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: 25,
+    },
+  },
   SearchBar: {
+    clearIcon: {
+      color: ColorPalette.FONT.INPUT,
+    },
+    searchIcon: {
+      color: ColorPalette.FONT.INPUT,
+    },
+    placeholderTextColor: ColorPalette.FONT.INPUT,
     containerStyle: {
       backgroundColor: ColorPalette.ACCENT,
     },
@@ -21,6 +51,17 @@ const ComponentMap: Partial<FullTheme> = {
     inputStyle: {
       backgroundColor: ColorPalette.SECONDARY,
       color: ColorPalette.FONT.INPUT,
+    },
+  },
+  Icon: {
+    color: ColorPalette.FONT.INPUT,
+  },
+  Text: {
+    h2Style: {
+      fontWeight: "800",
+    },
+    style: {
+      fontSize: adjust(15),
     },
   }
 };

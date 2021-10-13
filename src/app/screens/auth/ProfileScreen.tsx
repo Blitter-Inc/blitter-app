@@ -10,8 +10,11 @@ import {
   View,
 } from "@components/ui";
 import { useAppSelector, useAppDispatch } from "@store/hooks";
-import { initUpdateProfile } from "@store/slices/auth";
+import { updateProfile } from "@store/slices/auth";
+import { UpdateProfileSagaArgs } from "@d/store";
 
+
+interface Profile extends UpdateProfileSagaArgs { };
 
 const useRequiredState = () => {
   const authState = useAppSelector(state => state.auth);
@@ -31,7 +34,7 @@ const ProfileScreen = ({ navigation }) => {
   const state = useRequiredState();
   const dispatch = useAppDispatch();
   const [avatarPlaceholderActive, setAvatarPlaceholderActive] = useState(true);
-  const [profile, setProfile] = useState({
+  const [profile, setProfile] = useState<Profile>({
     id: state.id,
     name: state.name,
     email: state.email,
@@ -48,7 +51,7 @@ const ProfileScreen = ({ navigation }) => {
     }
   }, [state.authFlowComplete]);
 
-  const updateProfile = (change) => {
+  const updateProfileState = (change: Profile) => {
     setProfile({ ...profile, ...change });
   };
 
@@ -59,14 +62,14 @@ const ProfileScreen = ({ navigation }) => {
     } else {
       const result = await launchImageLibraryAsync();
       if (!result.cancelled) {
-        updateProfile({ avatar: { uri: result.uri, name: `${state.id}.jpg`, type: 'image/jpeg' } });
+        updateProfileState({ avatar: { uri: result.uri, name: `${state.id}.jpg`, type: 'image/jpeg' } });
         setAvatarPlaceholderActive(false);
       }
     }
   };
 
   const onSubmit = () => {
-    dispatch(initUpdateProfile({
+    dispatch(updateProfile({
       ...profile,
       avatar: ((typeof profile.avatar === "number" || profile.avatar.fromState) ? "" : profile.avatar),
     }));
@@ -88,28 +91,28 @@ const ProfileScreen = ({ navigation }) => {
       </View>
       <View style={styles.form}>
         <Input
-          leftIcon={<FormInputNameIcon color={ColorPalette.FONT.INPUT} />}
+          leftIcon={<FormInputNameIcon color={ColorPalette.ACCENT} />}
           leftIconContainerStyle={{ paddingRight: 10 }}
           placeholder="Name"
           value={profile.name}
-          onChangeText={name => updateProfile({ name })}
+          onChangeText={name => updateProfileState({ name })}
         />
         <Input
-          leftIcon={<FormInputEmailIcon color={ColorPalette.FONT.INPUT} />}
+          leftIcon={<FormInputEmailIcon color={ColorPalette.ACCENT} />}
           leftIconContainerStyle={{ paddingRight: 8 }}
           placeholder="Email (optional)"
           autoCapitalize="none"
           value={profile.email}
-          onChangeText={email => updateProfile({ email })}
+          onChangeText={email => updateProfileState({ email })}
         />
         <Input
-          leftIcon={<FormInputBioIcon color={ColorPalette.FONT.INPUT} />}
+          leftIcon={<FormInputBioIcon color={ColorPalette.ACCENT} />}
           leftIconContainerStyle={{ paddingRight: 10 }}
           style={{ paddingTop: 10, maxHeight: 60 }}
           multiline={true}
           placeholder="Bio"
           value={profile.bio}
-          onChangeText={bio => updateProfile({ bio })}
+          onChangeText={bio => updateProfileState({ bio })}
         />
         <Button title="Submit" style={{ marginVertical: 16 }} onPress={onSubmit} disabled={profile.name == ""} />
       </View>

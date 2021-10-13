@@ -1,14 +1,40 @@
-import React from "react";
-import { Button, Text, View, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet } from "react-native";
+import { Button, BottomSheet, Text, useTheme, ListItem } from "react-native-elements";
+import { View } from "@components/ui";
 
 
 const HomeScreen = ({ navigation }) => {
+  const { theme: { ColorPalette } } = useTheme();
+  const [isVisible, setIsVisible] = useState(false)
   return (
-    <View style={styles.container}>
-      <Text>Click on any of the buttons to navigate</Text>
-      <Button title="Event Organizer" onPress={() => console.log("Event Organizer Pressed")} />
-      <Button title="Bill Manager" onPress={() => navigation.navigate("BillNavigator")} />
-      <Button title="Expence Tracker" onPress={() => console.log("Expence Tracker Pressed")} />
+    <View style={[styles.container, { backgroundColor: ColorPalette.PRIMARY }]}>
+      <Text style={styles.text}>Click on below button to show app components</Text>
+      <Button title="Open Screens" onPress={() => setIsVisible(true)} />
+      <BottomSheet isVisible={isVisible} modalProps={{
+        onTouchStart: () => setIsVisible(false),
+      }}>
+        <ListItem onPress={() => navigation.navigate("BillNavigator")}>
+          <ListItem.Content>
+            <ListItem.Title>Bill Manager</ListItem.Title>
+          </ListItem.Content>
+        </ListItem>
+        <ListItem onPress={() => console.log("Event Organizer Pressed")}>
+          <ListItem.Content>
+            <ListItem.Title>Event Organizer</ListItem.Title>
+          </ListItem.Content>
+        </ListItem>
+        <ListItem onPress={() => console.log("Expence Tracker Pressed")}>
+          <ListItem.Content>
+            <ListItem.Title>Expence Tracker</ListItem.Title>
+          </ListItem.Content>
+        </ListItem>
+        <ListItem onPress={() => setIsVisible(false)}>
+          <ListItem.Content>
+            <ListItem.Title>Close</ListItem.Title>
+          </ListItem.Content>
+        </ListItem>
+      </BottomSheet>
     </View>
   );
 }
@@ -19,6 +45,9 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+  },
+  text: {
+    margin: 25,
   },
 });
 

@@ -1,5 +1,6 @@
 import ColorPalette from "./color";
 import { ReactNativeDefault } from "react-native-elements";
+import adjust from "./adjust";
 
 
 const ComponentMap: ReactNativeDefault = {
@@ -7,13 +8,11 @@ const ComponentMap: ReactNativeDefault = {
     style: {},
   },
   SafeAreaView: {
-    style: {
-      backgroundColor: ColorPalette.PRIMARY,
-    },
+    style: {},
   },
   Text: {
     style: {
-      fontSize: 18,
+      fontSize: adjust(18),
     },
   },
   View: {

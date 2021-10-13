@@ -20,4 +20,9 @@ export default StyleSheet.create<StyleProps>({
     height: "92%",
     width: "100%",
   },
+  FloatingIcon: {
+    position: "absolute",
+    bottom: 22,
+    right: 5,
+  },
 });

@@ -24,8 +24,8 @@ declare module 'react-native-elements' {
   }
 
   export interface FullTheme extends DefaultFullTheme {
-    ReactNativeDefault: Partial<ReactNativeDefault>;
-    ColorPalette: Partial<ColorPalette>;
+    ReactNativeDefault: ReactNativeDefault;
+    ColorPalette: ColorPalette;
     Styles: StyleProps;
   }
 }

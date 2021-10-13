@@ -2,7 +2,7 @@ import { takeEvery } from "redux-saga/effects";
 import {
   initPhoneSignIn as initPhoneSignInAction,
   verifyCode as verifyCodeAction,
-  initUpdateProfile as initUpdateProfileAction,
+  updateProfile as updateProfileAction,
 } from "../slices/auth";
 import {
   checkVerificationCode,
@@ -14,5 +14,5 @@ import {
 export function* watchAuth() {
   yield takeEvery(initPhoneSignInAction.type, initPhoneSignIn);
   yield takeEvery(verifyCodeAction.type, checkVerificationCode);
-  yield takeEvery(initUpdateProfileAction.type, updateProfile);
+  yield takeEvery(updateProfileAction.type, updateProfile);
 };

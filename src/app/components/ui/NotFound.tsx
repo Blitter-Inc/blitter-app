@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-native-elements";
 import { ContainerProps } from "@d/theme/styles";
 import { Text, View } from "./defaults";
 import { NotFoundIcon } from "./Icons";
@@ -7,20 +6,16 @@ import { NotFoundIcon } from "./Icons";
 
 interface NotFoundProps {
   entity: string;
+  iconColor: string;
   styles: ContainerProps;
 }
 
-const NotFound = ({ entity, styles }: NotFoundProps) => {
-
-  const { theme: { ColorPalette } } = useTheme();
-
-  return (
-    <View style={styles}>
-      <NotFoundIcon color={ColorPalette.ACCENT} />
-      <Text>No {entity} found.</Text>
-    </View>
-  );
-}
+const NotFound = ({ entity, styles, iconColor }: NotFoundProps) => (
+  <View style={styles}>
+    <NotFoundIcon color={iconColor} />
+    <Text>No {entity} found.</Text>
+  </View>
+);
 
 
 export default NotFound;

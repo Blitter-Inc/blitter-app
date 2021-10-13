@@ -10,7 +10,7 @@ interface ActionBarProps {
 }
 
 const ActionBar = ({ styles: propStyles }: ActionBarProps) => {
-  const { theme: { ColorPalette } } = useTheme();
+  // const { theme: { ColorPalette } } = useTheme();
 
   return (
     <View style={[propStyles, styles.container]}>

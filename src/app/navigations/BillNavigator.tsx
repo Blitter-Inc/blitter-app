@@ -10,7 +10,7 @@ const Stack = createStackNavigator<BillStackParamList>();
 
 const BillNavigator: FC = () => {
   const { theme: { ColorPalette } } = useTheme();
-  const navigatorScreenOptions = getNavigatorScreenOptions(ColorPalette.ACCENT);
+  const navigatorScreenOptions = getNavigatorScreenOptions(ColorPalette.PRIMARY, ColorPalette.ACCENT, true);
   const baseScreenOptions = getBaseScreenOptions(true);
 
   return (

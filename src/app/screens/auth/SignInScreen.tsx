@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { View, Text, TextInput, Button } from "react-native";
-import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
+import { FirebaseRecaptchaVerifierModal, FirebaseAuthApplicationVerifier } from "expo-firebase-recaptcha";
 import { AuthContainer } from "@components/auth";
 import { Loader } from "@components/ui";
 import Firebase from "@config/firebase";
@@ -23,7 +23,7 @@ const SignInScreen = ({ navigation }) => {
   const dispatch = useAppDispatch();
 
   const [phoneNumber, setPhoneNumber] = useState(state.phoneNumber);
-  const recaptchaVerifier = useRef(null);
+  const recaptchaVerifier = useRef<FirebaseAuthApplicationVerifier>();
 
   useEffect(() => {
     if (state.codeSent) {
@@ -54,7 +54,10 @@ const SignInScreen = ({ navigation }) => {
             title="Generate OTP"
             color="#065A82"
             disabled={phoneNumber == null || phoneNumber.length != 13}
-            onPress={() => dispatch(initPhoneSignIn(phoneNumber, recaptchaVerifier.current))}
+            onPress={() => dispatch(initPhoneSignIn({
+              phoneNumber,
+              recaptchaVerifier: recaptchaVerifier.current,
+            }))}
           />
         </View>
       </View>

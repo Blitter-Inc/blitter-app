@@ -16,7 +16,7 @@ import Client from "./client";
 
 const URI = {
   signIn: () => "/user/login/",
-  updateProfile: (id: number) => `/user/update/${id}/`
+  updateUser: (id: number) => `/user/update/${id}/`
 };
 
 export const signIn: SignInHandler = async (args) => {
@@ -24,9 +24,9 @@ export const signIn: SignInHandler = async (args) => {
   return signInResponseSerializer(data);
 };
 
-export const update: UpdateProfileHandler = async ({ id, ...payload }) => {
+export const updateUser: UpdateProfileHandler = async ({ id, ...payload }) => {
   const { data } = await Client<FormData, UpdateProfileResponseBody>(
-    "patch", URI.updateProfile(id),
+    "patch", URI.updateUser(id),
     updateProfileRequestSerializer(payload),
     { headers: { "Content-Type": "multipart/form-data" } },
   );

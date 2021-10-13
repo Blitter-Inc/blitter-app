@@ -1,25 +1,28 @@
 import React, { useState } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
-import { SearchBar, useTheme } from "react-native-elements";
+import { StyleSheet, StatusBar } from "react-native";
+import { FullTheme, SearchBar as RNESearchBar, ThemeProps, withTheme } from "react-native-elements";
 
-interface SearchBarProps {
+
+interface SearchBarProps extends ThemeProps<FullTheme> {
   placeholder?: string;
 };
 
-export default ({ placeholder = "Search" }: SearchBarProps) => {
-  const { theme: { ColorPalette } } = useTheme();
+type SearchBarComponent = (props: SearchBarProps) => JSX.Element;
+
+const SearchBar: SearchBarComponent = ({ placeholder = "Search", theme: { ColorPalette } }) => {
   const [searchText, setSearchText] = useState('');
 
   return (
-    <SafeAreaView style={{ backgroundColor: ColorPalette.ACCENT }}>
-      <SearchBar {...styles} placeholder={placeholder} value={searchText} onChangeText={setSearchText} />
-    </SafeAreaView>
+      <RNESearchBar {...styles} placeholder={placeholder} value={searchText} onChangeText={text => setSearchText(text)} />
   );
 }
 
 const styles = StyleSheet.create({
   containerStyle: {
     borderTopWidth: 0,
+    height: StatusBar.currentHeight + 56,
+    justifyContent: "flex-end",
+    borderBottomWidth: 0,
   },
   inputContainerStyle: {
     borderRadius: 15,
@@ -30,3 +33,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
 });
+
+
+export default withTheme(SearchBar, 'theme');

@@ -1,5 +1,4 @@
-import { UpdateProfileSagaArgs } from "../../store/sagas";
-import { User, UserProfile } from "../../store";
+import { User, UserProfile, UpdateProfileSagaArgs } from "../../store";
 
 
 export interface UserObject extends UserProfile {
@@ -34,7 +33,9 @@ export interface UpdateProfileRequestPayload extends Omit<UpdateProfileSagaArgs,
 
 export interface UpdateProfileResponseBody extends UserObject { };
 
-export interface UpdateProfileHandlerArgs extends UpdateProfileSagaArgs { };
+export interface UpdateProfileHandlerArgs extends UpdateProfileSagaArgs {
+  id: number;
+};
 
 export interface UpdateProfileSerializedResponseBody extends User { };
 

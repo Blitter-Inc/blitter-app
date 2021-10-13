@@ -1,12 +1,13 @@
 import React from "react";
-import { useTheme } from "react-native-elements";
+import { withTheme, ThemeProps, FullTheme } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
-import SearchBar from "./SearchBar";
 import { HeaderSearchIcon } from "./Icons";
+import SearchBar from "./SearchBar";
 
 
-export default () => {
-  const { theme: { ColorPalette } } = useTheme();
+type SearchIconComponent = (props: ThemeProps<FullTheme>) => JSX.Element;
+
+const SearchIcon: SearchIconComponent = ({ theme: { ColorPalette } }) => {
   const navigation = useNavigation();
 
   const openSearchBar = () => {
@@ -16,6 +17,9 @@ export default () => {
   };
 
   return (
-    <HeaderSearchIcon color={ColorPalette.FONT.TEXT} onPress={openSearchBar} />
+    <HeaderSearchIcon color={ColorPalette.ACCENT} onPress={openSearchBar} />
   );
-}
+};
+
+
+export default withTheme(SearchIcon, 'theme');

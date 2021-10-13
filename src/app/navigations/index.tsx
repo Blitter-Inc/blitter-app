@@ -12,7 +12,7 @@ export default () => {
     dark: false,
     colors: {
       primary: ColorPalette.PRIMARY,
-      background: ColorPalette.ACCENT,
+      background: ColorPalette.PRIMARY,
       card: ColorPalette.ACCENT,
       text: ColorPalette.FONT.TEXT,
       border: 'rgb(199, 199, 204)',

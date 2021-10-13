@@ -24,3 +24,4 @@ export {
 };
 
 export * from "./Icons";
+export * from "./Picker";

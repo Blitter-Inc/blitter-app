@@ -13,7 +13,7 @@ const useRequiredState = () => {
     isLoading: authState.isLoading,
     codeSent: authState.codeSent,
     codeVerified: authState.codeVerified,
-    verificationId: authState.credentials.verificationId,
+    verificationId: authState.verificationId,
     phoneNumber: authState.credentials.user.phoneNumber,
   };
 }
@@ -55,10 +55,10 @@ const OTPVerifyScreen = ({ navigation }) => {
   }
 
   const onCodeSubmit = () => {
-    return dispatch(verifyCode(
-      codeArray.map(el => el.code).join(""),
-      state.verificationId,
-    ));
+    return dispatch(verifyCode({
+      code: codeArray.map(el => el.code).join(""),
+      verificationId: state.verificationId,
+    }));
   }
 
   return (

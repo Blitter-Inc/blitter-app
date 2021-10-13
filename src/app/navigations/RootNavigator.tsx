@@ -23,7 +23,7 @@ const authScreenOptions = { headerShown: false };
 const RootNavigator: FC = () => {
   const { isAuthenticated } = useRequiredState();
   const { theme: { ColorPalette } } = useTheme();
-  const navigatorScreenOptions = getNavigatorScreenOptions(ColorPalette.ACCENT, isAuthenticated);
+  const navigatorScreenOptions = getNavigatorScreenOptions(ColorPalette.PRIMARY, ColorPalette.ACCENT, isAuthenticated);
   const nestedNavigatorOptions = getNestedNavigatorOptions();
 
   return (

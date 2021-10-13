@@ -15,6 +15,6 @@ export type BillStackParamList = {
 
 export type BillManagerScreenNavigationProps = StackScreenProps<BillStackParamList, "BillManager">
 
-export type GetNavigatorScreenOptions = (headerBackgroundColor: string, disableBackButton?: boolean) => StackNavigationOptions;
+export type GetNavigatorScreenOptions = (headerPrimaryColor: string, headerAccentColor: string, disableBackButton?: boolean) => StackNavigationOptions;
 export type GetBaseScreenOptions = (enableSearch?: boolean) => StackNavigationOptions;
 export type GetNestedNavigatorOptions = () => StackNavigationOptions;
