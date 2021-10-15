@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Button, Input, Overlay, Text } from "react-native-elements";
-import { Picker, PickerItem, View } from "@components/ui";
+import { Picker, PickerItem, View } from "@components/index";
 import { BillComponent, BillModel } from "@d/components";
 
 

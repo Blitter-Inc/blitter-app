@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { Button, BottomSheet, Text, useTheme, ListItem } from "react-native-elements";
-import { View } from "@components/ui";
+import { View } from "@components/index";
 
 
 const HomeScreen = ({ navigation }) => {
   const { theme: { ColorPalette } } = useTheme();
   const [isVisible, setIsVisible] = useState(false)
+
+  const navigatePage = (pageUri: string) => {
+    navigation.navigate(pageUri)
+    setIsVisible(false)
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: ColorPalette.PRIMARY }]}>
       <Text style={styles.text}>Click on below button to show app components</Text>
@@ -14,7 +20,7 @@ const HomeScreen = ({ navigation }) => {
       <BottomSheet isVisible={isVisible} modalProps={{
         onTouchStart: () => setIsVisible(false),
       }}>
-        <ListItem onPress={() => navigation.navigate("BillNavigator")}>
+        <ListItem onPress={() => navigatePage("BillNavigator")}>
           <ListItem.Content>
             <ListItem.Title>Bill Manager</ListItem.Title>
           </ListItem.Content>

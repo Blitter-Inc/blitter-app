@@ -2,7 +2,8 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { useTheme } from "react-native-elements";
 import { ContainerProps } from "@d/theme/styles";
-import { Text, View } from "./defaults";
+import Text from "./defaults/Text";
+import View from "./defaults/View"
 
 
 interface ActionBarProps {

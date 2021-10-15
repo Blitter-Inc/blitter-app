@@ -2,6 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "allowJs": false,
+    "jsx": "react",
     "typeRoots": ["./src/types"],
     "baseUrl": ".",
     "paths": {
@@ -17,8 +18,8 @@
       "@navigations/*": [
         "src/app/navigations/*"
       ],
-      "@screens/*": [
-        "src/app/screens/*"
+      "@mods/*": [
+        "src/app/modules/*"
       ],
       "@services/*": [
         "src/app/services/*"

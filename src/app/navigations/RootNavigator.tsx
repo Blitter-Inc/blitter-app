@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { useTheme } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
-import { SignInScreen, OTPVerifyScreen, ProfileScreen } from "@screens/auth";
-import { HomeScreen } from "@screens/home";
+import { SignInScreen, OTPVerifyScreen, ProfileScreen } from "@mods/auth";
+import { HomeScreen } from "@mods/home";
 import { useAppSelector } from "@store/hooks";
 import { RootStackParamList } from "@d/navigation";
 import BillNavigator from "./BillNavigator";

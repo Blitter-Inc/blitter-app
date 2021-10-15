@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from "react";
 import { StyleSheet } from "react-native";
-import { Image, View } from "@components/ui";
+import { Image, View } from "@components/index";
 
 
 interface AuthContainerProps {
