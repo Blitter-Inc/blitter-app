@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { View, Button, Text, TextInput } from "react-native";
-import { AuthContainer } from "@mods/auth/components";
+import { AuthContainer } from "../components";
 import { Loader } from "@components/index";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { verifyCode } from "@store/slices/auth";

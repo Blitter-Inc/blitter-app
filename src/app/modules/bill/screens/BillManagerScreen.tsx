@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback } from "react-native";
 import { useTheme } from "react-native-elements";
 import { ActionBar, FloatAddIcon, ListContainer, NotFound, SafeAreaView } from "@components/index";
 import { BillManagerScreenNavigationProps } from "@d/navigation";
-import { Bill } from "@mods/bill/components";
+import { Bill } from "../components";
 
 
 interface BillManagerScreenProps extends BillManagerScreenNavigationProps { };
