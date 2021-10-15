@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { StyleSheet } from "react-native";
-import { View } from "@components/ui/defaults";
+import View from "./defaults/View";
 import { CenteredFlexContainerStyleProps, ContainerStyleProps } from "@d/theme/styles";
 
 

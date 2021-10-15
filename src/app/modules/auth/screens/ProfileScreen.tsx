@@ -8,7 +8,7 @@ import {
   FormInputNameIcon,
   SafeAreaView,
   View,
-} from "@components/ui";
+} from "@components/index";
 import { useAppSelector, useAppDispatch } from "@store/hooks";
 import { updateProfile } from "@store/slices/auth";
 import { UpdateProfileSagaArgs } from "@d/store";

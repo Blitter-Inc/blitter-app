@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { useTheme } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
-import { BillManagerScreen } from "@screens/bill";
+import { BillManagerScreen } from "@mods/bill";
 import { BillStackParamList } from "@d/navigation";
 import { getBaseScreenOptions, getNavigatorScreenOptions } from "./config";
 

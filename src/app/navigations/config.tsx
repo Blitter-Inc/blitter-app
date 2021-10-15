@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { SearchIcon } from "@components/ui";
+import { SearchIcon } from "@components/index";
 import { GetBaseScreenOptions, GetNavigatorScreenOptions, GetNestedNavigatorOptions } from "@d/navigation";
 
 

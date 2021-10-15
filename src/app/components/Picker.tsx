@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements"
 import { Picker as DefaultPicker } from "@react-native-picker/picker";
 import { PickerComponent, PickerItemComponent } from "@d/components";
-import { View } from "./defaults";
+import View from "./defaults/View";
 
 
 export const Picker: PickerComponent = ({ label, children, ...pickerProps }) => (
