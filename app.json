@@ -25,7 +25,6 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.blitter",
-      "softwareKeyboardLayoutMode": "pan",
     },
     "web": {
       "favicon": "./src/assets/favicon.png"

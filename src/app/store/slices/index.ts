@@ -1,6 +1,4 @@
 import AuthSlice from "./auth";
+import BillSlice from "./bill";
 
-
-export {
-  AuthSlice,
-};
+export { AuthSlice, BillSlice };
