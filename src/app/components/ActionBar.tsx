@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { useTheme } from "react-native-elements";
 import { ContainerProps } from "@d/theme/styles";
 import Text from "./defaults/Text";
 import View from "./defaults/View"
@@ -11,7 +10,6 @@ interface ActionBarProps {
 }
 
 const ActionBar = ({ styles: propStyles }: ActionBarProps) => {
-  // const { theme: { ColorPalette } } = useTheme();
 
   return (
     <View style={[propStyles, styles.container]}>

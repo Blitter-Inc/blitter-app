@@ -3,6 +3,8 @@
     "strict": true,
     "allowJs": false,
     "jsx": "react",
+    "declaration": true,
+    "declarationDir": "./src/types",
     "typeRoots": ["./src/types"],
     "baseUrl": ".",
     "paths": {

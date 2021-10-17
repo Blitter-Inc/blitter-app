@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import { StyleSheet, StatusBar } from "react-native";
-import { FullTheme, SearchBar as RNESearchBar, ThemeProps, withTheme } from "react-native-elements";
+import { SearchBar as RNESearchBar } from "react-native-elements";
 
 
-interface SearchBarProps extends ThemeProps<FullTheme> {
+interface SearchBarProps {
   placeholder?: string;
 };
 
 type SearchBarComponent = (props: SearchBarProps) => JSX.Element;
 
-const SearchBar: SearchBarComponent = ({ placeholder = "Search", theme: { ColorPalette } }) => {
+const SearchBar: SearchBarComponent = ({ placeholder = "Search" }) => {
   const [searchText, setSearchText] = useState('');
 
   return (
-      <RNESearchBar {...styles} placeholder={placeholder} value={searchText} onChangeText={text => setSearchText(text)} />
+    <RNESearchBar {...styles} placeholder={placeholder} value={searchText} onChangeText={(text: string) => setSearchText(text)} />
   );
 }
 
 const styles = StyleSheet.create({
   containerStyle: {
     borderTopWidth: 0,
-    height: StatusBar.currentHeight + 56,
+    height: StatusBar.currentHeight && StatusBar.currentHeight + 56,
     justifyContent: "flex-end",
     borderBottomWidth: 0,
   },
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default withTheme(SearchBar, 'theme');
+export default SearchBar;

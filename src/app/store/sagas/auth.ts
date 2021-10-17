@@ -15,7 +15,6 @@ import { confirmCodeSent, confirmCodeVerification, completeAuthFlow } from '../s
 
 
 export function* initPhoneSignIn(action: InitPhoneSignInSagaAction) {
-  console.log("ACTION ARGS: ", action);
   const { phoneNumber, recaptchaVerifier }: InitPhoneSignInSagaArgs = action.payload.args;
   try {
     const authProvider = new Firebase.auth.PhoneAuthProvider();

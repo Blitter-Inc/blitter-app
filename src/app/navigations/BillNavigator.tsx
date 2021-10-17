@@ -1,15 +1,16 @@
-import React, { FC } from "react";
-import { useTheme } from "react-native-elements";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useAppTheme } from "@config/theme";
+import { BillNavigatorElement, BillStackParamList } from "@d/navigations";
 import { BillManagerScreen } from "@mods/bill";
-import { BillStackParamList } from "@d/navigation";
 import { getBaseScreenOptions, getNavigatorScreenOptions } from "./config";
 
 
 const Stack = createStackNavigator<BillStackParamList>();
 
-const BillNavigator: FC = () => {
-  const { theme: { ColorPalette } } = useTheme();
+const BillNavigator: BillNavigatorElement = () => {
+  const ColorPalette = useAppTheme();
+
   const navigatorScreenOptions = getNavigatorScreenOptions(ColorPalette.PRIMARY, ColorPalette.ACCENT, true);
   const baseScreenOptions = getBaseScreenOptions(true);
 
