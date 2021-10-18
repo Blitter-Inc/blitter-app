@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { SearchIcon } from "@components/index";
-import { GetBaseScreenOptions, GetNavigatorScreenOptions, GetNestedNavigatorOptions } from "@d/navigation";
+import { GetBaseScreenOptions, GetNavigatorScreenOptions, GetNestedNavigatorOptions } from "@d/navigations";
 
 
 export const getNavigatorScreenOptions: GetNavigatorScreenOptions = (headerPrimaryColor, headerAccentColor, disableBackButton = false) => ({

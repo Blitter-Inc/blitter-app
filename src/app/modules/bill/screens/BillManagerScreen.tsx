@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { TouchableWithoutFeedback } from "react-native";
-import { useTheme } from "react-native-elements";
 import { ActionBar, FloatAddIcon, ListContainer, NotFound, SafeAreaView } from "@components/index";
-import { BillManagerScreenNavigationProps } from "@d/navigation";
+import { BillManagerScreenElement } from "@d/modules/bill";
 import { Bill } from "../components";
+import { useAppTheme, Styles } from "@config/theme";
 
 
-interface BillManagerScreenProps extends BillManagerScreenNavigationProps { };
+const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
+  const ColorPalette = useAppTheme();
 
-export default ({ navigation }: BillManagerScreenProps) => {
-
-  const { theme: { ColorPalette, Styles } } = useTheme();
   const [bills, setBills] = useState([]);
   const [addBillVisible, setAddBillVisible] = useState(false);
 
@@ -47,3 +45,6 @@ export default ({ navigation }: BillManagerScreenProps) => {
     </TouchableWithoutFeedback>
   );
 };
+
+
+export default BillManagerScreen;

@@ -36,9 +36,11 @@ const ComponentMap: Partial<FullTheme> = {
   },
   SearchBar: {
     clearIcon: {
+      name: "clear",
       color: ColorPalette.FONT.INPUT,
     },
     searchIcon: {
+      name: "search",
       color: ColorPalette.FONT.INPUT,
     },
     placeholderTextColor: ColorPalette.FONT.INPUT,
