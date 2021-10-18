@@ -1,4 +1,4 @@
-import { Text, LinearProgress, Avatar, Badge } from "react-native-elements";
+import { Text, Avatar, Badge } from "react-native-elements";
 import { BillCardComponent } from "@d/components";
 import React from "react";
 import { StyleSheet, View } from "react-native";
@@ -28,7 +28,7 @@ const BillCard: BillCardComponent = ({ bill }) => {
         )}
       </View>
       <View style={style.bottomContainer}>
-        <Text style={[style.billText, style.amountText]}>
+        <Text style={style.amountText}>
           Rs. {bill.settledAmt}/ {bill.amount}
         </Text>
         <View style={style.avatarContainer}>

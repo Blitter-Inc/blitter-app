@@ -1,16 +1,11 @@
 import React, { useState } from "react";
 import { ScrollView, TouchableWithoutFeedback } from "react-native";
-import { useTheme } from "react-native-elements";
 import { ActionBar, FloatAddIcon, ListContainer, NotFound, SafeAreaView } from "@components/index";
-import { BillManagerScreenNavigationProps } from "@d/navigation";
 import { BillForm, BillCard } from "../components";
 import { useAppSelector } from '@store/hooks'
 import { BillManagerScreenElement } from "@d/modules/bill";
 import { useAppTheme, Styles } from "@config/theme";
 
-
-const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
-  const ColorPalette = useAppTheme();
 
 const useRequiredState = () => {
   const billState = useAppSelector(state => state.bill)
@@ -18,11 +13,10 @@ const useRequiredState = () => {
     bills: billState.bills
   }
 }
-export default ({ navigation }: BillManagerScreenProps) => {
+const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
+  const ColorPalette = useAppTheme();
   const state = useRequiredState();
   
-  const { theme: { ColorPalette, Styles } } = useTheme();
-
   const [addBillVisible, setAddBillVisible] = useState(false);
   
   navigation.addListener("gestureStart", () => closeSearchBar());
