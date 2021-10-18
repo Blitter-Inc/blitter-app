@@ -1,12 +1,11 @@
 import ColorPalette from "./color";
-import ReactNativeElementsComponentMap from "./rne";
-import ReactNativeDefaultComponentMap from "./rn";
+import RNETheme from "./rne";
 import Styles from "./styles";
 
 
-export default {
-  ...ReactNativeElementsComponentMap,
-  ReactNativeDefault: ReactNativeDefaultComponentMap,
+export * from "./state";
+export {
+  RNETheme,
   ColorPalette,
   Styles,
 };

@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import { Button, BottomSheet, Text, useTheme, ListItem } from "react-native-elements";
+import { Button, BottomSheet, ListItem, Text } from "react-native-elements";
 import { View } from "@components/index";
+import { useAppTheme } from "@config/theme";
+import { HomeScreenElement } from "@d/modules/home";
+import { RootStackParamList } from "@d/navigations";
 
 
-const HomeScreen = ({ navigation }) => {
-  const { theme: { ColorPalette } } = useTheme();
-  const [isVisible, setIsVisible] = useState(false)
+const HomeScreen: HomeScreenElement = ({ navigation }) => {
+  const ColorPalette = useAppTheme();
 
-  const navigatePage = (pageUri: string) => {
-    navigation.navigate(pageUri)
-    setIsVisible(false)
-  }
+  const [isVisible, setIsVisible] = useState(false);
+
+  const navigatePage = (pageUri: keyof RootStackParamList) => {
+    navigation.navigate(pageUri);
+    setIsVisible(false);
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: ColorPalette.PRIMARY }]}>

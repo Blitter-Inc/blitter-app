@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Alert, StyleSheet } from "react-native";
-import { Avatar, Button, Input, useTheme } from "react-native-elements";
+import { Avatar, Button, Input } from "react-native-elements";
 import { launchImageLibraryAsync, requestMediaLibraryPermissionsAsync } from "expo-image-picker";
 import {
   FormInputBioIcon,
@@ -9,12 +9,11 @@ import {
   SafeAreaView,
   View,
 } from "@components/index";
+import { useAppTheme } from "@config/theme";
 import { useAppSelector, useAppDispatch } from "@store/hooks";
 import { updateProfile } from "@store/slices/auth";
-import { UpdateProfileSagaArgs } from "@d/store";
+import { Profile, ProfileScreenElement } from "@d/modules/auth";
 
-
-interface Profile extends UpdateProfileSagaArgs { };
 
 const useRequiredState = () => {
   const authState = useAppSelector(state => state.auth);
@@ -28,8 +27,8 @@ const useRequiredState = () => {
   };
 };
 
-const ProfileScreen = ({ navigation }) => {
-  const { theme: { ColorPalette } } = useTheme();
+const ProfileScreen: ProfileScreenElement = ({ navigation }) => {
+  const ColorPalette = useAppTheme();
 
   const state = useRequiredState();
   const dispatch = useAppDispatch();

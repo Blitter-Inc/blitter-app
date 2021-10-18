@@ -5,7 +5,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import Axios from '@services/axios';
 import createSecureStorage from './persist-secure-storage';
 import { watchAuth } from './sagas';
-import { AuthSlice, BillSlice } from './slices';
+import { AuthSlice, BillSlice, ThemeSlice } from './slices';
 
 
 const sagaMiddleware = createSagaMiddleware();
@@ -16,6 +16,7 @@ const persistConfig = { key: 'root', storage };
 const Reducers = combineReducers({
   [AuthSlice.name]: AuthSlice.reducer,
   [BillSlice.name]: BillSlice.reducer,
+  [ThemeSlice.name]: ThemeSlice.reducer,
 });
 const rootReducer = persistReducer(persistConfig, Reducers);
 

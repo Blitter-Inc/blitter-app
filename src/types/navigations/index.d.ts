@@ -1,4 +1,4 @@
-import { StackNavigationOptions, StackScreenProps } from "@react-navigation/stack";
+import { StackNavigationOptions } from "@react-navigation/stack";
 
 
 export type RootStackParamList = {
@@ -11,10 +11,11 @@ export type RootStackParamList = {
 
 export type BillStackParamList = {
   "BillManager": undefined,
+  "Bill": undefined,
 };
 
-export type BillManagerScreenNavigationProps = StackScreenProps<BillStackParamList, "BillManager">
-
+export type RootNavigatorElement = () => JSX.Element;
+export type BillNavigatorElement = () => JSX.Element;
 export type GetNavigatorScreenOptions = (headerPrimaryColor: string, headerAccentColor: string, disableBackButton?: boolean) => StackNavigationOptions;
 export type GetBaseScreenOptions = (enableSearch?: boolean) => StackNavigationOptions;
 export type GetNestedNavigatorOptions = () => StackNavigationOptions;

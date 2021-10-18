@@ -5,9 +5,12 @@ import { ActionBar, FloatAddIcon, ListContainer, NotFound, SafeAreaView } from "
 import { BillManagerScreenNavigationProps } from "@d/navigation";
 import { BillForm, BillCard } from "../components";
 import { useAppSelector } from '@store/hooks'
+import { BillManagerScreenElement } from "@d/modules/bill";
+import { useAppTheme, Styles } from "@config/theme";
 
 
-interface BillManagerScreenProps extends BillManagerScreenNavigationProps { };
+const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
+  const ColorPalette = useAppTheme();
 
 const useRequiredState = () => {
   const billState = useAppSelector(state => state.bill)
@@ -19,6 +22,7 @@ export default ({ navigation }: BillManagerScreenProps) => {
   const state = useRequiredState();
   
   const { theme: { ColorPalette, Styles } } = useTheme();
+
   const [addBillVisible, setAddBillVisible] = useState(false);
   
   navigation.addListener("gestureStart", () => closeSearchBar());
@@ -56,3 +60,6 @@ export default ({ navigation }: BillManagerScreenProps) => {
     </TouchableWithoutFeedback>
   );
 };
+
+
+export default BillManagerScreen;
