@@ -1,6 +1,8 @@
-import Bill from "./Bill"
+import BillForm from "./Bill"
+import BillCard from "./BillCard";
 
 
 export {
-  Bill,
+  BillForm,
+  BillCard
 };

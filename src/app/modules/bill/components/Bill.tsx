@@ -2,26 +2,28 @@ import React, { useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Button, Input, Overlay, Text } from "react-native-elements";
 import { Picker, PickerItem, View } from "@components/index";
-import { BillComponent, BillModel } from "@d/components";
+import { BillComponent } from "@d/components";
+import { BillTypes, BillStatus, Bill } from "@d/store/entity.d";
 
 
-const Bill: BillComponent = ({ isNew, overlayProps }) => {
-  const initialBill: BillModel = {
+const BillForm: BillComponent = ({ isNew, overlayProps }) => {
+  const initialBill: Bill = {
     name: "",
-    amount: "",
-    type: "",
+    amount: 0,
+    settledAmt: 0,
+    type: BillTypes.Food,
     eventName: "",
     description: "",
-    status: "PENDING",
+    status: BillStatus.PENDING,
     created: new Date().toDateString(),
     lastUpdated: new Date().toDateString(),
     subscribers: [],
     attachments: [],
   };
 
-  const [bill, setBill] = useState<BillModel>(initialBill);
+  const [bill, setBill] = useState<Bill>(initialBill);
 
-  const updateBill = (billInput: Partial<BillModel>) => {
+  const updateBill = (billInput: Partial<Bill>) => {
     setBill({ ...bill, ...billInput });
   };
 
@@ -81,4 +83,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Bill;
+export default BillForm;

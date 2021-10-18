@@ -133,8 +133,7 @@ const styles = StyleSheet.create({
     top: 0,
   },
   avatar: {
-    top: 10,
-    resizeMode: "center"
+    resizeMode: "cover"
   },
   avatarContainer: {
     shadowColor: "black",
