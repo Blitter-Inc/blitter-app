@@ -1,10 +1,10 @@
 import AuthSlice from "./auth";
-import BillSlice from "./bill";
-import ThemeSlice from "./theme";
+import CacheSlice from "./cache";
+import UISlice from "./ui";
 
 
 export {
   AuthSlice,
-  BillSlice,
-  ThemeSlice,
+  CacheSlice,
+  UISlice,
 };

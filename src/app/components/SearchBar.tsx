@@ -10,12 +10,17 @@ interface SearchBarProps {
 type SearchBarComponent = (props: SearchBarProps) => JSX.Element;
 
 const SearchBar: SearchBarComponent = ({ placeholder = "Search" }) => {
-  const [searchText, setSearchText] = useState('');
+  // const [searchText, setSearchText] = useState('');
 
   return (
-    <RNESearchBar {...styles} placeholder={placeholder} value={searchText} onChangeText={(text: string) => setSearchText(text)} />
+    <RNESearchBar
+      {...styles}
+      placeholder={placeholder}
+      // value={searchText}
+      // onChangeText={(text: string) => setSearchText(text)}
+    />
   );
-}
+};
 
 const styles = StyleSheet.create({
   containerStyle: {
@@ -26,11 +31,13 @@ const styles = StyleSheet.create({
   },
   inputContainerStyle: {
     borderRadius: 15,
+    borderBottomColor: "#fff",
   },
   inputStyle: {
     paddingLeft: 8,
     borderRadius: 15,
     marginHorizontal: 8,
+    color: "#fff",
   },
 });
 

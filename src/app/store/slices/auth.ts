@@ -11,7 +11,7 @@ import {
   ConfirmCodeVerificationActionPayload,
   InitPhoneSignInSagaArgs,
   UpdateProfileSagaArgs,
-} from "@d/store";
+} from "$types/store";
 
 
 const name = "auth";

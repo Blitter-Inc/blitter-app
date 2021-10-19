@@ -1,7 +1,8 @@
-import { Text, Avatar, Badge } from "react-native-elements";
-import { BillCardComponent } from "@d/components";
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { Text, Avatar, Badge } from "react-native-elements";
+import { BillCardComponent } from "$types/modules/bill";
+
 
 const BillCard: BillCardComponent = ({ bill }) => {
   return (
@@ -48,7 +49,7 @@ const BillCard: BillCardComponent = ({ bill }) => {
         </View>
       </View>
       <View style={style.bottomContainer}>
-        <Text style={style.createdText}>By: {bill.createdBy}</Text>
+        <Text style={style.createdText}>By: {bill.created}</Text>
         <Text style={style.createdText}>{bill.created}</Text>
       </View>
     </View>

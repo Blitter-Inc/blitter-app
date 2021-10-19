@@ -8,11 +8,11 @@ import {
   FormInputNameIcon,
   SafeAreaView,
   View,
-} from "@components/index";
-import { useAppTheme } from "@config/theme";
-import { useAppSelector, useAppDispatch } from "@store/hooks";
-import { updateProfile } from "@store/slices/auth";
-import { Profile, ProfileScreenElement } from "@d/modules/auth";
+} from "$components/index";
+import { useAppTheme } from "$config/theme";
+import { useAppSelector, useAppDispatch } from "$store/hooks";
+import { updateProfile } from "$store/slices/auth";
+import { Profile, ProfileScreenElement } from "$types/modules/auth";
 
 
 const useRequiredState = () => {
@@ -38,7 +38,7 @@ const ProfileScreen: ProfileScreenElement = ({ navigation }) => {
     name: state.name,
     email: state.email,
     bio: state.bio,
-    avatar: state.avatar ? { uri: state.avatar, fromState: true } : require("@assets/avatar.png"),
+    avatar: state.avatar ? { uri: state.avatar, fromState: true } : require("$assets/avatar.png"),
   });
 
   useEffect(() => {

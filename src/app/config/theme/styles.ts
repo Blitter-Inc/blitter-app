@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { StyleProps } from "@d/theme/styles";
+import { StyleProps } from "$types/config/theme";
 
 
 export default StyleSheet.create<StyleProps>({

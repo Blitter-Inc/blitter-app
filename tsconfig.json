@@ -2,35 +2,32 @@
   "compilerOptions": {
     "strict": true,
     "allowJs": false,
-    "jsx": "react",
-    "declaration": true,
-    "declarationDir": "./src/types",
-    "typeRoots": ["./src/types"],
+    "jsx": "react-native",
     "baseUrl": ".",
     "paths": {
-      "@assets/*": [
+      "$assets/*": [
         "src/assets/*"
       ],
-      "@components/*": [
+      "$components/*": [
         "src/app/components/*"
       ],
-      "@config/*": [
+      "$config/*": [
         "src/app/config/*"
       ],
-      "@navigations/*": [
-        "src/app/navigations/*"
-      ],
-      "@mods/*": [
+      "$modules/*": [
         "src/app/modules/*"
       ],
-      "@services/*": [
+      "$navigations/*": [
+        "src/app/navigations/*"
+      ],
+      "$services/*": [
         "src/app/services/*"
       ],
-      "@store/*": [
+      "$store/*": [
         "src/app/store/*"
       ],
-      "@d/*": [
-        "src/types/*"
+      "$types/*": [
+        "src/app/types/*"
       ],
     },
   },

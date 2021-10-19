@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { ContainerProps } from "@d/theme/styles";
+import { ContainerProps } from "$types/config/theme";
 import Text from "./defaults/Text";
 import View from "./defaults/View"
 

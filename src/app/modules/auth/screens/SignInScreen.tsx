@@ -2,10 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { View, Text, TextInput, Button } from "react-native";
 import { FirebaseRecaptchaVerifierModal, FirebaseAuthApplicationVerifier } from "expo-firebase-recaptcha";
 import { AuthContainer } from "../components";
-import { Loader } from "@components/index";
-import Firebase from "@config/firebase";
-import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { initPhoneSignIn } from "@store/slices/auth";
+import { Loader } from "$components/index";
+import Firebase from "$config/firebase";
+import { useAppDispatch, useAppSelector } from "$store/hooks";
+import { initPhoneSignIn } from "$store/slices/auth";
 import Styles from "./styles";
 
 

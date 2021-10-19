@@ -1,5 +1,5 @@
 import React from "react";
-import { ContainerProps } from "@d/theme/styles";
+import { ContainerProps } from "$types/config/theme";
 import { NotFoundIcon } from "./Icons";
 import Text from "./defaults/Text";
 import View from "./defaults/View";

@@ -1,6 +1,6 @@
 import React from "react";
 import { Text } from "react-native-elements"
-import { InputLabelComponent } from "@d/components";
+import { InputLabelComponent } from "$types/components";
 
 
 const InputLabelComponent: InputLabelComponent = ({ children, ...textProps }) => (

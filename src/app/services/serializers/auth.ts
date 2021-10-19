@@ -1,10 +1,10 @@
-import ENV from "@config/env";
+import ENV from "$config/env";
 import {
   SignInRequestSerializer,
   SignInResponseSerializer,
   UpdateProfileRequestSerializer,
   UpdateProfileResponseSerializer,
-} from "@d/services/api";
+} from "$types/services/api";
 
 
 const generateFormData = (obj: Object) => {

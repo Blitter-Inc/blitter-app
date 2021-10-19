@@ -1,5 +1,5 @@
 import Axios from "axios"
-import ENV from "@config/env";
+import ENV from "$config/env";
 
 
 const instance = Axios.create({
