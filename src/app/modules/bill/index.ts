@@ -1,6 +1,6 @@
-import BillManagerScreen from "./screens/BillManagerScreen";
+import BillNavigator from "./BillNavigator";
 
 
 export {
-  BillManagerScreen,
+  BillNavigator,
 };

@@ -1,7 +1,8 @@
 import '@firebase/auth'
 import { call, put } from 'redux-saga/effects';
-import Firebase from '@config/firebase';
-import { SignInSerializedResponseBody, UpdateProfileSerializedResponseBody } from '@d/services/api';
+import Firebase from '$config/firebase';
+import { signIn, updateUser } from '$services/api';
+import { SignInSerializedResponseBody, UpdateProfileSerializedResponseBody } from '$types/services/api';
 import {
   CheckVerificationCodeSagaAction,
   InitPhoneSignInSagaAction,
@@ -9,8 +10,7 @@ import {
   CheckVerificationCodeSagaArgs,
   InitPhoneSignInSagaArgs,
   UpdateProfileSagaArgs,
-} from '@d/store';
-import { signIn, updateUser } from '@services/api';
+} from '$types/store';
 import { confirmCodeSent, confirmCodeVerification, completeAuthFlow } from '../slices/auth';
 
 

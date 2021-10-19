@@ -4,13 +4,13 @@ import {
   SignInResponseBody,
   UpdateProfileHandler,
   UpdateProfileResponseBody,
-} from "@d/services/api";
+} from "$types/services/api";
 import {
   signInRequestSerializer,
   signInResponseSerializer,
   updateProfileRequestSerializer,
   updateProfileResponseSerializer,
-} from "@services/serializers";
+} from "$services/serializers";
 import Client from "./client";
 
 

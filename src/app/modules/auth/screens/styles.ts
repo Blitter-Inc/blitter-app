@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { ACCENT, FONT } from "@config/theme/color";
+import { ACCENT, FONT } from "$config/theme/color";
 
 
 export default StyleSheet.create({

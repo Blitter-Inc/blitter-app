@@ -2,21 +2,23 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements"
 import { Picker as DefaultPicker } from "@react-native-picker/picker";
-import { PickerComponent, PickerItemComponent } from "@d/components";
+import { PickerComponent, PickerItemComponent } from "$types/components";
 import View from "./defaults/View";
 
 
-export const Picker: PickerComponent = ({ label, children, ...pickerProps }) => (
-  <View>
-    <Text style={pickerStyles.label}>{label}</Text>
-    <DefaultPicker
-      itemStyle={[pickerProps.itemStyle, pickerStyles.itemStyle]}
-      {...pickerProps}
-    >
-      {children}
-    </DefaultPicker>
-  </View>
-);
+export const Picker: PickerComponent = ({ label, children, ...pickerProps }) => {
+  return (
+    <View>
+      <Text style={pickerStyles.label}>{label}</Text>
+      <DefaultPicker
+        itemStyle={[pickerProps.itemStyle, pickerStyles.itemStyle]}
+        {...pickerProps}
+      >
+        {children}
+      </DefaultPicker>
+    </View>
+  );
+};
 
 export const PickerItem: PickerItemComponent = (props) => (
   <DefaultPicker.Item {...props} />

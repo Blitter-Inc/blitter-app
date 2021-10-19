@@ -23,7 +23,7 @@ const ComponentMap: Partial<FullTheme> = {
     inputContainerStyle: {
       borderBottomColor: ColorPalette.ACCENT,
     },
-    placeholderTextColor: ColorPalette.FONT.INPUT,
+    placeholderTextColor: ColorPalette.FONT.PLACEHOLDER,
   },
   Overlay: {
     overlayStyle: {
@@ -33,17 +33,18 @@ const ComponentMap: Partial<FullTheme> = {
       alignItems: "center",
       borderRadius: 25,
     },
+    animationType: "fade",
   },
   SearchBar: {
     clearIcon: {
       name: "clear",
-      color: ColorPalette.FONT.INPUT,
+      color: ColorPalette.PRIMARY,
     },
     searchIcon: {
       name: "search",
-      color: ColorPalette.FONT.INPUT,
+      color: ColorPalette.PRIMARY,
     },
-    placeholderTextColor: ColorPalette.FONT.INPUT,
+    placeholderTextColor: ColorPalette.PRIMARY,
     containerStyle: {
       backgroundColor: ColorPalette.ACCENT,
     },
@@ -52,7 +53,6 @@ const ComponentMap: Partial<FullTheme> = {
     },
     inputStyle: {
       backgroundColor: ColorPalette.SECONDARY,
-      color: ColorPalette.FONT.INPUT,
     },
   },
   Icon: {

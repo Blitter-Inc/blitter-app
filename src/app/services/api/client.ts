@@ -1,5 +1,5 @@
 import Axios from "../axios";
-import { APIClient } from "@d/axios";
+import { APIClient } from "$types/services";
 
 
 const Client: APIClient = (method, url, data, config = {}) => Axios({

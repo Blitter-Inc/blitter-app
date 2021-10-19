@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { Button, BottomSheet, ListItem, Text } from "react-native-elements";
-import { View } from "@components/index";
-import { useAppTheme } from "@config/theme";
-import { HomeScreenElement } from "@d/modules/home";
-import { RootStackParamList } from "@d/navigations";
+import { View } from "$components/index";
+import { useAppTheme } from "$config/theme";
+import { HomeScreenElement } from "$types/modules/home";
+import { RootStackParamList } from "$types/navigation";
 
 
 const HomeScreen: HomeScreenElement = ({ navigation }) => {

@@ -1,3 +1,9 @@
+const OrangePalette = {
+  ACCENT: "#F15946",
+  SECONDARY: "#F47867",
+  PLACEHOLDER: "#FACCC6",
+}
+
 export const PRIMARY = {
   1: "#E8D7F1",
   2: "#DFDFDF",
@@ -11,26 +17,28 @@ export const SECONDARY = {
   1: "#371B37",
   2: "#442244",
   3: "#512951",
-  4: "#F47867",
+  4: OrangePalette.SECONDARY,
 };
 
 export const ACCENT = {
   1: "#231123",
   2: "#065A82",
   3: "#0B6F50",
-  4: "#F15946",
+  4: OrangePalette.ACCENT,
   5: "#F9C22E",
   6: "#9A031E",
 };
 
 export const FONT = {
   INPUT: {
-    1: "#86939e",
-    2: "#087AAF",
-    3: "#fff",
+    1: OrangePalette.ACCENT,
+    2: "#86939e",
+    3: "#087AAF",
+    4: "#fff",
   },
   PLACEHOLDER: {
-    1: "#fff",
+    1: OrangePalette.PLACEHOLDER,
+    2: "#fff",
   },
   SUBTEXT: {
     1: "grey",
@@ -45,7 +53,7 @@ const Color = {
   SECONDARY: SECONDARY[4],
   ACCENT: ACCENT[4],
   FONT: {
-    INPUT: FONT.INPUT[3],
+    INPUT: FONT.INPUT[1],
     PLACEHOLDER: FONT.PLACEHOLDER[1],
     SUBTEXT: FONT.SUBTEXT[1],
     TEXT: FONT.TEXT[1],

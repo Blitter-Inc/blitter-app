@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { useAppTheme } from "@config/theme";
+import { useAppTheme } from "$config/theme";
 import { HeaderSearchIcon } from "./Icons";
 import SearchBar from "./SearchBar";
 

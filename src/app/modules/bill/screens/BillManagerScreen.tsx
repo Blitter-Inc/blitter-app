@@ -1,36 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import { ScrollView, TouchableWithoutFeedback } from "react-native";
-import { ActionBar, FloatAddIcon, ListContainer, NotFound, SafeAreaView } from "@components/index";
-import { BillForm, BillCard } from "../components";
-import { useAppSelector } from '@store/hooks'
-import { BillManagerScreenElement } from "@d/modules/bill";
-import { useAppTheme, Styles } from "@config/theme";
+import { ActionBar, FloatAddIcon, ListContainer, NotFound, SafeAreaView } from "$components/index";
+import { useAppTheme, Styles } from "$config/theme";
+import { useAppSelector } from '$store/hooks'
+import { BillManagerScreenElement } from "$types/modules/bill";
+import { BillCard } from "../components";
 
 
 const useRequiredState = () => {
-  const billState = useAppSelector(state => state.bill)
-  return {
-    bills: billState.bills
-  }
-}
+  const { bills } = useAppSelector(state => state.cache);
+  return { bills };
+};
+
 const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
   const ColorPalette = useAppTheme();
   const state = useRequiredState();
-  
-  const [addBillVisible, setAddBillVisible] = useState(false);
-  
+
   navigation.addListener("gestureStart", () => closeSearchBar());
-  
+
   const closeSearchBar = () => {
     navigation.setOptions({
       header: undefined,
     });
   };
-  
-  const toggleAddBill = () => {
-    setAddBillVisible(!addBillVisible);
+
+  const openAddBill = () => {
+    navigation.push("Bill", { isNew: true });
   };
-  
+
   return (
     <TouchableWithoutFeedback onPress={closeSearchBar}>
       <SafeAreaView
@@ -48,8 +45,7 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
             )
           }
         </ListContainer>
-        <FloatAddIcon color={ColorPalette.ACCENT} styles={Styles.FloatingIcon} onPress={toggleAddBill} />
-        <BillForm isNew={false} overlayProps={{ isVisible: addBillVisible, onBackdropPress: toggleAddBill }} />
+        <FloatAddIcon color={ColorPalette.ACCENT} styles={Styles.FloatingIcon} onPress={openAddBill} />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
