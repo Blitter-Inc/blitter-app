@@ -1,10 +1,13 @@
 import { StackScreenProps } from "@react-navigation/stack";
+import { BillObject } from "./objects";
 import { BillStackParamList } from "../../navigation";
 
 
-export interface BillScreenProps extends StackScreenProps<BillStackParamList, "Bill"> {
-  isNew: boolean;
+export interface BillScreenParams {
+  billObj?: BillObject;
 };
+
+export interface BillScreenProps extends StackScreenProps<BillStackParamList, "Bill"> { };
 
 export interface BillManagerScreenProps extends StackScreenProps<BillStackParamList, "BillManager"> { };
 

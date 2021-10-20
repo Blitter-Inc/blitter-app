@@ -1,9 +1,9 @@
 import React from "react";
-import { ScrollView, TouchableWithoutFeedback } from "react-native";
+import { ScrollView, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { ActionBar, FloatAddIcon, ListContainer, NotFound, SafeAreaView } from "$components/index";
 import { useAppTheme, Styles } from "$config/theme";
 import { useAppSelector } from '$store/hooks'
-import { BillManagerScreenElement } from "$types/modules/bill";
+import { BillManagerScreenElement, BillScreenParams } from "$types/modules/bill";
 import { BillCard } from "../components";
 
 
@@ -24,8 +24,8 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
     });
   };
 
-  const openAddBill = () => {
-    navigation.push("Bill", { isNew: true });
+  const navigateToBillScreen = (params: BillScreenParams = {}) => {
+    return () => navigation.push("Bill", params);
   };
 
   return (
@@ -38,14 +38,22 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
           {
             state.bills.length ? (
               <ScrollView>
-                {state.bills.map((bill, index) => <BillCard key={index} bill={bill} />)}
+                {state.bills.map((billObj, index) => (
+                  <TouchableOpacity key={index} onPress={navigateToBillScreen({ billObj })}>
+                    <BillCard bill={billObj} />
+                  </TouchableOpacity>
+                ))}
               </ScrollView>
             ) : (
               <NotFound entity="bills" iconColor={ColorPalette.ACCENT} styles={[Styles.ExpandedContainer, Styles.FlexCenteredContainer]} />
             )
           }
         </ListContainer>
-        <FloatAddIcon color={ColorPalette.ACCENT} styles={Styles.FloatingIcon} onPress={openAddBill} />
+        <FloatAddIcon
+          color={ColorPalette.ACCENT}
+          styles={Styles.FloatingIcon}
+          onPress={navigateToBillScreen()}
+        />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

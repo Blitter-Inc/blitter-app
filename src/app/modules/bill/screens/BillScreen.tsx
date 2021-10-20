@@ -11,33 +11,33 @@ import {
 } from "$types/modules/bill";
 
 
-const BillScreen: BillScreenElement = ({ isNew }) => {
+const initialBill: BillObject = {
+  name: "",
+  amount: "0",
+  settledAmt: "0",
+  type: BillType.MISC,
+  eventName: "",
+  description: "",
+  status: BillStatus.PENDING,
+  createdBy: "",
+  createdAt: new Date().toDateString(),
+  lastUpdatedAt: new Date().toDateString(),
+  subscribers: [],
+  attachments: [],
+};
 
-  const initialBill: BillObject = {
-    name: "",
-    amount: "0",
-    settledAmt: "0",
-    type: BillType.MISC,
-    eventName: "",
-    description: "",
-    status: BillStatus.PENDING,
-    createdBy: "",
-    createdAt: new Date().toDateString(),
-    lastUpdatedAt: new Date().toDateString(),
-    subscribers: [],
-    attachments: [],
-  };
+const BillScreen: BillScreenElement = ({ route }) => {
+  const { billObj } = route.params;
 
-  const [bill, setBill] = useState<BillObject>(initialBill);
+  const [bill, setBill] = useState<BillObject>(billObj ?? initialBill);
 
   const updateBill = (billInput: Partial<BillObject>) => {
     setBill({ ...bill, ...billInput });
   };
 
-
   return (
-    <SafeAreaView style={[Styles?.ExpandedContainer]}>
-      <Text h2 style={styles.title}>Add Bill</Text>
+    <SafeAreaView style={[Styles.ExpandedContainer]}>
+      <Text h2 style={styles.title}>{billObj ? "Edit" : "Add"} Bill</Text>
       <ScrollView style={styles.form}>
         <Input
           label="Name"
@@ -66,7 +66,7 @@ const BillScreen: BillScreenElement = ({ isNew }) => {
           multiline
         />
         {
-          !isNew && (
+          billObj && (
             <>
               <Input label="Status" value={bill.status} onChangeText={(status: BillStatus) => updateBill({ status })} disabled />
               <Input label="Created at" value={bill.createdAt} onChangeText={createdAt => updateBill({ createdAt })} disabled />

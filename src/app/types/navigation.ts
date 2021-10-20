@@ -1,4 +1,5 @@
 import { StackNavigationOptions } from "@react-navigation/stack";
+import { BillScreenParams } from "./modules/bill";
 
 
 export type RootStackParamList = {
@@ -15,7 +16,7 @@ export type AuthStackParamList = {
 
 export type BillStackParamList = {
   "BillManager": undefined;
-  "Bill": { isNew: boolean };
+  "Bill": BillScreenParams;
 };
 
 export type RootNavigatorElement = () => JSX.Element;
