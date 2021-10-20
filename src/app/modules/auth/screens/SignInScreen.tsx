@@ -6,6 +6,7 @@ import { Loader } from "$components/index";
 import Firebase from "$config/firebase";
 import { useAppDispatch, useAppSelector } from "$store/hooks";
 import { initPhoneSignIn } from "$store/slices/auth";
+import { SignInScreenElement } from "$types/modules/auth";
 import Styles from "./styles";
 
 
@@ -18,7 +19,7 @@ const useRequiredState = () => {
   };
 }
 
-const SignInScreen = ({ navigation }) => {
+const SignInScreen: SignInScreenElement = ({ navigation }) => {
   const state = useRequiredState();
   const dispatch = useAppDispatch();
 

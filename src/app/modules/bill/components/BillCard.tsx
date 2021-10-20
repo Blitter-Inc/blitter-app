@@ -49,8 +49,8 @@ const BillCard: BillCardComponent = ({ bill }) => {
         </View>
       </View>
       <View style={style.bottomContainer}>
-        <Text style={style.createdText}>By: {bill.created}</Text>
-        <Text style={style.createdText}>{bill.created}</Text>
+        <Text style={style.createdText}>By: {bill.createdBy}</Text>
+        <Text style={style.createdText}>Updated: {bill.lastUpdatedAt}</Text>
       </View>
     </View>
   );

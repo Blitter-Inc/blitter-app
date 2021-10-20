@@ -31,7 +31,7 @@ export interface CompleteAuthFlowActionPayload extends User { };
 
 export interface InitPhoneSignInSagaArgs {
   phoneNumber: string;
-  recaptchaVerifier: FirebaseAuthApplicationVerifier;
+  recaptchaVerifier: FirebaseAuthApplicationVerifier | undefined;
 };
 
 export interface CheckVerificationCodeSagaArgs {

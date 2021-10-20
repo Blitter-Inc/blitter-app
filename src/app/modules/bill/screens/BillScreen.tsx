@@ -21,8 +21,9 @@ const BillScreen: BillScreenElement = ({ isNew }) => {
     eventName: "",
     description: "",
     status: BillStatus.PENDING,
-    created: new Date().toDateString(),
-    lastUpdated: new Date().toDateString(),
+    createdBy: "",
+    createdAt: new Date().toDateString(),
+    lastUpdatedAt: new Date().toDateString(),
     subscribers: [],
     attachments: [],
   };
@@ -68,11 +69,11 @@ const BillScreen: BillScreenElement = ({ isNew }) => {
           !isNew && (
             <>
               <Input label="Status" value={bill.status} onChangeText={(status: BillStatus) => updateBill({ status })} disabled />
-              <Input label="Created" value={bill.created} onChangeText={created => updateBill({ created })} disabled />
+              <Input label="Created at" value={bill.createdAt} onChangeText={createdAt => updateBill({ createdAt })} disabled />
               <Input
                 label="Last Updated"
-                value={bill.lastUpdated}
-                onChangeText={lastUpdated => updateBill({ lastUpdated })}
+                value={bill.lastUpdatedAt}
+                onChangeText={lastUpdatedAt => updateBill({ lastUpdatedAt })}
                 disabled
               />
             </>

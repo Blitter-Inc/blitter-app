@@ -82,7 +82,7 @@ const ProfileScreen: ProfileScreenElement = ({ navigation }) => {
           source={profile.avatar}
           onPress={pickAvatar}
           size={180}
-          avatarStyle={avatarPlaceholderActive && styles.avatar}
+          avatarStyle={avatarPlaceholderActive ? styles.avatar : undefined}
           containerStyle={[{ backgroundColor: ColorPalette.PRIMARY }, styles.avatarContainer]}
         >
           <Avatar.Accessory size={35} />

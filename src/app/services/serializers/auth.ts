@@ -31,7 +31,7 @@ export const signInResponseSerializer: SignInResponseSerializer = ({
   refreshToken,
   user: {
     ...userObj,
-    avatar: avatar ? `${ENV.API_BASE_URL}${avatar}` : null,
+    avatar: avatar ? `${ENV.API_BASE_URL}${avatar}` : "",
     phoneNumber,
     dateJoined,
   },

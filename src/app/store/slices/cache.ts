@@ -16,8 +16,8 @@ const initialState: CacheState = {
       description: "",
       status: BillStatus.PENDING,
       createdBy: "Khushi",
-      created: new Date().toDateString(),
-      lastUpdated: new Date().toDateString(),
+      createdAt: new Date().toDateString(),
+      lastUpdatedAt: new Date().toDateString(),
       subscribers: [
         {
           id: 0,

@@ -20,8 +20,9 @@ export interface BillObject {
   eventName: string;
   description: string;
   status: BillStatus;
-  created: string;
-  lastUpdated: string;
+  createdBy: string;
+  createdAt: string;
+  lastUpdatedAt: string;
   subscribers: User[];
   attachments: any[];
 };

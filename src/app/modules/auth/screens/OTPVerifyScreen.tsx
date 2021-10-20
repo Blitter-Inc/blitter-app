@@ -3,6 +3,7 @@ import { View, Button, Text, TextInput } from "react-native";
 import { Loader } from "$components/index";
 import { useAppDispatch, useAppSelector } from "$store/hooks";
 import { verifyCode } from "$store/slices/auth";
+import { OTPVerifyScreenElement } from "$types/modules/auth";
 import { AuthContainer } from "../components";
 import Styles from "./styles";
 
@@ -18,7 +19,7 @@ const useRequiredState = () => {
   };
 }
 
-const OTPVerifyScreen = ({ navigation }) => {
+const OTPVerifyScreen: OTPVerifyScreenElement = ({ navigation }) => {
   const state = useRequiredState();
   const dispatch = useAppDispatch();
 
