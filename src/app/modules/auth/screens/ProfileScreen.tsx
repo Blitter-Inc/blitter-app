@@ -43,7 +43,7 @@ const ProfileScreen: ProfileScreenElement = ({ navigation }) => {
 
   useEffect(() => {
     if (state.authFlowComplete) {
-      navigation.reset({
+      navigation.getParent()?.reset({
         index: 0,
         routes: [{ name: "Home" }],
       });
