@@ -1,7 +1,12 @@
 import { ReactNode, ReactNodeArray } from "react";
 import { TextProps } from "react-native-elements";
 import { PickerItemProps, PickerProps } from "@react-native-picker/picker";
+import { FlexStyle, ViewProps } from "react-native";
 
+
+export interface ContainerizedComponentProps {
+  containerStyle?: ViewProps | FlexStyle;
+};
 
 export interface PickerComponentProps extends PickerProps {
   label: string;
@@ -12,7 +17,7 @@ export interface InputLabelComponentProps extends TextProps {
   children: ReactNode;
 };
 
-export interface BadgePickerComponentProps extends PickerProps {
+export interface BadgePickerComponentProps extends PickerProps, ContainerizedComponentProps {
   children: ReactNode | ReactNodeArray;
 };
 

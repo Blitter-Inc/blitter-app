@@ -35,17 +35,17 @@ export const PickerItem: PickerItemComponent = (props) => (
   <DefaultPicker.Item {...props} />
 );
 
-export const BadgePicker: BadgePickerComponent = (props) => {
+export const BadgePicker: BadgePickerComponent = ({ containerStyle, ...pickerProps }) => {
   const ColorPalette = useAppTheme();
 
   return (
-    <View style={[badgePickerStyles.container, { backgroundColor: ColorPalette.SECONDARY }]}>
+    <View style={[badgePickerStyles.container, { backgroundColor: ColorPalette.SECONDARY }, containerStyle]}>
       <DefaultPicker
-        {...props}
-        style={[props.style, badgePickerStyles.picker]}
-        itemStyle={[props.itemStyle]}
+        {...pickerProps}
+        style={[pickerProps.style, badgePickerStyles.picker]}
+        itemStyle={[pickerProps.itemStyle]}
       >
-        {props.children}
+        {pickerProps.children}
       </DefaultPicker>
     </View>
   );
@@ -73,9 +73,10 @@ const badgePickerStyles = StyleSheet.create({
   container: {
     borderRadius: 25,
     paddingVertical: 8,
-    marginBottom: 15,
     paddingLeft: 8,
+    justifyContent: "center",
     width: 140,
+    height: "70%",
   },
   picker: {
     margin: 0,

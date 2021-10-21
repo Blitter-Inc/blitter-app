@@ -1,7 +1,6 @@
 import React from "react";
-import { StyleSheet, TextInput, TextInputProps } from "react-native";
+import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
 import { withAppTheme, AppThemeHookProps } from "$config/theme";
-import View from "./defaults/View";
 
 
 class TitleInput extends React.Component<TextInputProps & AppThemeHookProps> {
@@ -29,7 +28,7 @@ class TitleInput extends React.Component<TextInputProps & AppThemeHookProps> {
 const styles = StyleSheet.create({
   container: {
     marginLeft: 3,
-    marginBottom: 15,
+    marginBottom: 24,
   },
   input: {
     fontSize: 36,

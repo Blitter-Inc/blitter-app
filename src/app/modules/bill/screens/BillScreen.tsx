@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, Input } from "react-native-elements";
-import { BadgePicker, PickerItem, SafeAreaView, TitleInput } from "$components/index";
+import { AmountInput, BadgePicker, MultilineInput, PickerItem, SafeAreaView, TitleInput } from "$components/index";
 import { Styles } from "$config/theme";
 import {
   BillObject,
@@ -13,8 +13,8 @@ import {
 
 const initialBill: BillObject = {
   name: "",
-  amount: "0",
-  settledAmt: "0",
+  amount: "",
+  settledAmt: "",
   type: BillType.DEFAULT,
   eventName: "",
   description: "",
@@ -37,33 +37,33 @@ const BillScreen: BillScreenElement = ({ route }) => {
 
   return (
     <SafeAreaView style={[Styles.ExpandedContainer]}>
-      <ScrollView style={[styles.form, Styles.ContentContainer]}>
+      <ScrollView style={[styles.container, Styles.ContentContainer]}>
         <TitleInput
           value={bill.name}
           placeholder="Enter bill name"
           onChangeText={(name: string) => updateBill({ name })}
           selectTextOnFocus={true}
         />
-        <BadgePicker selectedValue={bill.type} onValueChange={(type: BillType) => updateBill({ type })}>
-          <PickerItem label="Type" value={BillType.DEFAULT} enabled={false} />
-          <PickerItem label="Food" value={BillType.FOOD} />
-          <PickerItem label="Shopping" value={BillType.SHOPPING} />
-          <PickerItem label="Misc" value={BillType.MISC} />
-        </BadgePicker>
-        <Input
-          label="Amount"
-          value={bill.amount}
-          placeholder="Enter bill amount"
-          onChangeText={amount => updateBill({ amount })}
-          keyboardType="numeric"
-          textContentType="telephoneNumber"
-        />
-        <Input
-          label="Description"
+        <View style={styles.pillContainer}>
+          <AmountInput
+            value={bill.amount}
+            placeholder="Amount"
+            onChangeText={(amount: string) => updateBill({ amount })}
+            keyboardType="numeric"
+            textContentType="telephoneNumber"
+            containerStyle={styles.amountPill}
+          />
+          <BadgePicker selectedValue={bill.type} onValueChange={(type: BillType) => updateBill({ type })}>
+            <PickerItem label="Type" value={BillType.DEFAULT} enabled={false} />
+            <PickerItem label="Food" value={BillType.FOOD} />
+            <PickerItem label="Shopping" value={BillType.SHOPPING} />
+            <PickerItem label="Misc" value={BillType.MISC} />
+          </BadgePicker>
+        </View>
+        <MultilineInput
           value={bill.description}
-          placeholder="Provide description"
-          onChangeText={description => updateBill({ description })}
-          multiline
+          placeholder="Tap to provide description for the bill."
+          onChangeText={(description: string) => updateBill({ description })}
         />
         {
           billObj && (
@@ -86,17 +86,20 @@ const BillScreen: BillScreenElement = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  overlay: {
-    width: "85%",
-    padding: 20,
-  },
-  title: {
-    padding: 8,
-  },
-  form: {
+  container: {
+    marginHorizontal: 5,
     paddingBottom: 8,
-    width: "100%",
-  }
+  },
+  pillContainer: {
+    marginBottom: 8,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 70,
+  },
+  amountPill: {
+    width: "56%"
+  },
 });
 
 

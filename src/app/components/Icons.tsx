@@ -36,3 +36,7 @@ export const HeaderSearchIcon: Icon = ({ color, onPress }) => (
 export const NotFoundIcon: Icon = ({ color }) => (
   <Icon type="material" name="foundation" color={color} size={80} style={{ padding: 8 }} />
 );
+
+export const RupeeIcon: Icon = ({ color }) => (
+  <Icon type="font-awesome" name="rupee" color={color} size={20} style={{ padding: 4, paddingTop: 8, }} />
+);
