@@ -1,3 +1,6 @@
+import { ViewProps } from "react-native";
+
+
 export interface ContainerStyleProps {
   height: number | string;
   width: number | string;
@@ -30,4 +33,5 @@ export interface StyleProps {
   FlexCenteredContainer: CenteredFlexContainerStyleProps;
   ExpandedContainer: ContainerStyleProps;
   FloatingIcon: PositionProps;
+  ContentContainer: ViewProps;
 };

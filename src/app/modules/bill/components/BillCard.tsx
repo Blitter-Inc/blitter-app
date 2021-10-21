@@ -19,12 +19,12 @@ const BillCard: BillCardComponent = ({ bill }) => {
         {bill.amount === bill.settledAmt ? (
           <Badge
             status="success"
-            value={<Text style={style.badgeText}>Bill Setteled</Text>}
+            value={<Text style={style.badgeText}>Settled</Text>}
           />
         ) : (
           <Badge
             status="error"
-            value={<Text style={style.badgeText}>Bill Unsettled</Text>}
+            value={<Text style={style.badgeText}>Unsettled</Text>}
           />
         )}
       </View>

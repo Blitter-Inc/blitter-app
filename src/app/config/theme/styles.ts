@@ -25,4 +25,7 @@ export default StyleSheet.create<StyleProps>({
     bottom: 22,
     right: 5,
   },
+  ContentContainer: {
+    paddingHorizontal: 12,
+  },
 });

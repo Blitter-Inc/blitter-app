@@ -8,6 +8,7 @@ import Loader from "./Loader";
 import NotFound from "./NotFound";
 import SearchBar from "./SearchBar";
 import SearchIcon from "./SearchIcon";
+import TitleInput from "./TitleInput";
 
 
 export {
@@ -21,6 +22,7 @@ export {
   NotFound,
   SearchBar,
   SearchIcon,
+  TitleInput,
 };
 
 export * from "./Icons";

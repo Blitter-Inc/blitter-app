@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import { Button, Input, Text } from "react-native-elements";
-import { Picker, PickerItem, SafeAreaView } from "$components/index";
+import { Button, Input } from "react-native-elements";
+import { Picker, PickerItem, SafeAreaView, TitleInput } from "$components/index";
 import { Styles } from "$config/theme";
 import {
   BillObject,
@@ -37,13 +37,12 @@ const BillScreen: BillScreenElement = ({ route }) => {
 
   return (
     <SafeAreaView style={[Styles.ExpandedContainer]}>
-      <Text h2 style={styles.title}>{billObj ? "Edit" : "Add"} Bill</Text>
-      <ScrollView style={styles.form}>
-        <Input
-          label="Name"
+      <ScrollView style={[styles.form, Styles.ContentContainer]}>
+        <TitleInput
           value={bill.name}
           placeholder="Enter bill name"
-          onChangeText={name => updateBill({ name })}
+          onChangeText={(name: string) => updateBill({ name })}
+          selectTextOnFocus={true}
         />
         <Picker label="Type" selectedValue={bill.type} onValueChange={(type: BillType) => updateBill({ type })}>
           <PickerItem label="Food" value={BillType.FOOD} />
@@ -94,7 +93,6 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   form: {
-    paddingTop: 15,
     paddingBottom: 8,
     width: "100%",
   }
