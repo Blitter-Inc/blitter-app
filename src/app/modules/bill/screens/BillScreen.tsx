@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Button, Input } from "react-native-elements";
-import { Picker, PickerItem, SafeAreaView, TitleInput } from "$components/index";
+import { BadgePicker, PickerItem, SafeAreaView, TitleInput } from "$components/index";
 import { Styles } from "$config/theme";
 import {
   BillObject,
@@ -15,7 +15,7 @@ const initialBill: BillObject = {
   name: "",
   amount: "0",
   settledAmt: "0",
-  type: BillType.MISC,
+  type: BillType.DEFAULT,
   eventName: "",
   description: "",
   status: BillStatus.PENDING,
@@ -44,11 +44,12 @@ const BillScreen: BillScreenElement = ({ route }) => {
           onChangeText={(name: string) => updateBill({ name })}
           selectTextOnFocus={true}
         />
-        <Picker label="Type" selectedValue={bill.type} onValueChange={(type: BillType) => updateBill({ type })}>
+        <BadgePicker selectedValue={bill.type} onValueChange={(type: BillType) => updateBill({ type })}>
+          <PickerItem label="Type" value={BillType.DEFAULT} enabled={false} />
           <PickerItem label="Food" value={BillType.FOOD} />
           <PickerItem label="Shopping" value={BillType.SHOPPING} />
-          <PickerItem label="Miscelleneous" value={BillType.MISC} />
-        </Picker>
+          <PickerItem label="Misc" value={BillType.MISC} />
+        </BadgePicker>
         <Input
           label="Amount"
           value={bill.amount}

@@ -6,7 +6,7 @@ import {
   PickerProps as DefaultPickerProps,
 } from "@react-native-picker/picker";
 import { isAndroid } from "$config/index";
-import { PickerComponent, PickerItemComponent } from "$types/components";
+import { BadgePickerComponent, PickerComponent, PickerItemComponent } from "$types/components";
 import View from "./defaults/View";
 import { useAppTheme } from "$config/theme";
 
@@ -35,6 +35,22 @@ export const PickerItem: PickerItemComponent = (props) => (
   <DefaultPicker.Item {...props} />
 );
 
+export const BadgePicker: BadgePickerComponent = (props) => {
+  const ColorPalette = useAppTheme();
+
+  return (
+    <View style={[badgePickerStyles.container, { backgroundColor: ColorPalette.SECONDARY }]}>
+      <DefaultPicker
+        {...props}
+        style={[props.style, badgePickerStyles.picker]}
+        itemStyle={[props.itemStyle]}
+      >
+        {props.children}
+      </DefaultPicker>
+    </View>
+  );
+};
+
 const pickerStyles = StyleSheet.create({
   label: {
     paddingHorizontal: 10,
@@ -51,4 +67,20 @@ const pickerStyles = StyleSheet.create({
     marginBottom: 16,
     marginLeft: 3,
   } : {},
+});
+
+const badgePickerStyles = StyleSheet.create({
+  container: {
+    borderRadius: 25,
+    paddingVertical: 8,
+    marginBottom: 15,
+    paddingLeft: 8,
+    width: 140,
+  },
+  picker: {
+    margin: 0,
+    padding: 0,
+    color: "white",
+    fontWeight: "600",
+  },
 });

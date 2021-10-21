@@ -8,12 +8,15 @@ export interface PickerComponentProps extends PickerProps {
   children: ReactNode | ReactNodeArray;
 };
 
-export type PickerComponent = (props: PickerComponentProps) => JSX.Element;
-
-export type PickerItemComponent = (props: PickerItemProps) => JSX.Element;
-
 export interface InputLabelComponentProps extends TextProps {
   children: ReactNode;
 };
 
+export interface BadgePickerComponentProps extends PickerProps {
+  children: ReactNode | ReactNodeArray;
+};
+
+export type PickerComponent = (props: PickerComponentProps) => JSX.Element;
+export type PickerItemComponent = (props: PickerItemProps) => JSX.Element;
 export type InputLabelComponent = (props: InputLabelComponentProps) => JSX.Element;
+export type BadgePickerComponent = (props: BadgePickerComponentProps) => JSX.Element;

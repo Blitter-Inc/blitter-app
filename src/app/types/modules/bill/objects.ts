@@ -2,6 +2,7 @@ import { User } from "../auth";
 
 
 export enum BillType {
+  DEFAULT = "",
   FOOD = "food",
   SHOPPING = "shopping",
   MISC = "miscelleneous",
