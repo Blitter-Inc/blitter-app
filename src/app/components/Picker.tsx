@@ -1,18 +1,29 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements"
-import { Picker as DefaultPicker } from "@react-native-picker/picker";
+import {
+  Picker as DefaultPicker,
+  PickerProps as DefaultPickerProps,
+} from "@react-native-picker/picker";
+import { isAndroid } from "$config/index";
 import { PickerComponent, PickerItemComponent } from "$types/components";
 import View from "./defaults/View";
+import { useAppTheme } from "$config/theme";
 
 
 export const Picker: PickerComponent = ({ label, children, ...pickerProps }) => {
+  const ColorPalette = useAppTheme();
+  const androidSpecificProps: DefaultPickerProps = isAndroid ? { mode: "dropdown" } : {};
+  const colorStyle = { color: ColorPalette.ACCENT };
+
   return (
     <View>
-      <Text style={pickerStyles.label}>{label}</Text>
+      <Text style={[pickerStyles.label, colorStyle]}>{label}</Text>
       <DefaultPicker
-        itemStyle={[pickerProps.itemStyle, pickerStyles.itemStyle]}
         {...pickerProps}
+        {...androidSpecificProps}
+        style={[pickerProps.style, pickerStyles.picker, colorStyle]}
+        itemStyle={[pickerProps.itemStyle, pickerStyles.itemStyle, colorStyle]}
       >
         {children}
       </DefaultPicker>
@@ -35,4 +46,9 @@ const pickerStyles = StyleSheet.create({
     height: 100,
     fontSize: 16,
   },
+  picker: isAndroid ? {
+    marginTop: 8,
+    marginBottom: 16,
+    marginLeft: 3,
+  } : {},
 });
