@@ -1,42 +1,42 @@
 import React from "react";
-import { ViewStyle } from "react-native";
 import { Icon } from "react-native-elements";
+import { IconComponent } from "$types/components";
 
 
-interface IconProps {
-  color: string;
-  styles?: ViewStyle | ViewStyle[];
-  onPress?: () => void;
-};
+export const AddIcon: IconComponent = ({ color, size, styles }) => (
+  <Icon type="material" name="add" color={color} size={size} containerStyle={styles} />
+);
 
-type Icon = (props: IconProps) => JSX.Element;
+export const AddSquareIcon: IconComponent = ({ color, size, styles }) => (
+  <Icon type="material" name="add-box" color={color} size={size} containerStyle={styles} />
+);
 
-export const FloatAddIcon: Icon = ({ color, styles, onPress }) => (
+export const FloatAddIcon: IconComponent = ({ color, styles, onPress }) => (
   <Icon type="material" name="add-box" color={color} size={70} onPress={onPress} containerStyle={styles} />
 );
 
-export const FormInputNameIcon: Icon = ({ color }) => (
+export const FormInputNameIcon: IconComponent = ({ color }) => (
   <Icon type="font-awesome" name="user" color={color} size={25} />
 );
 
-export const FormInputEmailIcon: Icon = ({ color }) => (
+export const FormInputEmailIcon: IconComponent = ({ color }) => (
   <Icon type="font-awesome" name="envelope" color={color} size={20} />
 );
 
-export const FormInputBioIcon: Icon = ({ color }) => (
+export const FormInputBioIcon: IconComponent = ({ color }) => (
   <Icon type="font-awesome" name="info-circle" color={color} size={20} />
 );
 
-export const HeaderSearchIcon: Icon = ({ color, onPress }) => (
+export const HeaderSearchIcon: IconComponent = ({ color, onPress }) => (
   <Icon type="font-awesome" name="search" color={color} size={20} containerStyle={{
     marginRight: 15,
   }} onPress={onPress} />
 );
 
-export const NotFoundIcon: Icon = ({ color }) => (
+export const NotFoundIcon: IconComponent = ({ color }) => (
   <Icon type="material" name="foundation" color={color} size={80} style={{ padding: 8 }} />
 );
 
-export const RupeeIcon: Icon = ({ color }) => (
-  <Icon type="font-awesome" name="rupee" color={color} size={20} style={{ padding: 4, paddingTop: 8, }} />
+export const RupeeIcon: IconComponent = ({ color, size, styles }) => (
+  <Icon type="font-awesome" name="rupee" color={color} size={size} containerStyle={styles} />
 );

@@ -1,10 +1,10 @@
 import AmountInput from "./AmountInput";
-import MultilineInput from "./MultilineInput";
+import DescriptionInput from "./DescriptionInput";
 import TitleInput from "./TitleInput";
 
 
 export {
   AmountInput,
-  MultilineInput,
+  DescriptionInput,
   TitleInput,
 };

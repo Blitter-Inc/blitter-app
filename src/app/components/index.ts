@@ -3,9 +3,11 @@ import SafeAreaView from "./defaults/SafeAreaView";
 import Text from "./defaults/Text";
 import View from "./defaults/View";
 import ActionBar from "./ActionBar";
+import FileGallery from "./FileGallery";
 import ListContainer from "./ListContainer";
 import Loader from "./Loader";
 import NotFound from "./NotFound";
+import Pill from "./Pill";
 import SearchBar from "./SearchBar";
 import SearchIcon from "./SearchIcon";
 
@@ -16,9 +18,11 @@ export {
   Text,
   View,
   ActionBar,
+  FileGallery,
   ListContainer,
   Loader,
   NotFound,
+  Pill,
   SearchBar,
   SearchIcon,
 };

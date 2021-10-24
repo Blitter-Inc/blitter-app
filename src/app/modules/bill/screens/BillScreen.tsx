@@ -1,7 +1,17 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, Input } from "react-native-elements";
-import { AmountInput, BadgePicker, MultilineInput, PickerItem, SafeAreaView, TitleInput } from "$components/index";
+import {
+  AddIcon,
+  AmountInput,
+  BadgePicker,
+  FileGallery,
+  DescriptionInput,
+  PickerItem,
+  Pill,
+  SafeAreaView,
+  TitleInput,
+} from "$components/index";
 import { Styles } from "$config/theme";
 import {
   BillObject,
@@ -10,6 +20,12 @@ import {
   BillScreenElement,
 } from "$types/modules/bill";
 
+
+interface WidgetFlags {
+  description: boolean;
+  gallery: boolean;
+  people: boolean;
+};
 
 const initialBill: BillObject = {
   name: "",
@@ -26,13 +42,36 @@ const initialBill: BillObject = {
   attachments: [],
 };
 
+const BillOptionPill: (props: { label: string, onPress: () => void; }) => JSX.Element = ({ label, onPress }) => {
+  const size = 16;
+  return (
+    <Pill
+      label={label}
+      icon={<AddIcon color="white" size={size} styles={{ paddingLeft: 5, paddingTop: 1 }} />}
+      size={size}
+      onPress={onPress}
+    />
+  );
+};
+
 const BillScreen: BillScreenElement = ({ route }) => {
   const { billObj } = route.params;
 
   const [bill, setBill] = useState<BillObject>(billObj ?? initialBill);
+  const [enabledWidgets, setEnabledWidgets] = useState<WidgetFlags>({
+    description: false,
+    gallery: false,
+    people: false,
+  });
 
   const updateBill = (billInput: Partial<BillObject>) => {
     setBill({ ...bill, ...billInput });
+  };
+
+  const enableWidget = (widget: keyof WidgetFlags) => {
+    return () => {
+      setEnabledWidgets({ ...enabledWidgets, [widget]: true });
+    };
   };
 
   return (
@@ -60,11 +99,17 @@ const BillScreen: BillScreenElement = ({ route }) => {
             <PickerItem label="Misc" value={BillType.MISC} />
           </BadgePicker>
         </View>
-        <MultilineInput
+        <View style={styles.optionPillContainer}>
+          {!enabledWidgets.people && <BillOptionPill label="Invite People" onPress={enableWidget("people")} />}
+          {!enabledWidgets.description && <BillOptionPill label="Add description" onPress={enableWidget("description")} />}
+          {!enabledWidgets.gallery && <BillOptionPill label="Attach files" onPress={enableWidget("gallery")} />}
+        </View>
+        {enabledWidgets.description && <DescriptionInput
           value={bill.description}
-          placeholder="Tap to provide description for the bill."
+          placeholder="Type here..."
           onChangeText={(description: string) => updateBill({ description })}
-        />
+        />}
+        {enabledWidgets.gallery && <FileGallery />}
         {
           billObj && (
             <>
@@ -91,7 +136,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   pillContainer: {
-    marginBottom: 8,
+    marginBottom: 15,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -99,6 +144,11 @@ const styles = StyleSheet.create({
   },
   amountPill: {
     width: "56%"
+  },
+  optionPillContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginBottom: 15,
   },
 });
 

@@ -1,11 +1,11 @@
 import React from "react";
-import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
-import { AppThemeHookProps, withAppTheme } from "$config/theme";
-import { ContainerizedComponentProps } from "$types/components";
+import { StyleSheet, TextInput, View } from "react-native";
+import { withAppTheme } from "$config/theme";
+import { AmountInputProps } from "$types/components";
 import { RupeeIcon } from "../Icons";
 
 
-class AmountInput extends React.Component<TextInputProps & AppThemeHookProps & ContainerizedComponentProps> {
+class AmountInput extends React.Component<AmountInputProps> {
   render() {
     const {
       appTheme,
@@ -14,7 +14,7 @@ class AmountInput extends React.Component<TextInputProps & AppThemeHookProps & C
     } = this.props;
     return (
       <View style={[styles.container, { borderColor: appTheme.ACCENT }, containerStyle]}>
-        <RupeeIcon color={appTheme.FONT.INPUT} />
+        <RupeeIcon size={20} color={appTheme.FONT.INPUT} styles={styles.icon} />
         <TextInput
           {...textInputProps}
           style={[
@@ -37,6 +37,10 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingLeft: 8,
     paddingRight: 30,
+  },
+  icon: {
+    paddingLeft: 4,
+    paddingTop: 4,
   },
   input: {
     fontSize: 20,

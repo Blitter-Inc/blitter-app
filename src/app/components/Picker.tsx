@@ -39,7 +39,7 @@ export const BadgePicker: BadgePickerComponent = ({ containerStyle, ...pickerPro
   const ColorPalette = useAppTheme();
 
   return (
-    <View style={[badgePickerStyles.container, { backgroundColor: ColorPalette.SECONDARY }, containerStyle]}>
+    <View style={[badgePickerStyles.container, { backgroundColor: ColorPalette.ACCENT }, containerStyle]}>
       <DefaultPicker
         {...pickerProps}
         style={[pickerProps.style, badgePickerStyles.picker]}
