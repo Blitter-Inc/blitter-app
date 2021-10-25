@@ -1,36 +1,32 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text, Avatar, Badge } from "react-native-elements";
-import { BillCardComponent } from "$types/modules/bill";
+import { BillCardComponent, BillStatus } from "$types/modules/bill";
+import { useAppTheme } from "$config/theme";
 
 
 const BillCard: BillCardComponent = ({ bill }) => {
+  const ColorPallete = useAppTheme();
+
   return (
-    <View style={style.billCard}>
+    <View style={[style.billCard, { backgroundColor: ColorPallete.PRIMARY }]}>
       <View style={style.topContainer}>
-        <View style={{ justifyContent: "flex-start", flexDirection: "row" }}>
-          <Text>{bill.name}</Text>
+        <Text style={{ color: ColorPallete.ACCENT, fontWeight: "bold" }}># {bill.name}</Text>
+        <View style={style.badgeContainer}>
           <Badge
             status="primary"
-            containerStyle={{ alignSelf: "center", marginLeft: 5 }}
-            value={<Text style={style.badgeText}>{bill.type}</Text>}
+            containerStyle={{ marginRight: 5 }}
+            value={<Text style={style.badgeText}>{bill.type.toUpperCase()}</Text>}
+          />
+          <Badge
+            status={bill.status === BillStatus.FULFILLED ? "success" : "error"}
+            value={<Text style={style.badgeText}>{bill.status.toUpperCase()}</Text>}
           />
         </View>
-        {bill.amount === bill.settledAmt ? (
-          <Badge
-            status="success"
-            value={<Text style={style.badgeText}>Settled</Text>}
-          />
-        ) : (
-          <Badge
-            status="error"
-            value={<Text style={style.badgeText}>Unsettled</Text>}
-          />
-        )}
       </View>
       <View style={style.bottomContainer}>
         <Text style={style.amountText}>
-          Rs. {bill.settledAmt}/ {bill.amount}
+          ₹ {bill.settledAmt} / {bill.amount}
         </Text>
         <View style={style.avatarContainer}>
           {bill.subscribers.map((subs, index) =>
@@ -49,8 +45,8 @@ const BillCard: BillCardComponent = ({ bill }) => {
         </View>
       </View>
       <View style={style.bottomContainer}>
-        <Text style={style.createdText}>By: {bill.createdBy}</Text>
-        <Text style={style.createdText}>Updated: {bill.lastUpdatedAt}</Text>
+        <Text style={[style.subText, { color: ColorPallete.FONT.SUBTEXT }]}>By: {bill.createdBy}</Text>
+        <Text style={[style.subText, { color: ColorPallete.FONT.SUBTEXT }]}>Updated: {bill.lastUpdatedAt}</Text>
       </View>
     </View>
   );
@@ -58,20 +54,24 @@ const BillCard: BillCardComponent = ({ bill }) => {
 
 const style = StyleSheet.create({
   billCard: {
-    margin: 5,
     marginBottom: 10,
-    padding: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     borderRadius: 10,
-    elevation: 1,
     shadowColor: "black",
     shadowOpacity: 1,
   },
   topContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
+  },
+  badgeContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
   amountText: {
-    fontSize: 15,
+    fontSize: 18,
     color: "green",
     fontWeight: "bold",
   },
@@ -90,7 +90,7 @@ const style = StyleSheet.create({
     right: "40%",
     textAlign: "left",
   },
-  createdText: {
+  subText: {
     fontSize: 10,
     color: "grey",
   },

@@ -62,9 +62,7 @@ const ComponentMap: Partial<FullTheme> = {
     h2Style: {
       fontWeight: "800",
     },
-    style: {
-      fontSize: adjust(15),
-    },
+    style: { },
   }
 };
 
