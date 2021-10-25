@@ -12,7 +12,7 @@ export interface BadgePickerComponentProps extends PickerProps, ContainerProps, 
 export interface DescriptionInputProps extends TextInputProps, AppThemeHookProps, ContainerProps { };
 export interface FileGalleryProps { };
 export interface InputLabelComponentProps extends TextProps, ChildrenProps { };
-export interface LabeledBoxContainerProps extends ChildrenProps, ContainerProps {
+export interface LabeledContainerProps extends ChildrenProps, ContainerProps {
   label: string;
   labelProps?: TextProps;
 };
@@ -28,7 +28,7 @@ export interface TitleInputProps extends TextInputProps, AppThemeHookProps, Cont
 export type BadgePickerComponent = (props: BadgePickerComponentProps) => JSX.Element;
 export type FileGallaryComponent = (props: FileGalleryProps) => JSX.Element;
 export type InputLabelComponent = (props: InputLabelComponentProps) => JSX.Element;
-export type LabeledBoxContainerComponent = (props: LabeledBoxContainerProps) => JSX.Element;
+export type LabeledContainerComponent = (props: LabeledContainerProps) => JSX.Element;
 export type PickerComponent = (props: PickerComponentProps) => JSX.Element;
 export type PickerItemComponent = (props: PickerItemProps) => JSX.Element;
 export type PillComponent = (props: PillComponentProps) => JSX.Element;

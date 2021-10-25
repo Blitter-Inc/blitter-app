@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useAppTheme } from "$config/theme";
-import { LabeledBoxContainerComponent } from "$types/components";
+import { LabeledContainerComponent } from "$types/components";
 
 
-const LabeledBoxContainer: LabeledBoxContainerComponent = ({ label, labelProps, containerStyle, children }) => {
+const LabeledContainer: LabeledContainerComponent = ({ label, labelProps, containerStyle, children }) => {
   const ColorPalette = useAppTheme();
 
   return (
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default LabeledBoxContainer;
+export default LabeledContainer;
