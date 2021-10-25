@@ -11,7 +11,7 @@ const BillCard: BillCardComponent = ({ bill }) => {
   return (
     <View style={[style.billCard, { backgroundColor: ColorPallete.PRIMARY }]}>
       <View style={style.topContainer}>
-        <Text style={{ color: ColorPallete.ACCENT, fontWeight: "bold" }}># {bill.name}</Text>
+        <Text style={[style.billName, { color: ColorPallete.ACCENT }]}># {bill.name}</Text>
         <View style={style.badgeContainer}>
           <Badge
             status="primary"
@@ -60,6 +60,10 @@ const style = StyleSheet.create({
     borderRadius: 10,
     shadowColor: "black",
     shadowOpacity: 1,
+  },
+  billName: {
+    fontSize: 24,
+    fontWeight: "bold",
   },
   topContainer: {
     flexDirection: "row",

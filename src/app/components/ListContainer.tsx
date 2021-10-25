@@ -1,29 +1,19 @@
-import React, { FC } from "react";
-import { StyleSheet } from "react-native";
-import View from "./defaults/View";
-import { CenteredFlexContainerStyleProps, ContainerStyleProps } from "$types/config/theme/styles";
+import React from "react";
+import { ScrollView, StyleSheet } from "react-native";
+import { ListContainerComponent } from "$types/components";
 
 
-interface ListContainerProps {
-  styles: (CenteredFlexContainerStyleProps | ContainerStyleProps)[];
-};
-
-const ListContainer: FC<ListContainerProps> = ({ children, styles: propStyles }) => {
+const ListContainer: ListContainerComponent = ({ children, ...scrollViewProps }) => {
   return (
-    <View style={propStyles}>
-      <View style={styles.list}>
-        {children}
-      </View>
-    </View>
+    <ScrollView {...scrollViewProps} style={[styles.list, scrollViewProps.style]}>
+      {children}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   list: {
-    marginTop: 25,
-    marginHorizontal: 15,
-    // borderWidth: 2,
-    // borderRadius: 35,
+    paddingHorizontal: 15,
   },
 });
 

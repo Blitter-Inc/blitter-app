@@ -1,5 +1,4 @@
-import { ReactNode } from "react";
-import { TextInputProps } from "react-native";
+import { ScrollViewProps, TextInputProps } from "react-native";
 import { TextProps } from "react-native-elements";
 import { PickerItemProps, PickerProps } from "@react-native-picker/picker";
 import { ActionProps, ChildrenProps, ContainerProps } from "./abstracts";
@@ -16,6 +15,7 @@ export interface LabeledContainerProps extends ChildrenProps, ContainerProps {
   label: string;
   labelProps?: TextProps;
 };
+export interface ListContainerProps extends ChildrenProps, ScrollViewProps { };
 export interface PickerComponentProps extends PickerProps, ChildrenProps { label: string; };
 export interface PillComponentProps extends ActionProps, ContainerProps {
   label: string;
@@ -29,6 +29,7 @@ export type BadgePickerComponent = (props: BadgePickerComponentProps) => JSX.Ele
 export type FileGallaryComponent = (props: FileGalleryProps) => JSX.Element;
 export type InputLabelComponent = (props: InputLabelComponentProps) => JSX.Element;
 export type LabeledContainerComponent = (props: LabeledContainerProps) => JSX.Element;
+export type ListContainerComponent = (props: ListContainerProps) => JSX.Element;
 export type PickerComponent = (props: PickerComponentProps) => JSX.Element;
 export type PickerItemComponent = (props: PickerItemProps) => JSX.Element;
 export type PillComponent = (props: PillComponentProps) => JSX.Element;
