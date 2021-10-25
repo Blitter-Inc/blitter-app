@@ -5,11 +5,13 @@ export enum BillType {
   DEFAULT = "",
   FOOD = "food",
   SHOPPING = "shopping",
+  ENTERTAINMENT = "entertainment",
   MISC = "miscelleneous",
 };
 
 export enum BillStatus {
-  PENDING = "pending",
+  NEW = "new",
+  UNSETTLED = "unsettled",
   FULFILLED = "fulfilled",
 };
 

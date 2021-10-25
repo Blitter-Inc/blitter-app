@@ -14,7 +14,7 @@ const initialState: CacheState = {
       type: BillType.FOOD,
       eventName: "",
       description: "This is a sample description",
-      status: BillStatus.PENDING,
+      status: BillStatus.UNSETTLED,
       createdBy: "Khushi",
       createdAt: new Date().toDateString(),
       lastUpdatedAt: new Date().toDateString(),

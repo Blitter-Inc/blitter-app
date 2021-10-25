@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { Button, Input } from "react-native-elements";
+import { ScrollView, StyleSheet, TextInput, Text, View } from "react-native";
+import { Button } from "react-native-elements";
 import {
-  AddIcon,
   AmountInput,
-  BadgePicker,
-  FileGallery,
-  DescriptionInput,
-  PickerItem,
+  AttachIcon,
+  EntertainmentIcon,
+  FoodIcon,
+  LabeledContainer,
+  MiscelleneousIcon,
+  PeopleAddIcon,
   Pill,
   SafeAreaView,
+  ShoppingIcon,
+  StatusIcon,
   TitleInput,
 } from "$components/index";
-import { Styles } from "$config/theme";
+import { Styles, useAppTheme } from "$config/theme";
 import {
   BillObject,
   BillStatus,
@@ -21,20 +24,6 @@ import {
 } from "$types/modules/bill";
 
 
-type IterableComponent = () => JSX.Element;
-
-interface WidgetMap {
-  description: IterableComponent;
-  gallery: IterableComponent;
-  people: IterableComponent;
-};
-
-interface WidgetFlags {
-  description: boolean;
-  gallery: boolean;
-  people: boolean;
-};
-
 const initialBill: BillObject = {
   name: "",
   amount: "",
@@ -42,7 +31,7 @@ const initialBill: BillObject = {
   type: BillType.DEFAULT,
   eventName: "",
   description: "",
-  status: BillStatus.PENDING,
+  status: BillStatus.NEW,
   createdBy: "",
   createdAt: new Date().toDateString(),
   lastUpdatedAt: new Date().toDateString(),
@@ -50,69 +39,29 @@ const initialBill: BillObject = {
   attachments: [],
 };
 
-const BillOptionPill: (props: { label: string, onPress: () => void; }) => JSX.Element = ({ label, onPress }) => {
-  const size = 16;
-  return (
-    <Pill
-      label={label}
-      icon={<AddIcon color="white" size={size} styles={{ paddingLeft: 5, paddingTop: 1 }} />}
-      size={size}
-      onPress={onPress}
-    />
-  );
-};
-
 const BillScreen: BillScreenElement = ({ route }) => {
   const { billObj } = route.params;
+  const ColorPalette = useAppTheme();
 
   const [bill, setBill] = useState<BillObject>(billObj ?? initialBill);
-  const [enabledWidgets, setEnabledWidgets] = useState<WidgetFlags>({
-    description: Boolean(billObj && billObj.description),
-    gallery: Boolean(billObj && billObj.attachments.length),
-    people: Boolean(billObj && billObj.subscribers.length),
-  });
-
-  const widgetMap: WidgetMap = {
-    description: () => (
-      <DescriptionInput
-        value={bill.description}
-        placeholder="Type here..."
-        onChangeText={(description: string) => updateBill({ description })}
-      />
-    ),
-    gallery: () => (<FileGallery />),
-    people: () => (<></>),
-  };
-
-  const initialWidgets = [
-    ...(enabledWidgets.description ? [widgetMap.description] : []),
-    ...(enabledWidgets.gallery ? [widgetMap.gallery] : []),
-    ...(enabledWidgets.people ? [widgetMap.people] : []),
-  ];
-
-  const [widgets, setWidgets] = useState<IterableComponent[]>(initialWidgets);
-  const [pillCount, setPillCount] = useState(3 - widgets.length);
 
   const updateBill = (billInput: Partial<BillObject>) => {
     setBill({ ...bill, ...billInput });
   };
 
-  const enableWidget = (widget: keyof WidgetFlags) => {
-    return () => {
-      setEnabledWidgets({ ...enabledWidgets, [widget]: true });
-      setWidgets([widgetMap[widget], ...widgets]);
-      setPillCount(pillCount - 1);
-    };
+  const billTypePillContainerStyle = (type: BillType) => {
+    return { backgroundColor: (bill.type === type) ? "green" : ColorPalette.ACCENT };
   };
 
   return (
     <SafeAreaView style={[Styles.ExpandedContainer]}>
-      <ScrollView style={[styles.container, Styles.ContentContainer]}>
+      <ScrollView style={[styles.container]} showsVerticalScrollIndicator={false}>
         <TitleInput
           value={bill.name}
           placeholder="Enter bill name"
           onChangeText={(name: string) => updateBill({ name })}
           selectTextOnFocus={true}
+          containerStyle={Styles.ContentContainer}
         />
         <View style={styles.pillContainer}>
           <AmountInput
@@ -123,49 +72,56 @@ const BillScreen: BillScreenElement = ({ route }) => {
             textContentType="telephoneNumber"
             containerStyle={styles.amountPill}
           />
-          <BadgePicker selectedValue={bill.type} onValueChange={(type: BillType) => updateBill({ type })}>
-            <PickerItem label="Type" value={BillType.DEFAULT} enabled={false} />
-            <PickerItem label="Food" value={BillType.FOOD} />
-            <PickerItem label="Shopping" value={BillType.SHOPPING} />
-            <PickerItem label="Misc" value={BillType.MISC} />
-          </BadgePicker>
+          <Pill label={bill.status.toUpperCase()} size={18} LeftIcon={MiscelleneousIcon} containerStyle={styles.statusPill} />
         </View>
-        {
-          pillCount ? (
-            <View style={styles.optionPillContainer}>
-              {!enabledWidgets.people && <BillOptionPill label="Invite People" onPress={enableWidget("people")} />}
-              {!enabledWidgets.description && <BillOptionPill label="Add description" onPress={enableWidget("description")} />}
-              {!enabledWidgets.gallery && <BillOptionPill label="Attach files" onPress={enableWidget("gallery")} />}
-            </View>
-          ) : undefined
-        }
-        {widgets.map((Widget, key: number) => <Widget key={key} />)}
+        <LabeledContainer label="Type" labelProps={{ style: Styles.ContentContainer }}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={{ width: 5 }} />
+            <Pill size={16} LeftIcon={FoodIcon} label="Food" onPress={() => updateBill({ type: BillType.FOOD })} containerStyle={billTypePillContainerStyle(BillType.FOOD)} />
+            <Pill size={16} LeftIcon={ShoppingIcon} label="Shopping" onPress={() => updateBill({ type: BillType.SHOPPING })} containerStyle={billTypePillContainerStyle(BillType.SHOPPING)} />
+            <Pill size={16} LeftIcon={EntertainmentIcon} label="Entertainment" onPress={() => updateBill({ type: BillType.ENTERTAINMENT })} containerStyle={billTypePillContainerStyle(BillType.ENTERTAINMENT)} />
+            <Pill size={16} LeftIcon={StatusIcon} label="Miscelleneous" onPress={() => updateBill({ type: BillType.MISC })} containerStyle={billTypePillContainerStyle(BillType.MISC)} />
+          </ScrollView>
+        </LabeledContainer>
+        <LabeledContainer label="Description" containerStyle={Styles.ContentContainer}>
+          <TextInput
+            value={bill.description}
+            placeholder="Type here..."
+            onChangeText={(description: string) => updateBill({ description })}
+            multiline
+            style={[styles.description, { color: ColorPalette.FONT.INPUT, borderBottomColor: ColorPalette.ACCENT }]}
+            placeholderTextColor={ColorPalette.FONT.PLACEHOLDER}
+          />
+        </LabeledContainer>
+      </ScrollView>
+      <View style={styles.bottomToolbar}>
         {
           billObj && (
-            <>
-              <Input label="Status" value={bill.status} onChangeText={(status: BillStatus) => updateBill({ status })} disabled />
-              <Input label="Created at" value={bill.createdAt} onChangeText={createdAt => updateBill({ createdAt })} disabled />
-              <Input
-                label="Last Updated"
-                value={bill.lastUpdatedAt}
-                onChangeText={lastUpdatedAt => updateBill({ lastUpdatedAt })}
-                disabled
-              />
-            </>
+            <View style={styles.bottomToolbarInfo}>
+              <Text style={[styles.bottomToolbarText, { color: ColorPalette.ACCENT }]}>Created: {bill.createdAt}</Text>
+              <Text style={[styles.bottomToolbarText, { color: ColorPalette.ACCENT }]}>Last Updated: {bill.lastUpdatedAt}</Text>
+            </View>
           )
         }
-      </ScrollView>
-      <Button title="Add" />
+        <View style={styles.bottomToolbarActions}>
+          <PeopleAddIcon color={ColorPalette.ACCENT} size={30} containerStyle={styles.bottomToolbarIcon} />
+          <AttachIcon color={ColorPalette.ACCENT} size={27} containerStyle={styles.bottomToolbarIcon} />
+        </View>
+      </View>
+      <Button title={billObj ? "Save" : "Add"} buttonStyle={styles.button} />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 5,
     paddingBottom: 8,
   },
+  button: {
+    height: 50,
+  },
   pillContainer: {
+    ...Styles.ContentContainer,
     marginBottom: 15,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -173,12 +129,42 @@ const styles = StyleSheet.create({
     height: 70,
   },
   amountPill: {
-    width: "56%"
+    maxWidth: "58%",
   },
-  optionPillContainer: {
+  statusPill: {
+    width: "36%",
+  },
+  pillIcon: {
+    paddingLeft: 3,
+    paddingRight: 5,
+    paddingTop: 1,
+  },
+  description: {
+    marginHorizontal: 8,
+    maxHeight: 54,
+  },
+  bottomToolbar: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    marginBottom: 15,
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: 40,
+    marginBottom: 5,
+    paddingHorizontal: 10,
+  },
+  bottomToolbarInfo: {
+    flexGrow: 1,
+  },
+  bottomToolbarActions: {
+    flexGrow: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+  bottomToolbarIcon: {
+    paddingLeft: 15,
+  },
+  bottomToolbarText: {
+    fontSize: 11,
   },
 });
 

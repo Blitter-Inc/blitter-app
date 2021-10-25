@@ -4,6 +4,7 @@ import { TextProps } from "react-native-elements";
 import { PickerItemProps, PickerProps } from "@react-native-picker/picker";
 import { ActionProps, ChildrenProps, ContainerProps } from "./abstracts";
 import { AppThemeHookProps } from "../config/theme";
+import { IconComponent } from "./icons";
 
 
 export interface AmountInputProps extends TextInputProps, AppThemeHookProps, ContainerProps { };
@@ -11,13 +12,18 @@ export interface BadgePickerComponentProps extends PickerProps, ContainerProps, 
 export interface DescriptionInputProps extends TextInputProps, AppThemeHookProps, ContainerProps { };
 export interface FileGalleryProps { };
 export interface InputLabelComponentProps extends TextProps, ChildrenProps { };
-export interface LabeledBoxContainerProps extends ChildrenProps { label: string; };
+export interface LabeledBoxContainerProps extends ChildrenProps, ContainerProps {
+  label: string;
+  labelProps?: TextProps;
+};
 export interface PickerComponentProps extends PickerProps, ChildrenProps { label: string; };
 export interface PillComponentProps extends ActionProps, ContainerProps {
   label: string;
   size: number;
-  icon: ReactNode;
+  LeftIcon?: IconComponent;
+  RightIcon?: IconComponent;
 };
+export interface TitleInputProps extends TextInputProps, AppThemeHookProps, ContainerProps { };
 
 export type BadgePickerComponent = (props: BadgePickerComponentProps) => JSX.Element;
 export type FileGallaryComponent = (props: FileGalleryProps) => JSX.Element;

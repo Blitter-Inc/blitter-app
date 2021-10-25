@@ -13,7 +13,7 @@ interface NotFoundProps {
 
 const NotFound = ({ entity, styles, iconColor }: NotFoundProps) => (
   <View style={styles}>
-    <NotFoundIcon color={iconColor} />
+    <NotFoundIcon color={iconColor} size={80} style={{ padding: 8 }} />
     <Text>No {entity} found.</Text>
   </View>
 );

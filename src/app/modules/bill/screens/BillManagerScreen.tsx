@@ -50,8 +50,9 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
           }
         </ListContainer>
         <FloatAddIcon
+          size={55}
           color={ColorPalette.ACCENT}
-          styles={Styles.FloatingIcon}
+          containerStyle={Styles.FloatingIcon}
           onPress={navigateToBillScreen()}
         />
       </SafeAreaView>

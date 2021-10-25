@@ -1,5 +1,5 @@
 import { ReactNode, ReactNodeArray } from "react";
-import { FlexStyle, ViewProps } from "react-native";
+import { FlexStyle, ViewProps, ViewStyle } from "react-native";
 
 
 export interface ActionProps {
@@ -11,5 +11,5 @@ export interface ChildrenProps {
 };
 
 export interface ContainerProps {
-  containerStyle?: ViewProps | FlexStyle;
+  containerStyle?: ViewProps | FlexStyle | ViewStyle;
 };

@@ -1,11 +1,6 @@
-import { ViewStyle } from "react-native";
+import { IconProps } from "react-native-elements";
 
 
-export interface IconComponentProps {
-  color: string;
-  size?: number;
-  styles?: ViewStyle | ViewStyle[];
-  onPress?: () => void;
-};
+export interface IconComponentProps extends Omit<IconProps, "type" | "name"> { };
 
 export type IconComponent = (props: IconComponentProps) => JSX.Element;

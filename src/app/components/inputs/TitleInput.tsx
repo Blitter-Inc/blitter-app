@@ -1,17 +1,18 @@
 import React from "react";
-import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import { withAppTheme } from "$config/theme";
-import { AppThemeHookProps } from "$types/config/theme";
+import { TitleInputProps } from "$types/components";
 
 
-class TitleInput extends React.Component<TextInputProps & AppThemeHookProps> {
+class TitleInput extends React.Component<TitleInputProps> {
   render() {
     const {
       appTheme,
+      containerStyle,
       ...textInputProps
     } = this.props;
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, containerStyle]}>
         <TextInput
           {...textInputProps}
           style={[
@@ -28,11 +29,10 @@ class TitleInput extends React.Component<TextInputProps & AppThemeHookProps> {
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 3,
     marginBottom: 24,
   },
   input: {
-    fontSize: 36,
+    fontSize: 34,
     fontWeight: "bold",
   },
 });

@@ -2,7 +2,7 @@ const OrangePalette = {
   ACCENT: "#F15946",
   SECONDARY: "#F47867",
   PLACEHOLDER: "#FACCC6",
-}
+};
 
 export const PRIMARY = {
   1: "#E8D7F1",

@@ -22,10 +22,10 @@ export default StyleSheet.create<StyleProps>({
   },
   FloatingIcon: {
     position: "absolute",
-    bottom: 22,
-    right: 5,
+    bottom: 12,
+    right: 12,
   },
   ContentContainer: {
-    paddingHorizontal: 12,
+    marginHorizontal: 12,
   },
 });

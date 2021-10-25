@@ -1,21 +1,21 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useAppTheme } from "$config/theme";
 import { FileGallaryComponent } from "$types/components";
 import { AddSquareIcon } from "./Icons";
-import LabeledBoxContainer from "./LabeledBoxContainer";
+import LabeledContainer from "./LabeledContainer";
 
 
 const FileGallery: FileGallaryComponent = () => {
   const ColorPalette = useAppTheme();
 
   return (
-    <LabeledBoxContainer label="Attachments">
+    <LabeledContainer label="Attachments">
       <TouchableOpacity style={[styles.container, { borderColor: ColorPalette.ACCENT }]} >
         <AddSquareIcon color={ColorPalette.ACCENT} size={40} />
         <Text style={[styles.text, { color: ColorPalette.FONT.INPUT }]}>Tap to add a file</Text>
       </TouchableOpacity >
-    </LabeledBoxContainer>
+    </LabeledContainer>
 
   );
 };

@@ -4,6 +4,7 @@ import Text from "./defaults/Text";
 import View from "./defaults/View";
 import ActionBar from "./ActionBar";
 import FileGallery from "./FileGallery";
+import LabeledContainer from "./LabeledContainer";
 import ListContainer from "./ListContainer";
 import Loader from "./Loader";
 import NotFound from "./NotFound";
@@ -19,6 +20,7 @@ export {
   View,
   ActionBar,
   FileGallery,
+  LabeledContainer,
   ListContainer,
   Loader,
   NotFound,

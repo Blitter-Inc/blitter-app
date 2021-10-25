@@ -14,7 +14,7 @@ class AmountInput extends React.Component<AmountInputProps> {
     } = this.props;
     return (
       <View style={[styles.container, { borderColor: appTheme.ACCENT }, containerStyle]}>
-        <RupeeIcon size={20} color={appTheme.FONT.INPUT} styles={styles.icon} />
+        <RupeeIcon color={appTheme.FONT.INPUT} size={20} containerStyle={styles.icon} />
         <TextInput
           {...textInputProps}
           style={[

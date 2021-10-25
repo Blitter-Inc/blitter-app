@@ -19,7 +19,9 @@ const SearchIcon: SearchIconComponent = () => {
   };
 
   return (
-    <HeaderSearchIcon color={ColorPalette.ACCENT} onPress={openSearchBar} />
+    <HeaderSearchIcon color={ColorPalette.ACCENT} onPress={openSearchBar} size={20} containerStyle={{
+      marginRight: 15,
+    }} />
   );
 };
 

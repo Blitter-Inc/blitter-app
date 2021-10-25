@@ -90,14 +90,14 @@ const ProfileScreen: ProfileScreenElement = ({ navigation }) => {
       </View>
       <View style={styles.form}>
         <Input
-          leftIcon={<FormInputNameIcon color={ColorPalette.ACCENT} />}
+          leftIcon={<FormInputNameIcon color={ColorPalette.ACCENT} size={25} />}
           leftIconContainerStyle={{ paddingRight: 10 }}
           placeholder="Name"
           value={profile.name}
           onChangeText={name => updateProfileState({ name })}
         />
         <Input
-          leftIcon={<FormInputEmailIcon color={ColorPalette.ACCENT} />}
+          leftIcon={<FormInputEmailIcon color={ColorPalette.ACCENT} size={20} />}
           leftIconContainerStyle={{ paddingRight: 8 }}
           placeholder="Email (optional)"
           autoCapitalize="none"
@@ -105,7 +105,7 @@ const ProfileScreen: ProfileScreenElement = ({ navigation }) => {
           onChangeText={email => updateProfileState({ email })}
         />
         <Input
-          leftIcon={<FormInputBioIcon color={ColorPalette.ACCENT} />}
+          leftIcon={<FormInputBioIcon color={ColorPalette.ACCENT} size={20} />}
           leftIconContainerStyle={{ paddingRight: 10 }}
           style={{ paddingTop: 10, maxHeight: 60 }}
           multiline={true}
