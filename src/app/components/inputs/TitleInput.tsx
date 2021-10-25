@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
-import { withAppTheme, AppThemeHookProps } from "$config/theme";
+import { withAppTheme } from "$config/theme";
+import { AppThemeHookProps } from "$types/config/theme";
 
 
 class TitleInput extends React.Component<TextInputProps & AppThemeHookProps> {

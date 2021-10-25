@@ -21,6 +21,14 @@ import {
 } from "$types/modules/bill";
 
 
+type IterableComponent = () => JSX.Element;
+
+interface WidgetMap {
+  description: IterableComponent;
+  gallery: IterableComponent;
+  people: IterableComponent;
+};
+
 interface WidgetFlags {
   description: boolean;
   gallery: boolean;
@@ -59,10 +67,31 @@ const BillScreen: BillScreenElement = ({ route }) => {
 
   const [bill, setBill] = useState<BillObject>(billObj ?? initialBill);
   const [enabledWidgets, setEnabledWidgets] = useState<WidgetFlags>({
-    description: false,
-    gallery: false,
-    people: false,
+    description: Boolean(billObj && billObj.description),
+    gallery: Boolean(billObj && billObj.attachments.length),
+    people: Boolean(billObj && billObj.subscribers.length),
   });
+
+  const widgetMap: WidgetMap = {
+    description: () => (
+      <DescriptionInput
+        value={bill.description}
+        placeholder="Type here..."
+        onChangeText={(description: string) => updateBill({ description })}
+      />
+    ),
+    gallery: () => (<FileGallery />),
+    people: () => (<></>),
+  };
+
+  const initialWidgets = [
+    ...(enabledWidgets.description ? [widgetMap.description] : []),
+    ...(enabledWidgets.gallery ? [widgetMap.gallery] : []),
+    ...(enabledWidgets.people ? [widgetMap.people] : []),
+  ];
+
+  const [widgets, setWidgets] = useState<IterableComponent[]>(initialWidgets);
+  const [pillCount, setPillCount] = useState(3 - widgets.length);
 
   const updateBill = (billInput: Partial<BillObject>) => {
     setBill({ ...bill, ...billInput });
@@ -71,6 +100,8 @@ const BillScreen: BillScreenElement = ({ route }) => {
   const enableWidget = (widget: keyof WidgetFlags) => {
     return () => {
       setEnabledWidgets({ ...enabledWidgets, [widget]: true });
+      setWidgets([widgetMap[widget], ...widgets]);
+      setPillCount(pillCount - 1);
     };
   };
 
@@ -99,17 +130,16 @@ const BillScreen: BillScreenElement = ({ route }) => {
             <PickerItem label="Misc" value={BillType.MISC} />
           </BadgePicker>
         </View>
-        <View style={styles.optionPillContainer}>
-          {!enabledWidgets.people && <BillOptionPill label="Invite People" onPress={enableWidget("people")} />}
-          {!enabledWidgets.description && <BillOptionPill label="Add description" onPress={enableWidget("description")} />}
-          {!enabledWidgets.gallery && <BillOptionPill label="Attach files" onPress={enableWidget("gallery")} />}
-        </View>
-        {enabledWidgets.description && <DescriptionInput
-          value={bill.description}
-          placeholder="Type here..."
-          onChangeText={(description: string) => updateBill({ description })}
-        />}
-        {enabledWidgets.gallery && <FileGallery />}
+        {
+          pillCount ? (
+            <View style={styles.optionPillContainer}>
+              {!enabledWidgets.people && <BillOptionPill label="Invite People" onPress={enableWidget("people")} />}
+              {!enabledWidgets.description && <BillOptionPill label="Add description" onPress={enableWidget("description")} />}
+              {!enabledWidgets.gallery && <BillOptionPill label="Attach files" onPress={enableWidget("gallery")} />}
+            </View>
+          ) : undefined
+        }
+        {widgets.map((Widget, key: number) => <Widget key={key} />)}
         {
           billObj && (
             <>
