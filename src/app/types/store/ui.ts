@@ -12,6 +12,10 @@ export interface UITheme {
     SUBTEXT: string;
     TEXT: string;
   };
+  INVERT: {
+    PRIMARY: string;
+    SECONDARY: string;
+  };
 };
 
 export interface UIAction {

@@ -31,4 +31,5 @@ export {
 
 export * from "./Icons";
 export * from "./Picker";
+export * from "./Svgs";
 export * from "./inputs";

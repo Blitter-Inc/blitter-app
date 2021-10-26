@@ -6,6 +6,7 @@ export enum BillType {
   FOOD = "food",
   SHOPPING = "shopping",
   ENTERTAINMENT = "entertainment",
+  OUTING = "outing",
   MISC = "miscelleneous",
 };
 

@@ -4,6 +4,7 @@ import { Button } from "react-native-elements";
 import {
   AmountInput,
   AttachIcon,
+  BottomCurve,
   EntertainmentIcon,
   FoodIcon,
   LabeledContainer,
@@ -98,17 +99,21 @@ const BillScreen: BillScreenElement = ({ route }) => {
         {
           billObj && (
             <View style={styles.bottomToolbarInfo}>
-              <Text style={[styles.bottomToolbarText, { color: ColorPalette.ACCENT }]}>Created: {bill.createdAt}</Text>
-              <Text style={[styles.bottomToolbarText, { color: ColorPalette.ACCENT }]}>Last Updated: {bill.lastUpdatedAt}</Text>
+              <Text style={[styles.bottomToolbarText, { color: ColorPalette.INVERT.PRIMARY }]}>Created: {bill.createdAt}</Text>
+              <Text style={[styles.bottomToolbarText, { color: ColorPalette.INVERT.PRIMARY }]}>Last Updated: {bill.lastUpdatedAt}</Text>
             </View>
           )
         }
         <View style={styles.bottomToolbarActions}>
-          <PeopleAddIcon color={ColorPalette.ACCENT} size={30} containerStyle={styles.bottomToolbarIcon} />
-          <AttachIcon color={ColorPalette.ACCENT} size={27} containerStyle={styles.bottomToolbarIcon} />
+          <PeopleAddIcon color={ColorPalette.INVERT.PRIMARY} size={30} containerStyle={styles.bottomToolbarIcon} />
+          <AttachIcon color={ColorPalette.INVERT.PRIMARY} size={27} containerStyle={styles.bottomToolbarIcon} />
         </View>
       </View>
-      <Button title={billObj ? "Save" : "Add"} buttonStyle={styles.button} />
+      <Button
+        title={billObj ? "Save" : "Add"}
+        buttonStyle={[styles.button, { backgroundColor: ColorPalette.ACCENT }]}
+      />
+      <BottomCurve />
     </SafeAreaView>
   );
 };

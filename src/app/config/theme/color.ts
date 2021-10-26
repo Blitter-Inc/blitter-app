@@ -58,6 +58,10 @@ const Color = {
     SUBTEXT: FONT.SUBTEXT[1],
     TEXT: FONT.TEXT[1],
   },
+  INVERT: {
+    PRIMARY: "#FFFFFF",
+    SECONDARY: "#E1E5F2",
+  },
 };
 
 
