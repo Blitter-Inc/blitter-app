@@ -74,3 +74,7 @@ export const ShoppingIcon: IconComponent = props => (
 export const StatusIcon: IconComponent = props => (
   <Icon type="material-community" name="sign-real-estate" {...props} />
 );
+
+  export const CheckMarkIcon: IconComponent = props => (
+  <Icon type="material" name="verified" {...props} />
+);

@@ -23,9 +23,11 @@ import {
   BillType,
   BillScreenElement,
 } from "$types/modules/bill";
+import BillSubscriber from "../components/BillSubscriber";
 
 
 const initialBill: BillObject = {
+  id: 0,
   name: "",
   amount: "",
   settledAmt: "",
@@ -109,6 +111,7 @@ const BillScreen: BillScreenElement = ({ route }) => {
           <AttachIcon color={ColorPalette.INVERT.PRIMARY} size={27} containerStyle={styles.bottomToolbarIcon} />
         </View>
       </View>
+      {/* {bill.subscribers.map(subs=> <BillSubscriber key={subs.id} subscriber={subs} />)} */}
       <Button
         title={billObj ? "Save" : "Add"}
         buttonStyle={[styles.button, { backgroundColor: ColorPalette.ACCENT }]}

@@ -1,6 +1,3 @@
-import { User } from "../auth";
-
-
 export enum BillType {
   DEFAULT = "",
   FOOD = "food",
@@ -17,6 +14,7 @@ export enum BillStatus {
 };
 
 export interface BillObject {
+  id: number;
   name: string;
   amount: string;
   settledAmt: string;
@@ -27,6 +25,14 @@ export interface BillObject {
   createdBy: string;
   createdAt: string;
   lastUpdatedAt: string;
-  subscribers: User[];
+  subscribers: BillSubscribers[];
   attachments: any[];
 };
+
+export interface BillSubscribers {
+  id: number;
+  name: string;
+  avatar: string;
+  splitAmt: string;
+  paidAmt: string
+}

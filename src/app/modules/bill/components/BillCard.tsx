@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Text, Avatar, Badge } from "react-native-elements";
 import { BillCardComponent, BillStatus } from "$types/modules/bill";
 import { useAppTheme } from "$config/theme";
+import { RupeeIcon } from "$components/Icons";
 
 
 const BillCard: BillCardComponent = ({ bill }) => {
@@ -25,9 +26,10 @@ const BillCard: BillCardComponent = ({ bill }) => {
         </View>
       </View>
       <View style={style.bottomContainer}>
-        <Text style={style.amountText}>
-          ₹ {bill.settledAmt} / {bill.amount}
-        </Text>
+        <View style={{flexDirection: "row", alignItems:"center"}}>
+          <RupeeIcon color={"green"} />
+          <Text style={style.amountText}> {bill.settledAmt}/ {bill.amount}</Text>
+        </View>
         <View style={style.avatarContainer}>
           {bill.subscribers.map((subs, index) =>
             index < 2 ? (

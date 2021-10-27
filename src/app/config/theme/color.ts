@@ -44,7 +44,8 @@ export const FONT = {
     1: "grey",
   },
   TEXT: {
-    1: "#fff"
+    1: "#fff",
+    2: "#000"
   },
 };
 
@@ -56,7 +57,7 @@ const Color = {
     INPUT: FONT.INPUT[1],
     PLACEHOLDER: FONT.PLACEHOLDER[1],
     SUBTEXT: FONT.SUBTEXT[1],
-    TEXT: FONT.TEXT[1],
+    TEXT: FONT.TEXT[2],
   },
   INVERT: {
     PRIMARY: "#FFFFFF",
