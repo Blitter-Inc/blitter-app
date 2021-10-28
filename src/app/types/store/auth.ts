@@ -41,10 +41,15 @@ export interface CheckVerificationCodeSagaArgs {
 
 export interface UpdateProfileSagaArgs extends Profile { };
 
+export interface SkipOTPVerificationSagaArgs {
+  phoneNumber: string;
+};
+
 export type ConfirmCodeSentAction = PayloadAction<ConfirmCodeSentActionPayload>;
 export type ConfirmCodeVerificationAction = PayloadAction<ConfirmCodeVerificationActionPayload>;
 export type CompleteAuthFlowAction = PayloadAction<CompleteAuthFlowActionPayload>;
 export type InitPhoneSignInSagaAction = ArgedPayloadAction<InitPhoneSignInSagaArgs>;
 export type CheckVerificationCodeSagaAction = ArgedPayloadAction<CheckVerificationCodeSagaArgs>;
 export type UpdateProfileSagaAction = ArgedPayloadAction<UpdateProfileSagaArgs>;
+export type SkipOTPVerificationSagaAction = ArgedPayloadAction<SkipOTPVerificationSagaArgs>;
 export type AuthReducer<ActionType = AnyAction> = Reducer<AuthState, ActionType>
