@@ -10,6 +10,8 @@ import {
   CheckVerificationCodeSagaArgs,
   InitPhoneSignInSagaArgs,
   UpdateProfileSagaArgs,
+  SkipOTPVerificationSagaArgs,
+  SkipOTPVerificationSagaAction,
 } from '$types/store';
 import { confirmCodeSent, confirmCodeVerification, completeAuthFlow } from '../slices/auth';
 
@@ -23,7 +25,7 @@ export function* initPhoneSignIn(action: InitPhoneSignInSagaAction) {
   } catch (e) {
     console.error(e);
   }
-}
+};
 
 export function* checkVerificationCode(action: CheckVerificationCodeSagaAction) {
   const { code, verificationId }: CheckVerificationCodeSagaArgs = action.payload.args;
@@ -43,6 +45,17 @@ export function* updateProfile(action: UpdateProfileSagaAction) {
   try {
     const user: UpdateProfileSerializedResponseBody = yield call(updateUser, requestObj);
     yield put(completeAuthFlow(user));
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export function* skipOTPVerification(action: SkipOTPVerificationSagaAction) {
+  const { phoneNumber }: SkipOTPVerificationSagaArgs = action.payload.args;
+  try {
+    yield put(confirmCodeSent({ phoneNumber, verificationId: "DUMMY_VERIFICATION_ID" }));
+    const authCredentials: SignInSerializedResponseBody = yield call(signIn, { phoneNumber, firebaseId: "DUMMY_FIREBASE_ID" });
+    yield put(confirmCodeVerification({ firebaseId: "DUMMY_FIREBASE_ID", ...authCredentials }));
   } catch (e) {
     console.error(e);
   }

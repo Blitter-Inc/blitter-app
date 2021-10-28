@@ -10,6 +10,7 @@ import {
   ConfirmCodeVerificationAction,
   ConfirmCodeVerificationActionPayload,
   InitPhoneSignInSagaArgs,
+  SkipOTPVerificationSagaArgs,
   UpdateProfileSagaArgs,
 } from "$types/store";
 
@@ -92,6 +93,10 @@ const AuthSlice = createSlice({
       reducer: toggleLoading,
       prepare: (args: CheckVerificationCodeSagaArgs) => ({ payload: { args } }),
     },
+    skipOTPVerification: {
+      reducer: toggleLoading,
+      prepare: (args: SkipOTPVerificationSagaArgs) => ({ payload: { args } }),
+    },
   }
 });
 
@@ -102,6 +107,7 @@ export const {
   verifyCode,
   updateProfile,
   completeAuthFlow,
+  skipOTPVerification,
 } = AuthSlice.actions;
 
 export default AuthSlice;
