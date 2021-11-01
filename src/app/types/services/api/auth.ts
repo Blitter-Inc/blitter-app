@@ -2,7 +2,7 @@ import { User, UserProfile, } from "../../modules/auth"
 import { UpdateProfileSagaArgs } from "../../store";
 
 
-export interface UserObject extends UserProfile {
+export interface UserAPIObject extends UserProfile {
   phone: string;
   date_joined: string;
 };
@@ -13,7 +13,7 @@ export interface SignInRequestPayload {
 };
 
 export interface SignInResponseBody {
-  user: UserObject;
+  user: UserAPIObject;
   access_token: string;
   refresh_token: string;
   is_new_user: boolean;
@@ -32,7 +32,7 @@ export interface SignInSerializedResponseBody {
 
 export interface UpdateProfileRequestPayload extends Omit<UpdateProfileSagaArgs, "id"> { };
 
-export interface UpdateProfileResponseBody extends UserObject { };
+export interface UpdateProfileResponseBody extends UserAPIObject { };
 
 export interface UpdateProfileHandlerArgs extends UpdateProfileSagaArgs {
   id: number;

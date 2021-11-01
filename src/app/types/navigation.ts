@@ -4,6 +4,7 @@ import { BillScreenParams } from "./modules/bill";
 
 export type RootStackParamList = {
   "Home": undefined;
+  "Initialize": undefined;
   "BillNavigator": undefined;
   "AuthNavigator": undefined;
 };

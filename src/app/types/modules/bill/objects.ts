@@ -13,26 +13,34 @@ export enum BillStatus {
   FULFILLED = "fulfilled",
 };
 
+export interface BillSubscriberObject {
+  id: number;
+  userId: number;
+  amount: string;
+  amountPaid: string;
+  fulfilled: boolean;
+};
+
+export interface BillAttachmentObject {
+  id: number;
+  name: string;
+  file: string;
+  createdAt: string;
+  lastUpdatedAt: string;
+};
+
 export interface BillObject {
   id: number;
   name: string;
   amount: string;
   settledAmt: string;
   type: BillType;
-  eventName: string;
+  eventName?: string;
   description: string;
   status: BillStatus;
-  createdBy: string;
+  createdBy: number | string | null;
   createdAt: string;
   lastUpdatedAt: string;
-  subscribers: BillSubscribers[];
-  attachments: any[];
+  subscribers: BillSubscriberObject[];
+  attachments: BillAttachmentObject[];
 };
-
-export interface BillSubscribers {
-  id: number;
-  name: string;
-  avatar: string;
-  splitAmt: string;
-  paidAmt: string
-}

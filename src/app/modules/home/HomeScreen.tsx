@@ -1,14 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Button, BottomSheet, ListItem, Text } from "react-native-elements";
 import { View } from "$components/index";
 import { useAppTheme } from "$config/theme";
+import { useAppSelector } from "$store/hooks";
 import { HomeScreenElement } from "$types/modules/home";
 import { RootStackParamList } from "$types/navigation";
 
 
+const useRequiredState = () => {
+  const { appInitialized } = useAppSelector(state => state.cache);
+  return { appInitialized };
+};
+
 const HomeScreen: HomeScreenElement = ({ navigation }) => {
   const ColorPalette = useAppTheme();
+  const state = useRequiredState();
+
+  useEffect(() => {
+    if (!state.appInitialized) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Initialize" }],
+      });
+    }
+  }, [state.appInitialized]);
 
   const [isVisible, setIsVisible] = useState(false);
 

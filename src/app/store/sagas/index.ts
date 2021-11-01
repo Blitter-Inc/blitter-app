@@ -6,11 +6,17 @@ import {
   skipOTPVerification as skipOTPVerificationAction,
 } from "../slices/auth";
 import {
+  initializeApp as initializeAppAction,
+} from "../slices/cache";
+import {
   checkVerificationCode,
   initPhoneSignIn,
   updateProfile,
   skipOTPVerification,
 } from "./auth";
+import {
+  initializeApp,
+} from "./cache";
 
 
 export function* watchAuth() {
@@ -18,4 +24,5 @@ export function* watchAuth() {
   yield takeEvery(verifyCodeAction.type, checkVerificationCode);
   yield takeEvery(updateProfileAction.type, updateProfile);
   yield takeEvery(skipOTPVerificationAction.type, skipOTPVerification);
+  yield takeEvery(initializeAppAction.type, initializeApp);
 };

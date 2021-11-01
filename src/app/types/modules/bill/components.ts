@@ -1,4 +1,4 @@
-import { BillObject, BillSubscribers } from "./objects";
+import { BillObject, BillSubscriberObject } from "./objects";
 
 
 export interface BillCardComponentProps {
@@ -6,7 +6,7 @@ export interface BillCardComponentProps {
 }
 
 export interface BillSubscriberProps {
-  subscriber: BillSubscribers;
+  subscriber: BillSubscriberObject;
 }
 
 export type BillCardComponent = (props: BillCardComponentProps) => JSX.Element;

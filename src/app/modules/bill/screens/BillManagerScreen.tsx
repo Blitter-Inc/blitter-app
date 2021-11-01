@@ -8,13 +8,12 @@ import { BillCard } from "../components";
 
 
 const useRequiredState = () => {
-  const { bills } = useAppSelector(state => state.cache);
-  return { bills };
+  return useAppSelector(state => state.cache.bill);
 };
 
 const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
   const ColorPalette = useAppTheme();
-  const state = useRequiredState();
+  const billState = useRequiredState();
 
   navigation.addListener("gestureStart", () => closeSearchBar());
 
@@ -35,18 +34,25 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
       >
         <ActionBar styles={[Styles.ActionBarContainer, Styles.FlexCenteredContainer]} />
         {
-          state.bills.length ? (
+          billState.inStateCount ? (
             <ListContainer style={Styles.ListContainer}>
               {
-                state.bills.map((billObj, index) => (
-                  <TouchableOpacity key={index} onPress={navigateToBillScreen({ billObj })}>
-                    <BillCard bill={billObj} />
+                billState.orderedSequence.map(billId => (
+                  <TouchableOpacity
+                    key={billId}
+                    onPress={navigateToBillScreen({ billObj: billState.objectMap[billId] })}
+                  >
+                    <BillCard bill={billState.objectMap[billId]} />
                   </TouchableOpacity>
                 ))
               }
             </ListContainer>
           ) : (
-            <NotFound entity="bills" iconColor={ColorPalette.ACCENT} styles={[Styles.ExpandedContainer, Styles.FlexCenteredContainer]} />
+            <NotFound
+              entity="bills"
+              iconColor={ColorPalette.ACCENT}
+              styles={[Styles.ExpandedContainer, Styles.FlexCenteredContainer]}
+            />
           )
         }
         <FloatAddIcon

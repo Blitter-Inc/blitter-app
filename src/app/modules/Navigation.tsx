@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import { useAppTheme } from "$config/theme";
 import { AuthNavigator } from "./auth";
 import { BillNavigator } from "./bill";
-import { HomeScreen } from "./home";
+import { HomeScreen, InitializeScreen } from "./home";
 import { useAppSelector } from "$store/hooks";
 import { RootNavigatorElement, RootStackParamList } from "$types/navigation";
 
@@ -43,6 +43,7 @@ const RootNavigator: RootNavigatorElement = () => {
         {isAuthenticated ? (
           <>
             <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: true, headerTitleAlign: "center" }} />
+            <Stack.Screen name="Initialize" component={InitializeScreen} />
             <Stack.Screen name="BillNavigator" component={BillNavigator} />
           </>
         ) : (
