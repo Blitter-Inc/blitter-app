@@ -25,13 +25,12 @@ export const signInRequestSerializer: SignInRequestSerializer = ({ phoneNumber, 
 export const signInResponseSerializer: SignInResponseSerializer = ({
   access_token: accessToken,
   refresh_token: refreshToken,
-  user: { phone: phoneNumber, date_joined: dateJoined, avatar, ...userObj },
+  user: { phone: phoneNumber, date_joined: dateJoined, ...userObj },
 }) => ({
   accessToken,
   refreshToken,
   user: {
     ...userObj,
-    avatar: avatar ? `${ENV.API_BASE_URL}${avatar}` : "",
     phoneNumber,
     dateJoined,
   },

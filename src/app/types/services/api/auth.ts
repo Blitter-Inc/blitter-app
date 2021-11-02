@@ -34,9 +34,7 @@ export interface UpdateProfileRequestPayload extends Omit<UpdateProfileSagaArgs,
 
 export interface UpdateProfileResponseBody extends UserAPIObject { };
 
-export interface UpdateProfileHandlerArgs extends UpdateProfileSagaArgs {
-  id: number;
-};
+export interface UpdateProfileHandlerArgs extends UpdateProfileSagaArgs { };
 
 export interface UpdateProfileSerializedResponseBody extends User { };
 
