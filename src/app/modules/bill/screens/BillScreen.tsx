@@ -17,6 +17,7 @@ import {
   TitleInput,
 } from "$components/index";
 import { Styles, useAppTheme } from "$config/theme";
+import { generateDisplayDate } from "$helpers/index";
 import {
   BillObject,
   BillStatus,
@@ -101,8 +102,8 @@ const BillScreen: BillScreenElement = ({ route }) => {
         {
           billObj && (
             <View style={styles.bottomToolbarInfo}>
-              <Text style={[styles.bottomToolbarText, { color: ColorPalette.INVERT.PRIMARY }]}>Created: {bill.createdAt}</Text>
-              <Text style={[styles.bottomToolbarText, { color: ColorPalette.INVERT.PRIMARY }]}>Last Updated: {bill.lastUpdatedAt}</Text>
+              <Text style={[styles.bottomToolbarText, { color: ColorPalette.INVERT.PRIMARY }]}>Created: {generateDisplayDate(bill.createdAt)}</Text>
+              <Text style={[styles.bottomToolbarText, { color: ColorPalette.INVERT.PRIMARY }]}>Last Updated: {generateDisplayDate(bill.lastUpdatedAt)}</Text>
             </View>
           )
         }
