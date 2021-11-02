@@ -1,5 +1,6 @@
-import ENV from "$config/env";
 import {
+  FetchUserProfilesRequestSerializer,
+  FetchUserProfilesResponseSerializer,
   SignInRequestSerializer,
   SignInResponseSerializer,
   UpdateProfileRequestSerializer,
@@ -36,7 +37,7 @@ export const signInResponseSerializer: SignInResponseSerializer = ({
   },
 });
 
-export const updateProfileRequestSerializer: UpdateProfileRequestSerializer = (payload) => {
+export const updateProfileRequestSerializer: UpdateProfileRequestSerializer = payload => {
   return generateFormData(payload);
 };
 
@@ -49,3 +50,17 @@ export const updateProfileResponseSerializer: UpdateProfileResponseSerializer = 
   phoneNumber,
   dateJoined,
 });
+
+export const fetchUserProfilesRequestSerializer: FetchUserProfilesRequestSerializer = payload => ({
+  phone_numbers: payload.phoneNumbers,
+});
+
+export const fetchUserProfilesResponseSerializer: FetchUserProfilesResponseSerializer = body => {
+  return Object.entries(body).reduce(
+    (obj, [key, { phone: phoneNumber, date_joined: dateJoined, ...value }]) => ({
+      ...obj,
+      [key]: { ...value, phoneNumber, dateJoined },
+    }),
+    {},
+  );
+};

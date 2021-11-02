@@ -3,8 +3,11 @@ import {
   BillState,
   CacheReducer,
   CacheState,
-  UpdateBillCacheAction,
-  UpdateBillCacheActionPayload,
+  ContactState,
+  SetBillCacheAction,
+  SetBillCacheActionPayload,
+  SetContactCacheAction,
+  SetContactCacheActionPayload,
 } from "$types/store";
 import { FetchBillsOrderingOptions } from "$types/services/api/bill";
 
@@ -22,20 +25,36 @@ const initialBillState: BillState = {
   objectMap: {},
 };
 
+const initialContactState: ContactState = {
+  lastRefreshed: new Date().toJSON(),
+  totalCount: 0,
+  objectMap: {},
+};
+
 const initialState: CacheState = {
   appInitialized: false,
   bill: initialBillState,
+  contact: initialContactState,
 };
 
 const completeAppInitializationReducer: CacheReducer = state => {
   state.appInitialized = true;
 };
 
-const setBillCacheReducer: CacheReducer<UpdateBillCacheAction> = (state, action) => {
+const setBillCacheReducer: CacheReducer<SetBillCacheAction> = (state, action) => {
   const { payload: billCache } = action;
   state.bill = {
     ...billCache,
     inStateCount: billCache.totalCount,
+    lastRefreshed: new Date().toJSON(),
+  };
+};
+
+const setContactCacheReducer: CacheReducer<SetContactCacheAction> = (state, action) => {
+  const { payload: contactObjectMap } = action;
+  state.contact = {
+    totalCount: Object.keys(contactObjectMap).length,
+    objectMap: contactObjectMap,
     lastRefreshed: new Date().toJSON(),
   };
 };
@@ -48,7 +67,11 @@ const CacheSlice = createSlice({
     initializeApp: () => { },
     setBillCache: {
       reducer: setBillCacheReducer,
-      prepare: (payload: UpdateBillCacheActionPayload) => ({ payload }),
+      prepare: (payload: SetBillCacheActionPayload) => ({ payload }),
+    },
+    setContactCache: {
+      reducer: setContactCacheReducer,
+      prepare: (payload: SetContactCacheActionPayload) => ({ payload }),
     },
   },
 });
@@ -58,6 +81,7 @@ export const {
   completeAppInitialization,
   initializeApp,
   setBillCache,
+  setContactCache,
 } = CacheSlice.actions;
 
 export default CacheSlice;

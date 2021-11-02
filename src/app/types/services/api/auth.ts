@@ -38,9 +38,28 @@ export interface UpdateProfileHandlerArgs extends UpdateProfileSagaArgs { };
 
 export interface UpdateProfileSerializedResponseBody extends User { };
 
+export interface FetchUserProfilesRequestPayload {
+  phone_numbers: string[];
+};
+
+export interface FetchUserProfilesResponseBody {
+  [id: string]: UserAPIObject;
+};
+
+export interface FetchUserProfilesHandlerArgs {
+  phoneNumbers: string[];
+};
+
+export interface FetchUserProfilesSerializedResponseBody {
+  [id: string]: User;
+};
+
 export type SignInRequestSerializer = (payload: SignInHandlerArgs) => SignInRequestPayload;
 export type SignInResponseSerializer = (body: SignInResponseBody) => SignInSerializedResponseBody;
 export type SignInHandler = (payload: SignInHandlerArgs) => Promise<SignInSerializedResponseBody>;
 export type UpdateProfileRequestSerializer = (payload: UpdateProfileRequestPayload) => FormData;
 export type UpdateProfileResponseSerializer = (body: UpdateProfileResponseBody) => UpdateProfileSerializedResponseBody;
 export type UpdateProfileHandler = (payload: UpdateProfileHandlerArgs) => Promise<UpdateProfileSerializedResponseBody>;
+export type FetchUserProfilesRequestSerializer = (payload: FetchUserProfilesHandlerArgs) => FetchUserProfilesRequestPayload;
+export type FetchUserProfilesResponseSerializer = (body: FetchUserProfilesResponseBody) => FetchUserProfilesSerializedResponseBody;
+export type FetchUserProfilesHandler = (payload: FetchUserProfilesHandlerArgs) => Promise<FetchUserProfilesSerializedResponseBody>;
