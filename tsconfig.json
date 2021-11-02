@@ -29,6 +29,9 @@
       "$types/*": [
         "src/app/types/*"
       ],
+      "$helpers/*": [
+        "src/app/helpers/*"
+      ],
     },
   },
   "extends": "expo/tsconfig.base"

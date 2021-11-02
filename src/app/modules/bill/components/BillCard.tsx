@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text, Avatar, Badge } from "react-native-elements";
+import { generateDisplayDate } from "$helpers/index";
 import { BillCardComponent, BillStatus } from "$types/modules/bill";
 import { useAppTheme } from "$config/theme";
 import { RupeeIcon } from "$components/Icons";
@@ -26,9 +27,9 @@ const BillCard: BillCardComponent = ({ bill }) => {
         </View>
       </View>
       <View style={style.bottomContainer}>
-        <View style={{flexDirection: "row", alignItems:"center"}}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <RupeeIcon color={"green"} />
-          <Text style={style.amountText}> {bill.settledAmt}/ {bill.amount}</Text>
+          <Text style={style.amountText}> {bill.settledAmt ?? 0}/ {bill.amount}</Text>
         </View>
         <View style={style.avatarContainer}>
           {bill.subscribers.map((subs, index) =>
@@ -47,8 +48,12 @@ const BillCard: BillCardComponent = ({ bill }) => {
         </View>
       </View>
       <View style={style.bottomContainer}>
-        <Text style={[style.subText, { color: ColorPallete.FONT.SUBTEXT }]}>By: {bill.createdBy}</Text>
-        <Text style={[style.subText, { color: ColorPallete.FONT.SUBTEXT }]}>Updated: {bill.lastUpdatedAt}</Text>
+        <Text style={[style.subText, { color: ColorPallete.FONT.SUBTEXT }]}>
+          By: {bill.createdBy}
+        </Text>
+        <Text style={[style.subText, { color: ColorPallete.FONT.SUBTEXT }]}>
+          Updated: {generateDisplayDate(bill.lastUpdatedAt)}
+        </Text>
       </View>
     </View>
   );
@@ -102,7 +107,7 @@ const style = StyleSheet.create({
   },
   badgeText: {
     color: "white",
-    padding: 10,
+    paddingHorizontal: 8,
     fontSize: 10,
   },
 });

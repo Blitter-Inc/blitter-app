@@ -15,6 +15,7 @@ module.exports = function (api) {
             '$services': './src/app/services',
             '$store': './src/app/store',
             '$types': './src/app/types',
+            '$helpers': './src/app/helpers',
           },
         },
       ],
