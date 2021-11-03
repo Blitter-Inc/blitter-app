@@ -2,18 +2,25 @@ import React from "react";
 import { TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { ActionBar, FloatAddIcon, ListContainer, NotFound, SafeAreaView } from "$components/index";
 import { useAppTheme, Styles } from "$config/theme";
+import { billCardPropsGenerator } from "$helpers/bill";
 import { useAppSelector } from '$store/hooks'
 import { BillManagerScreenElement, BillScreenParams } from "$types/modules/bill";
 import { BillCard } from "../components";
 
 
 const useRequiredState = () => {
-  return useAppSelector(state => state.cache.bill);
+  const {
+    auth: { credentials: { user } },
+    cache: { contact: { objectMap: contactMap }, bill: billState },
+  } = useAppSelector(state => state);
+  return { user, contactMap, billState };
 };
 
 const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
   const ColorPalette = useAppTheme();
-  const billState = useRequiredState();
+  const { user, billState, contactMap } = useRequiredState();
+
+  const generateBillCardProps = billCardPropsGenerator({ contactMap, user });
 
   navigation.addListener("gestureStart", () => closeSearchBar());
 
@@ -42,7 +49,7 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
                     key={billId}
                     onPress={navigateToBillScreen({ billObj: billState.objectMap[billId] })}
                   >
-                    <BillCard bill={billState.objectMap[billId]} />
+                    <BillCard {...generateBillCardProps(billState.objectMap[billId])} />
                   </TouchableOpacity>
                 ))
               }

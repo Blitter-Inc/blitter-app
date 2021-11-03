@@ -36,7 +36,7 @@ const initialBill: BillObject = {
   eventName: "",
   description: "",
   status: BillStatus.NEW,
-  createdBy: "",
+  createdBy: 0,
   createdAt: new Date().toDateString(),
   lastUpdatedAt: new Date().toDateString(),
   subscribers: [],

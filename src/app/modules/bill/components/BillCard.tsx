@@ -1,58 +1,55 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text, Avatar, Badge } from "react-native-elements";
-import { generateDisplayDate } from "$helpers/index";
 import { BillCardComponent, BillStatus } from "$types/modules/bill";
 import { useAppTheme } from "$config/theme";
 import { RupeeIcon } from "$components/Icons";
 
 
-const BillCard: BillCardComponent = ({ bill }) => {
+const BillCard: BillCardComponent = props => {
   const ColorPallete = useAppTheme();
 
   return (
     <View style={[style.billCard, { backgroundColor: ColorPallete.PRIMARY }]}>
       <View style={style.topContainer}>
-        <Text style={[style.billName, { color: ColorPallete.ACCENT }]}># {bill.name}</Text>
+        <Text style={[style.billName, { color: ColorPallete.ACCENT }]}># {props.name}</Text>
         <View style={style.badgeContainer}>
           <Badge
             status="primary"
             containerStyle={{ marginRight: 5 }}
-            value={<Text style={style.badgeText}>{bill.type.toUpperCase()}</Text>}
+            value={<Text style={style.badgeText}>{props.type}</Text>}
           />
           <Badge
-            status={bill.status === BillStatus.FULFILLED ? "success" : "error"}
-            value={<Text style={style.badgeText}>{bill.status.toUpperCase()}</Text>}
+            status={props.status === BillStatus.FULFILLED.toUpperCase() ? "success" : "error"}
+            value={<Text style={style.badgeText}>{props.status}</Text>}
           />
         </View>
       </View>
       <View style={style.bottomContainer}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <RupeeIcon color={"green"} />
-          <Text style={style.amountText}> {bill.settledAmt ?? 0}/ {bill.amount}</Text>
+          <RupeeIcon color={"green"} size={style.amountText.fontSize} />
+          <Text style={style.amountText}> {props.settledAmt} / {props.amount}</Text>
         </View>
         <View style={style.avatarContainer}>
-          {bill.subscribers.map((subs, index) =>
-            index < 2 ? (
-              <View
-                key={index}
-                style={{ right: `${index * 50}%`, zIndex: index }}
-              >
-                <Avatar source={{ uri: subs.avatar }} />
-              </View>
-            ) : null
+          {props.subscriberAvatars.map((avatarURI, index) =>
+            <View
+              key={index}
+              style={{ right: `${index * 50}%`, zIndex: index }}
+            >
+              <Avatar source={{ uri: avatarURI }} size={30} />
+            </View>
           )}
-          {bill.subscribers.length - 2 > 0 ? (
-            <Text style={style.avatarText}>+{bill.subscribers.length - 2}</Text>
+          {props.subscriberCount - 2 > 0 ? (
+            <Text style={style.avatarText}>+{props.subscriberCount - 2}</Text>
           ) : null}
         </View>
       </View>
       <View style={style.bottomContainer}>
         <Text style={[style.subText, { color: ColorPallete.FONT.SUBTEXT }]}>
-          By: {bill.createdBy}
+          Created By: {props.createdBy}
         </Text>
         <Text style={[style.subText, { color: ColorPallete.FONT.SUBTEXT }]}>
-          Updated: {generateDisplayDate(bill.lastUpdatedAt)}
+          Updated: {props.lastUpdatedAt}
         </Text>
       </View>
     </View>
@@ -69,7 +66,7 @@ const style = StyleSheet.create({
     shadowOpacity: 1,
   },
   billName: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: "bold",
   },
   topContainer: {
@@ -82,7 +79,7 @@ const style = StyleSheet.create({
     justifyContent: "flex-start",
   },
   amountText: {
-    fontSize: 18,
+    fontSize: 14,
     color: "green",
     fontWeight: "bold",
   },
@@ -90,11 +87,12 @@ const style = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginTop: 5,
   },
   avatarContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 0,
   },
   avatarText: {
     fontSize: 10,

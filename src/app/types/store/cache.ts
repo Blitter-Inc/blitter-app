@@ -3,7 +3,7 @@ import { User } from "$types/modules/auth";
 import { FetchBillsOrderingOptions, FetchBillsSerializedResponseBody } from "$types/services/api/bill";
 import { PayloadAction, Reducer } from "./abstract";
 import { BillObject } from "../modules/bill";
-import { FetchUserProfilesSerializedResponseBody } from "$types/services/api";
+
 
 export interface BillObjectMap { [id: string]: BillObject };
 

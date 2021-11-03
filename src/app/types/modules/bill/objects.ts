@@ -38,7 +38,7 @@ export interface BillObject {
   eventName?: string;
   description: string;
   status: BillStatus;
-  createdBy: number | string | null;
+  createdBy: number;
   createdAt: string;
   lastUpdatedAt: string;
   subscribers: BillSubscriberObject[];
