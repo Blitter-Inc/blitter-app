@@ -107,13 +107,13 @@ const BillScreen: BillScreenElement = ({ route }) => {
           />
         </LabeledContainer>
         {
-          !isNew && (
+          (!isNew && bill.subscribers.length) ? (
             <LabeledContainer label="Subscribers" containerStyle={{ ...Styles.ContentContainer, ...styles.subscriberContainer }}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 {bill.subscribers.map(subscriber => <BillSubscriber key={subscriber.id} {...generateBillSubscriberProps(subscriber)} />)}
               </ScrollView>
             </LabeledContainer>
-          )
+          ) : undefined
         }
       </ScrollView>
       <View style={styles.bottomToolbar}>
