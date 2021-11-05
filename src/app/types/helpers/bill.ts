@@ -1,5 +1,5 @@
 import { User } from "$types/modules/auth";
-import { BillCardComponentProps, BillObject } from "$types/modules/bill";
+import { BillCardComponentProps, BillObject, BillSubscriberComponentProps, BillSubscriberObject } from "$types/modules/bill";
 import { ContactObjectMap } from "$types/store";
 
 
@@ -8,4 +8,9 @@ export interface BillCardPropsGeneratorHandlerArgs {
   user: User;
 };
 
-export type BillCardPropsGeneratorHandler = (args: BillCardPropsGeneratorHandlerArgs) => (bill: BillObject) => BillCardComponentProps;
+export interface BillSubscriberPropsGeneratorHandlerArgs extends BillCardPropsGeneratorHandlerArgs { };
+
+export type GenerateBillCardPropsHandler = (bill: BillObject) => BillCardComponentProps;
+export type GenerateBillSubscriberPropsHandler = (subscriber: BillSubscriberObject) => BillSubscriberComponentProps;
+export type BillCardPropsGeneratorHandler = (args: BillCardPropsGeneratorHandlerArgs) => GenerateBillCardPropsHandler;
+export type BillSubscriberPropsGeneratorHandler = (args: BillSubscriberPropsGeneratorHandlerArgs) => GenerateBillSubscriberPropsHandler;

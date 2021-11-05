@@ -1,104 +1,58 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Text, Avatar, LinearProgress, Button } from "react-native-elements";
-import { BillSubscribersComponent } from "$types/modules/bill";
-import { ColorPalette } from "$config/theme";
-import { CheckMarkIcon, RupeeIcon } from "$components/Icons";
+import { Text, Avatar, Button } from "react-native-elements";
+import { CheckMarkIcon } from "$components/Icons";
+import { useAppTheme } from "$config/theme";
+import { BillSubscriberComponent } from "$types/modules/bill";
 
-const BillSubscriber: BillSubscribersComponent = ({ subscriber }) => {
+
+const BillSubscriber: BillSubscriberComponent = props => {
+  const ColorPalette = useAppTheme();
+
   return (
-    <View style={styles.subscribersContainer}>
-      <View style={styles.topContainer}>
-        <View style={styles.rowContainer}>
-          <Avatar size={45} source={{ uri: subscriber.avatar }} />
-          <View>
-            <Text style={styles.font}> {subscriber.name}</Text>
-            {subscriber.splitAmt === subscriber.paidAmt ? (
-              <Text style={styles.statusText}>
-                Paid{" "}
-                <RupeeIcon
-                  color={ColorPalette.SECONDARY}
-                  size={10}
-                  styles={{
-                    padding: 0,
-                    margin: 0,
-                    position: "relative",
-                    top: 1,
-                  }}
-                />
-                {subscriber.splitAmt}
-              </Text>
-            ) : (
-              <Text style={styles.statusText}>Paying...</Text>
-            )}
-          </View>
-        </View>
-        <View style={styles.rowContainer}>
-          {subscriber.splitAmt === subscriber.paidAmt ? (
-            <CheckMarkIcon color="red" />
-          ) : (
-            <>
-              <RupeeIcon color={ColorPalette.FONT.TEXT} />
-              <Text style={styles.font}>{subscriber.splitAmt}</Text>
-            </>
-          )}
+    <View style={[styles.container, { backgroundColor: ColorPalette.FONT.PLACEHOLDER }]}>
+      <View style={styles.subcontainer}>
+        <Avatar size={45} source={{ uri: props.avatar }} />
+        <View style={{ marginLeft: 5 }}>
+          <Text style={styles.text}> {props.name}</Text>
+          <Text style={[styles.subtext, { color: ColorPalette.SECONDARY }]}>Paid ₹ {props.fulfilled ? props.amount : `${props.amountPaid} / ${props.amount}`}</Text>
         </View>
       </View>
-      {subscriber.paidAmt !== subscriber.splitAmt ? (
-        <View style={styles.bottomContainer}>
-          <LinearProgress
-            variant="determinate"
-            value={
-              parseFloat(subscriber.paidAmt) / parseFloat(subscriber.splitAmt)
-            }
-            color="red"
-            style={{ flex: 1, marginRight: 10, padding: 10, borderRadius: 10 }}
-          />
+      <View style={styles.subcontainer}>
+        {props.fulfilled ? (
+          <CheckMarkIcon color="red" size={30} />
+        ) : props.self ? (
           <Button
-            buttonStyle={{ height: 30, width: 60 }}
-            title={`Pay Rs.${
-              parseFloat(subscriber.splitAmt) - parseFloat(subscriber.paidAmt)
-            }`}
+            title={`Pay  ₹ ${parseFloat(props.amount) - parseFloat(props.amountPaid)} /-`}
             titleStyle={{ fontSize: 10 }}
           />
-        </View>
-      ) : null}
+        ) : null}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  subscribersContainer: {
-    padding: 10,
-    backgroundColor: ColorPalette.FONT.PLACEHOLDER,
+  container: {
     borderRadius: 25,
-    marginBottom: 10,
-  },
-  topContainer: {
+    padding: 8,
+    margin: 5,
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  rowContainer: {
+  subcontainer: {
     flexDirection: "row",
     alignItems: "center",
     marginRight: 10,
   },
-  font: {
-    fontSize: 15,
+  text: {
+    fontSize: 14,
+    marginBottom: 2,
   },
-  statusText: {
-    fontSize: 10,
-    marginLeft: 5,
-    color: ColorPalette.SECONDARY,
+  subtext: {
+    fontSize: 11,
     fontWeight: "bold",
-  },
-  bottomContainer: {
-    marginTop: 10,
-    marginHorizontal: 5,
-    padding: 5,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    marginLeft: 4,
   },
 });
 

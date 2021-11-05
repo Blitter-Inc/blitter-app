@@ -13,9 +13,15 @@ export interface BillCardComponentProps {
   lastUpdatedAt: string;
 };
 
-export interface BillSubscriberProps {
-  subscriber: BillSubscriberObject;
+export interface BillSubscriberComponentProps {
+  userId: number;
+  name: string;
+  avatar: string;
+  amount: string;
+  amountPaid: string;
+  fulfilled: boolean;
+  self: boolean;
 };
 
 export type BillCardComponent = (props: BillCardComponentProps) => JSX.Element;
-export type BillSubscribersComponent = (props: BillSubscriberProps) => JSX.Element;
+export type BillSubscriberComponent = (props: BillSubscriberComponentProps) => JSX.Element;

@@ -7,16 +7,16 @@ import { IconComponent } from "./icons";
 
 
 export interface AmountInputProps extends TextInputProps, AppThemeHookProps, ContainerProps { };
-export interface BadgePickerComponentProps extends PickerProps, ContainerProps, ChildrenProps { };
+export interface BadgePickerComponentProps extends PickerProps, ContainerProps { };
 export interface DescriptionInputProps extends TextInputProps, AppThemeHookProps, ContainerProps { };
 export interface FileGalleryProps { };
-export interface InputLabelComponentProps extends TextProps, ChildrenProps { };
+export interface InputLabelComponentProps extends TextProps { };
 export interface LabeledContainerProps extends ChildrenProps, ContainerProps {
   label: string;
   labelProps?: TextProps;
 };
-export interface ListContainerProps extends ChildrenProps, ScrollViewProps { };
-export interface PickerComponentProps extends PickerProps, ChildrenProps { label: string; };
+export interface ListContainerProps extends ScrollViewProps { };
+export interface PickerComponentProps extends PickerProps { label: string; };
 export interface PillComponentProps extends ActionProps, ContainerProps {
   label: string;
   size: number;

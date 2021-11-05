@@ -25,7 +25,7 @@ export interface BillAPIObject extends TimeMixinAPIObject {
   status: BillStatus;
   amount: string;
   settled_amount: string;
-  created_by: number | null;
+  created_by: number;
   created_at: string;
   updated_at: string;
   subscribers: BillSubscriberAPIObject[];

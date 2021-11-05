@@ -1,4 +1,4 @@
-import { BillCardPropsGeneratorHandler } from "$types/helpers";
+import { BillCardPropsGeneratorHandler, BillSubscriberPropsGeneratorHandler } from "$types/helpers";
 import { generateDisplayDate } from "./index";
 
 
@@ -13,3 +13,16 @@ export const billCardPropsGenerator: BillCardPropsGeneratorHandler = ({ contactM
   createdBy: (bill.createdBy === user.id) ? "You" : (contactMap[bill.createdBy].name ?? ""),
   lastUpdatedAt: generateDisplayDate(bill.lastUpdatedAt),
 });
+
+export const billSubscriberPropsGenerator: BillSubscriberPropsGeneratorHandler = ({ contactMap, user }) => subscriber => {
+  const subscriberProfile = contactMap[subscriber.userId];
+  return {
+    userId: subscriber.userId,
+    name: (subscriber.userId === user.id) ? "You" : (subscriberProfile.name ?? ""),
+    avatar: subscriberProfile.avatar ?? "",
+    amount: subscriber.amount,
+    amountPaid: subscriber.amountPaid,
+    fulfilled: subscriber.fulfilled,
+    self: subscriber.userId === user.id,
+  };
+};

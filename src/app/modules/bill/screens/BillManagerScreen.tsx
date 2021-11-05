@@ -31,6 +31,10 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
   };
 
   const navigateToBillScreen = (params: BillScreenParams = {}) => {
+    if (params.billObj) {
+      params.contactMap = contactMap;
+      params.user = user;
+    }
     return () => navigation.push("Bill", params);
   };
 

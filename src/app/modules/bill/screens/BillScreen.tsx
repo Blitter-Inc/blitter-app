@@ -17,7 +17,9 @@ import {
   TitleInput,
 } from "$components/index";
 import { Styles, useAppTheme } from "$config/theme";
+import { billSubscriberPropsGenerator } from "$helpers/bill";
 import { generateDisplayDate } from "$helpers/index";
+import { GenerateBillSubscriberPropsHandler } from "$types/helpers";
 import {
   BillObject,
   BillStatus,
@@ -44,7 +46,14 @@ const initialBill: BillObject = {
 };
 
 const BillScreen: BillScreenElement = ({ route }) => {
-  const { billObj } = route.params;
+  const { billObj, contactMap, user } = route.params;
+  const isNew = !(billObj && contactMap && user);
+
+  let generateBillSubscriberProps: GenerateBillSubscriberPropsHandler;
+  if (!isNew) {
+    generateBillSubscriberProps = billSubscriberPropsGenerator({ contactMap, user });
+  }
+
   const ColorPalette = useAppTheme();
 
   const [bill, setBill] = useState<BillObject>(billObj ?? initialBill);
@@ -97,6 +106,15 @@ const BillScreen: BillScreenElement = ({ route }) => {
             placeholderTextColor={ColorPalette.FONT.PLACEHOLDER}
           />
         </LabeledContainer>
+        {
+          !isNew && (
+            <LabeledContainer label="Subscribers" containerStyle={{ ...Styles.ContentContainer, ...styles.subscriberContainer }}>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {bill.subscribers.map(subscriber => <BillSubscriber key={subscriber.id} {...generateBillSubscriberProps(subscriber)} />)}
+              </ScrollView>
+            </LabeledContainer>
+          )
+        }
       </ScrollView>
       <View style={styles.bottomToolbar}>
         {
@@ -112,7 +130,6 @@ const BillScreen: BillScreenElement = ({ route }) => {
           <AttachIcon color={ColorPalette.INVERT.PRIMARY} size={27} containerStyle={styles.bottomToolbarIcon} />
         </View>
       </View>
-      {/* {bill.subscribers.map(subs=> <BillSubscriber key={subs.id} subscriber={subs} />)} */}
       <Button
         title={billObj ? "Save" : "Add"}
         buttonStyle={[styles.button, { backgroundColor: ColorPalette.ACCENT }]}
@@ -151,6 +168,9 @@ const styles = StyleSheet.create({
   description: {
     marginHorizontal: 8,
     maxHeight: 54,
+  },
+  subscriberContainer: {
+    maxHeight: 275,
   },
   bottomToolbar: {
     flexDirection: "row",
