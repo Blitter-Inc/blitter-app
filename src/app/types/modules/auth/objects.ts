@@ -1,3 +1,6 @@
+import { ImageSourcePropType } from "react-native";
+
+
 export interface UserProfile {
   id: number;
   name: string;
@@ -11,6 +14,17 @@ export interface User extends Partial<UserProfile> {
   dateJoined: string;
 };
 
+export interface AvatarStateSourceValue {
+  uri: string;
+  fromState: boolean;
+};
+
+export interface AvatarSelectedSourceValue {
+  uri: string;
+  name: string;
+  type: string;
+};
+
 export interface Profile extends Omit<Partial<UserProfile>, "avatar"> {
-  avatar?: FormDataEntryValue;
+  avatar?: FormDataEntryValue | AvatarStateSourceValue | AvatarSelectedSourceValue | ImageSourcePropType;
 };

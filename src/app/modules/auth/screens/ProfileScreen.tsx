@@ -70,7 +70,7 @@ const ProfileScreen: ProfileScreenElement = ({ navigation }) => {
   const onSubmit = () => {
     dispatch(updateProfile({
       ...profile,
-      avatar: ((typeof profile.avatar === "number" || profile.avatar.fromState) ? "" : profile.avatar),
+      avatar: ((typeof profile.avatar === "number" || profile.avatar?.fromState) ? "" : profile.avatar),
     }));
   };
 
