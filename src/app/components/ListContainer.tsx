@@ -12,9 +12,7 @@ const ListContainer: ListContainerComponent = ({ children, ...scrollViewProps })
 }
 
 const styles = StyleSheet.create({
-  list: {
-    paddingHorizontal: 15,
-  },
+  list: {},
 });
 
 

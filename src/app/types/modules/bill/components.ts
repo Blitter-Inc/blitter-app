@@ -8,7 +8,10 @@ export interface BillCardComponentProps {
   settledAmt: string;
   amount: string;
   subscriberCount: number;
-  subscriberAvatars: string[];
+  subscriberAvatars: {
+    title: string;
+    uri: string;
+  }[];
   createdBy: string;
   lastUpdatedAt: string;
 };

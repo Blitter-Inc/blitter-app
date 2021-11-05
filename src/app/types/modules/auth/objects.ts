@@ -14,6 +14,11 @@ export interface User extends Partial<UserProfile> {
   dateJoined: string;
 };
 
+export interface ContactObject extends UserProfile {
+  phoneNumber: string;
+  dateJoined: string;
+};
+
 export interface AvatarStateSourceValue {
   uri: string;
   fromState: boolean;

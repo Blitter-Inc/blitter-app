@@ -6,9 +6,9 @@ import { BillStackParamList } from "../../navigation";
 
 
 export interface BillScreenParams {
+  contactMap: ContactObjectMap;
+  user: User;
   billObj?: BillObject;
-  contactMap?: ContactObjectMap;
-  user?: User;
 };
 
 export interface BillScreenProps extends StackScreenProps<BillStackParamList, "Bill"> { };

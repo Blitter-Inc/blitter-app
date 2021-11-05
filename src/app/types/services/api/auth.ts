@@ -1,4 +1,4 @@
-import { User, UserProfile, } from "../../modules/auth"
+import { ContactObject, User, UserProfile } from "../../modules/auth"
 import { UpdateProfileSagaArgs } from "../../store";
 
 
@@ -51,7 +51,7 @@ export interface FetchUserProfilesHandlerArgs {
 };
 
 export interface FetchUserProfilesSerializedResponseBody {
-  [id: string]: User;
+  [id: string]: ContactObject;
 };
 
 export type SignInRequestSerializer = (payload: SignInHandlerArgs) => SignInRequestPayload;

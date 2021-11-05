@@ -12,7 +12,7 @@ const BillSubscriber: BillSubscriberComponent = props => {
   return (
     <View style={[styles.container, { backgroundColor: ColorPalette.FONT.PLACEHOLDER }]}>
       <View style={styles.subcontainer}>
-        <Avatar size={45} source={{ uri: props.avatar }} />
+        <Avatar title={props.name?.[0]} size={45} source={{ uri: props.avatar }} />
         <View style={{ marginLeft: 5 }}>
           <Text style={styles.text}> {props.name}</Text>
           <Text style={[styles.subtext, { color: ColorPalette.SECONDARY }]}>Paid ₹ {props.fulfilled ? props.amount : `${props.amountPaid} / ${props.amount}`}</Text>

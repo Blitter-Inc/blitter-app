@@ -79,6 +79,7 @@ const ProfileScreen: ProfileScreenElement = ({ navigation }) => {
       <View style={styles.avatarWrapper}>
         <View style={[{ backgroundColor: ColorPalette.ACCENT }, styles.avatarWrapperBackground]} />
         <Avatar
+          title={profile.name?.[0]}
           source={profile.avatar}
           onPress={pickAvatar}
           size={180}

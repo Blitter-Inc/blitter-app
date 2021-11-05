@@ -5,6 +5,7 @@ import {
   AmountInput,
   AttachIcon,
   BottomCurve,
+  ContactPicker,
   EntertainmentIcon,
   FoodIcon,
   LabeledContainer,
@@ -19,13 +20,13 @@ import {
 import { Styles, useAppTheme } from "$config/theme";
 import { billSubscriberPropsGenerator } from "$helpers/bill";
 import { generateDisplayDate } from "$helpers/index";
-import { GenerateBillSubscriberPropsHandler } from "$types/helpers";
 import {
   BillObject,
   BillStatus,
   BillType,
   BillScreenElement,
 } from "$types/modules/bill";
+import { ContactObjectMap } from "$types/store";
 import BillSubscriber from "../components/BillSubscriber";
 
 
@@ -46,20 +47,50 @@ const initialBill: BillObject = {
 };
 
 const BillScreen: BillScreenElement = ({ route }) => {
-  const { billObj, contactMap, user } = route.params;
-  const isNew = !(billObj && contactMap && user);
-
-  let generateBillSubscriberProps: GenerateBillSubscriberPropsHandler;
-  if (!isNew) {
-    generateBillSubscriberProps = billSubscriberPropsGenerator({ contactMap, user });
-  }
-
   const ColorPalette = useAppTheme();
 
+  const { contactMap, user, billObj } = route.params;
+  const generateBillSubscriberProps = billSubscriberPropsGenerator({ contactMap, user });
+
   const [bill, setBill] = useState<BillObject>(billObj ?? initialBill);
+  const [selectedContacts, setSelectedContacts] = useState<ContactObjectMap>({});
+  const [selectedContactsCount, setSelectedCountactsCount] = useState(0);
+  const [contactPopupVisible, setContactPopupVisible] = useState(false);
 
   const updateBill = (billInput: Partial<BillObject>) => {
     setBill({ ...bill, ...billInput });
+  };
+
+  const toggleContactSelected = (contactId: number) => () => {
+    if (contactId in selectedContacts) {
+      const { [contactId]: _, ...contacts } = selectedContacts;
+      setSelectedContacts(contacts);
+      setSelectedCountactsCount(selectedContactsCount - 1);
+    } else {
+      setSelectedContacts({
+        ...selectedContacts,
+        [contactId]: contactMap?.[contactId],
+      });
+      setSelectedCountactsCount(selectedContactsCount + 1);
+    }
+  };
+
+  const toggleContactPopup = () => {
+    if (selectedContactsCount) {
+      updateBill({
+        subscribers: Object.keys(selectedContacts).map(contactid => ({
+          id: parseInt(contactid),
+          userId: parseInt(contactid),
+          amount: String(bill.amount ? parseFloat(bill.amount) / selectedContactsCount : 0),
+          amountPaid: "0",
+          fulfilled: false,
+        })
+        ),
+      });
+    } else {
+      // updateBill({ subscribers: [] });     // TODO: Make this work after handling case for a bill already having subscribers
+    }
+    setContactPopupVisible(!contactPopupVisible);
   };
 
   const billTypePillContainerStyle = (type: BillType) => {
@@ -107,7 +138,7 @@ const BillScreen: BillScreenElement = ({ route }) => {
           />
         </LabeledContainer>
         {
-          (!isNew && bill.subscribers.length) ? (
+          (bill.subscribers && bill.subscribers.length) ? (
             <LabeledContainer label="Subscribers" containerStyle={{ ...Styles.ContentContainer, ...styles.subscriberContainer }}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 {bill.subscribers.map(subscriber => <BillSubscriber key={subscriber.id} {...generateBillSubscriberProps(subscriber)} />)}
@@ -126,8 +157,17 @@ const BillScreen: BillScreenElement = ({ route }) => {
           )
         }
         <View style={styles.bottomToolbarActions}>
-          <PeopleAddIcon color={ColorPalette.INVERT.PRIMARY} size={30} containerStyle={styles.bottomToolbarIcon} />
-          <AttachIcon color={ColorPalette.INVERT.PRIMARY} size={27} containerStyle={styles.bottomToolbarIcon} />
+          <PeopleAddIcon
+            color={ColorPalette.INVERT.PRIMARY}
+            size={30}
+            containerStyle={styles.bottomToolbarIcon}
+            onPress={toggleContactPopup}
+          />
+          <AttachIcon
+            color={ColorPalette.INVERT.PRIMARY}
+            size={27}
+            containerStyle={styles.bottomToolbarIcon}
+          />
         </View>
       </View>
       <Button
@@ -135,6 +175,19 @@ const BillScreen: BillScreenElement = ({ route }) => {
         buttonStyle={[styles.button, { backgroundColor: ColorPalette.ACCENT }]}
       />
       <BottomCurve />
+      <ContactPicker
+        overlayProps={{ isVisible: contactPopupVisible, onBackdropPress: toggleContactPopup }}
+        colors={{
+          title: ColorPalette.ACCENT,
+          subtext: ColorPalette.FONT.SUBTEXT,
+          selectedItem: ColorPalette.FONT.PLACEHOLDER,
+        }}
+        selectedContacts={{
+          count: selectedContactsCount,
+          objectMap: selectedContacts,
+          toggle: toggleContactSelected,
+        }}
+      />
     </SafeAreaView>
   );
 };

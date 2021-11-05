@@ -31,12 +31,12 @@ const BillCard: BillCardComponent = props => {
           <Text style={style.amountText}> {props.settledAmt} / {props.amount}</Text>
         </View>
         <View style={style.avatarContainer}>
-          {props.subscriberAvatars.map((avatarURI, index) =>
+          {props.subscriberAvatars.map(({ title, uri }, index) =>
             <View
               key={index}
               style={{ right: `${index * 50}%`, zIndex: index }}
             >
-              <Avatar source={{ uri: avatarURI }} size={30} />
+              <Avatar title={title} source={{ uri }} size={30} />
             </View>
           )}
           {props.subscriberCount - 2 > 0 ? (

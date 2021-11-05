@@ -30,7 +30,7 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
     });
   };
 
-  const navigateToBillScreen = (params: BillScreenParams = {}) => {
+  const navigateToBillScreen = (params: BillScreenParams = { user, contactMap }) => {
     if (params.billObj) {
       params.contactMap = contactMap;
       params.user = user;
@@ -46,12 +46,12 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
         <ActionBar styles={[Styles.ActionBarContainer, Styles.FlexCenteredContainer]} />
         {
           billState.inStateCount ? (
-            <ListContainer style={Styles.ListContainer}>
+            <ListContainer style={[Styles.ListContainer, { paddingHorizontal: 15 }]}>
               {
                 billState.orderedSequence.map(billId => (
                   <TouchableOpacity
                     key={billId}
-                    onPress={navigateToBillScreen({ billObj: billState.objectMap[billId] })}
+                    onPress={navigateToBillScreen({ billObj: billState.objectMap[billId], contactMap, user })}
                   >
                     <BillCard {...generateBillCardProps(billState.objectMap[billId])} />
                   </TouchableOpacity>

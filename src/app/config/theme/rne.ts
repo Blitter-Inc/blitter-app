@@ -26,13 +26,7 @@ const ComponentMap: Partial<FullTheme> = {
     placeholderTextColor: ColorPalette.FONT.PLACEHOLDER,
   },
   Overlay: {
-    overlayStyle: {
-      maxHeight: "75%",
-      maxWidth: "90%",
-      justifyContent: "center",
-      alignItems: "center",
-      borderRadius: 25,
-    },
+    overlayStyle: {},
     animationType: "fade",
   },
   SearchBar: {

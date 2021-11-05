@@ -9,7 +9,10 @@ export const billCardPropsGenerator: BillCardPropsGeneratorHandler = ({ contactM
   settledAmt: bill.settledAmt ?? "0.00",
   amount: bill.amount,
   subscriberCount: bill.subscribers.length,
-  subscriberAvatars: bill.subscribers.slice(0, 2).map(subscriber => contactMap[subscriber.userId].avatar ?? ""),
+  subscriberAvatars: bill.subscribers.slice(0, 2).map(subscriber => ({
+    title: contactMap[subscriber.userId].name?.[0] ?? "?",
+    uri: contactMap[subscriber.userId].avatar ?? "",
+  })),
   createdBy: (bill.createdBy === user.id) ? "You" : (contactMap[bill.createdBy].name ?? ""),
   lastUpdatedAt: generateDisplayDate(bill.lastUpdatedAt),
 });
