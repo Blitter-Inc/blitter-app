@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { ScrollViewProps, TextInputProps } from "react-native";
 import { OverlayProps, TextProps } from "react-native-elements";
 import { PickerItemProps, PickerProps } from "@react-native-picker/picker";
-import { User } from "$types/modules/auth";
+import { UserObject } from "$types/modules/auth";
 import { ActionProps, ChildrenProps, ContainerProps } from "./abstracts";
 import { AppThemeHookProps } from "../config/theme";
 import { IconComponent } from "./icons";
@@ -20,7 +20,7 @@ export interface ContactPickerComponentProps {
     subtext: string;
     selectedItem: string;
   };
-  chooseContactAction?: (contact: User) => void;
+  chooseContactAction?: (contact: UserObject) => void;
   contactActionWidget?: ReactNode;
   selectedContacts?: {
     count: number;
@@ -30,7 +30,7 @@ export interface ContactPickerComponentProps {
 };
 
 export interface ContactPickerItemComponentProps {
-  contact: User;
+  contact: UserObject;
   selected?: boolean;
   colors?: {
     highlight: string;

@@ -1,5 +1,5 @@
 import { Action, AnyAction } from "@reduxjs/toolkit";
-import { ContactObject } from "$types/modules/auth";
+import { UserObject } from "$types/modules/auth";
 import { FetchBillsOrderingOptions, FetchBillsSerializedResponseBody } from "$types/services/api/bill";
 import { PayloadAction, Reducer } from "./abstract";
 import { BillObject } from "../modules/bill";
@@ -18,7 +18,7 @@ export interface BillState {
   objectMap: BillObjectMap;
 };
 
-export interface ContactObjectMap { [id: string]: ContactObject };
+export interface ContactObjectMap { [id: string]: UserObject };
 
 export interface ContactState {
   lastRefreshed: string;

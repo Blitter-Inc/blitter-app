@@ -1,8 +1,8 @@
-import { ContactObject, User, UserProfile } from "../../modules/auth"
+import { UserObject, UserProfileObject } from "../../modules/auth"
 import { UpdateProfileSagaArgs } from "../../store";
 
 
-export interface UserAPIObject extends UserProfile {
+export interface UserAPIObject extends UserProfileObject {
   phone: string;
   date_joined: string;
 };
@@ -27,7 +27,7 @@ export interface SignInHandlerArgs {
 export interface SignInSerializedResponseBody {
   accessToken: string;
   refreshToken: string;
-  user: User;
+  user: UserObject;
 };
 
 export interface UpdateProfileRequestPayload extends Omit<UpdateProfileSagaArgs, "id"> { };
@@ -36,7 +36,7 @@ export interface UpdateProfileResponseBody extends UserAPIObject { };
 
 export interface UpdateProfileHandlerArgs extends UpdateProfileSagaArgs { };
 
-export interface UpdateProfileSerializedResponseBody extends User { };
+export interface UpdateProfileSerializedResponseBody extends UserObject { };
 
 export interface FetchUserProfilesRequestPayload {
   phone_numbers: string[];
@@ -51,7 +51,7 @@ export interface FetchUserProfilesHandlerArgs {
 };
 
 export interface FetchUserProfilesSerializedResponseBody {
-  [id: string]: ContactObject;
+  [id: string]: UserObject;
 };
 
 export type SignInRequestSerializer = (payload: SignInHandlerArgs) => SignInRequestPayload;

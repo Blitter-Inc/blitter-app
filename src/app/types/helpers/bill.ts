@@ -1,11 +1,11 @@
-import { User } from "$types/modules/auth";
+import { UserObject } from "$types/modules/auth";
 import { BillCardComponentProps, BillObject, BillSubscriberComponentProps, BillSubscriberObject } from "$types/modules/bill";
 import { ContactObjectMap } from "$types/store";
 
 
 export interface BillCardPropsGeneratorHandlerArgs {
   contactMap: ContactObjectMap;
-  user: User;
+  user: UserObject;
 };
 
 export interface BillSubscriberPropsGeneratorHandlerArgs extends BillCardPropsGeneratorHandlerArgs { };

@@ -1,14 +1,14 @@
 import { FirebaseAuthApplicationVerifier } from "expo-firebase-recaptcha"
 import { AnyAction } from "@reduxjs/toolkit";
 import { ArgedPayloadAction, PayloadAction, Reducer } from "./abstract";
-import { User, Profile } from "../modules/auth";
+import { UserObject, UserProfileInput } from "../modules/auth";
 
 
 export interface AuthCredentials {
   firebaseId: string;
   accessToken: string;
   refreshToken: string;
-  user: User;
+  user: UserObject;
 }
 
 export interface AuthState {
@@ -27,7 +27,7 @@ export interface ConfirmCodeSentActionPayload {
 
 export interface ConfirmCodeVerificationActionPayload extends AuthCredentials { };
 
-export interface CompleteAuthFlowActionPayload extends User { };
+export interface CompleteAuthFlowActionPayload extends UserObject { };
 
 export interface InitPhoneSignInSagaArgs {
   phoneNumber: string;
@@ -39,7 +39,7 @@ export interface CheckVerificationCodeSagaArgs {
   verificationId: string;
 };
 
-export interface UpdateProfileSagaArgs extends Profile { };
+export interface UpdateProfileSagaArgs extends UserProfileInput { };
 
 export interface SkipOTPVerificationSagaArgs {
   phoneNumber: string;

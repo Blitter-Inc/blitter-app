@@ -12,33 +12,34 @@ import {
 import { useAppTheme } from "$config/theme";
 import { useAppSelector, useAppDispatch } from "$store/hooks";
 import { updateProfile } from "$store/slices/auth";
-import { Profile, ProfileScreenElement } from "$types/modules/auth";
+import { ProfileScreenElement, UserProfileInput } from "$types/modules/auth";
 
 
 const useRequiredState = () => {
   const authState = useAppSelector(state => state.auth);
   return {
     authFlowComplete: authState.authFlowComplete,
-    avatar: authState.credentials.user.avatar,
-    bio: authState.credentials.user.bio,
-    email: authState.credentials.user.email,
-    id: authState.credentials.user.id,
-    name: authState.credentials.user.name,
+    user: {
+      id: authState.credentials.user.id,
+      name: authState.credentials.user.name,
+      email: authState.credentials.user.email,
+      bio: authState.credentials.user.bio,
+      avatar: authState.credentials.user.avatar,
+    },
   };
 };
 
 const ProfileScreen: ProfileScreenElement = ({ navigation }) => {
   const ColorPalette = useAppTheme();
 
-  const state = useRequiredState();
+  const { user, ...state } = useRequiredState();
   const dispatch = useAppDispatch();
   const [avatarPlaceholderActive, setAvatarPlaceholderActive] = useState(true);
-  const [profile, setProfile] = useState<Profile>({
-    id: state.id,
-    name: state.name,
-    email: state.email,
-    bio: state.bio,
-    avatar: state.avatar ? { uri: state.avatar, fromState: true } : require("$assets/avatar.png"),
+  const [profile, setProfile] = useState<UserProfileInput>({
+    name: user.name,
+    email: user.email,
+    bio: user.bio,
+    avatar: user.avatar ? { uri: user.avatar, fromState: true } : require("$assets/avatar.png"),
   });
 
   useEffect(() => {
@@ -50,8 +51,8 @@ const ProfileScreen: ProfileScreenElement = ({ navigation }) => {
     }
   }, [state.authFlowComplete]);
 
-  const updateProfileState = (change: Profile) => {
-    setProfile({ ...profile, ...change });
+  const updateProfileState = (changes: Partial<UserProfileInput>) => {
+    setProfile({ ...profile, ...changes });
   };
 
   const pickAvatar = async () => {
@@ -61,17 +62,14 @@ const ProfileScreen: ProfileScreenElement = ({ navigation }) => {
     } else {
       const result = await launchImageLibraryAsync();
       if (!result.cancelled) {
-        updateProfileState({ avatar: { uri: result.uri, name: `${state.id}.jpg`, type: 'image/jpeg' } });
+        updateProfileState({ avatar: { uri: result.uri, name: `${user.id}.jpg`, type: 'image/jpeg' } });
         setAvatarPlaceholderActive(false);
       }
     }
   };
 
   const onSubmit = () => {
-    dispatch(updateProfile({
-      ...profile,
-      avatar: ((typeof profile.avatar === "number" || profile.avatar?.fromState) ? "" : profile.avatar),
-    }));
+    dispatch(updateProfile(profile));
   };
 
   return (

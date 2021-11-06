@@ -1,3 +1,5 @@
+import { generateFormData } from "$helpers/api";
+import { isAvatarFormDataValue } from "$types/modules/auth";
 import {
   FetchUserProfilesRequestSerializer,
   FetchUserProfilesResponseSerializer,
@@ -7,16 +9,6 @@ import {
   UpdateProfileResponseSerializer,
 } from "$types/services/api";
 
-
-const generateFormData = (obj: Object) => {
-  const formData = new FormData();
-  Object.entries(obj).forEach(([key, value]: [string, FormDataEntryValue]) => {
-    if (value) {
-      formData.append(key, value);
-    }
-  });
-  return formData;
-};
 
 export const signInRequestSerializer: SignInRequestSerializer = ({ phoneNumber, firebaseId }) => ({
   phone: phoneNumber,
@@ -38,6 +30,9 @@ export const signInResponseSerializer: SignInResponseSerializer = ({
 });
 
 export const updateProfileRequestSerializer: UpdateProfileRequestSerializer = payload => {
+  if (payload.avatar && !isAvatarFormDataValue(payload.avatar)) {
+    delete payload.avatar;
+  }
   return generateFormData(payload);
 };
 

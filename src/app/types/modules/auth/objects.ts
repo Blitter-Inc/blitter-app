@@ -1,7 +1,7 @@
 import { ImageSourcePropType } from "react-native";
 
 
-export interface UserProfile {
+export interface UserProfileObject {
   id: number;
   name: string;
   email?: string;
@@ -9,27 +9,22 @@ export interface UserProfile {
   avatar?: string;
 };
 
-export interface User extends Partial<UserProfile> {
+export interface UserObject extends UserProfileObject {
   phoneNumber: string;
   dateJoined: string;
 };
 
-export interface ContactObject extends UserProfile {
-  phoneNumber: string;
-  dateJoined: string;
-};
-
-export interface AvatarStateSourceValue {
+export interface AvatarSourceValue {
   uri: string;
-  fromState: boolean;
+  name?: string;
+  type?: string;
+  fromState?: boolean;
 };
 
-export interface AvatarSelectedSourceValue {
-  uri: string;
-  name: string;
-  type: string;
+export interface UserProfileInput extends Omit<UserProfileObject, "id" | "avatar"> {
+  avatar?: ImageSourcePropType | AvatarSourceValue;
 };
 
-export interface Profile extends Omit<Partial<UserProfile>, "avatar"> {
-  avatar?: FormDataEntryValue | AvatarStateSourceValue | AvatarSelectedSourceValue | ImageSourcePropType;
+export function isAvatarFormDataValue(object: any): boolean {
+  return 'uri' in object && 'type' in object;
 };
