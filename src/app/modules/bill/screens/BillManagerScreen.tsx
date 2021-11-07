@@ -10,17 +10,17 @@ import { BillCard } from "../components";
 
 const useRequiredState = () => {
   const {
-    auth: { credentials: { user } },
+    auth: { credentials: { user: loggedInUser } },
     cache: { contact: { objectMap: contactMap }, bill: billState },
   } = useAppSelector(state => state);
-  return { user, contactMap, billState };
+  return { loggedInUser, contactMap, billState };
 };
 
 const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
   const ColorPalette = useAppTheme();
-  const { user, billState, contactMap } = useRequiredState();
+  const { loggedInUser, billState, contactMap } = useRequiredState();
 
-  const generateBillCardProps = billCardPropsGenerator({ contactMap, user });
+  const generateBillCardProps = billCardPropsGenerator({ contactMap, loggedInUser });
 
   navigation.addListener("gestureStart", () => closeSearchBar());
 
@@ -30,10 +30,10 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
     });
   };
 
-  const navigateToBillScreen = (params: BillScreenParams = { user, contactMap }) => {
+  const navigateToBillScreen = (params: BillScreenParams = { loggedInUser, contactMap }) => {
     if (params.billObj) {
       params.contactMap = contactMap;
-      params.user = user;
+      params.loggedInUser = loggedInUser;
     }
     return () => navigation.push("Bill", params);
   };
@@ -51,7 +51,7 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
                 billState.orderedSequence.map(billId => (
                   <TouchableOpacity
                     key={billId}
-                    onPress={navigateToBillScreen({ billObj: billState.objectMap[billId], contactMap, user })}
+                    onPress={navigateToBillScreen({ billObj: billState.objectMap[billId], contactMap, loggedInUser })}
                   >
                     <BillCard {...generateBillCardProps(billState.objectMap[billId])} />
                   </TouchableOpacity>

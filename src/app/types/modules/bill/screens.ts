@@ -7,7 +7,7 @@ import { BillStackParamList } from "../../navigation";
 
 export interface BillScreenParams {
   contactMap: ContactObjectMap;
-  user: UserObject;
+  loggedInUser: UserObject;
   billObj?: BillObject;
 };
 

@@ -44,3 +44,24 @@ export interface BillObject {
   subscribers: BillSubscriberObject[];
   attachments: BillAttachmentObject[];
 };
+
+export interface BillSubscriberObjectInput {
+  userId: number;
+  amount: string;
+};
+
+export interface BillAttachmentObjectInput {
+  uri: string;
+  name?: string;
+  type?: string;
+  fromState?: boolean;
+};
+
+export interface BillObjectInput {
+  name: string;
+  amount: string;
+  type: BillType;
+  description: string;
+  subscribers: BillSubscriberObjectInput[];
+  attachments: BillAttachmentObjectInput[];
+};

@@ -1,8 +1,8 @@
-import { BillCardPropsGeneratorHandler, BillSubscriberPropsGeneratorHandler } from "$types/helpers";
-import { generateDisplayDate } from "./index";
+import { BillCardPropsGeneratorHandler, BillSubscriberPropsGeneratorHandler, GenerateEditableBillHandler } from "$types/helpers";
+import { generateDisplayDate } from "./date";
 
 
-export const billCardPropsGenerator: BillCardPropsGeneratorHandler = ({ contactMap, user }) => bill => ({
+export const billCardPropsGenerator: BillCardPropsGeneratorHandler = ({ contactMap, loggedInUser }) => bill => ({
   name: bill.name,
   type: bill.type.toUpperCase(),
   status: bill.status.toUpperCase(),
@@ -13,19 +13,38 @@ export const billCardPropsGenerator: BillCardPropsGeneratorHandler = ({ contactM
     title: contactMap[subscriber.userId].name?.[0] ?? "?",
     uri: contactMap[subscriber.userId].avatar ?? "",
   })),
-  createdBy: (bill.createdBy === user.id) ? "You" : (contactMap[bill.createdBy].name ?? ""),
+  createdBy: (bill.createdBy === loggedInUser.id) ? "You" : (contactMap[bill.createdBy].name ?? ""),
   lastUpdatedAt: generateDisplayDate(bill.lastUpdatedAt),
 });
 
-export const billSubscriberPropsGenerator: BillSubscriberPropsGeneratorHandler = ({ contactMap, user }) => subscriber => {
+export const billSubscriberPropsGenerator: BillSubscriberPropsGeneratorHandler = ({ contactMap, loggedInUser }) => (subscriber, editable) => {
   const subscriberProfile = contactMap[subscriber.userId];
   return {
     userId: subscriber.userId,
-    name: (subscriber.userId === user.id) ? "You" : (subscriberProfile.name ?? ""),
+    name: (subscriber.userId === loggedInUser.id) ? "You" : (subscriberProfile.name ?? ""),
     avatar: subscriberProfile.avatar ?? "",
     amount: subscriber.amount,
-    amountPaid: subscriber.amountPaid,
-    fulfilled: subscriber.fulfilled,
-    self: subscriber.userId === user.id,
+    self: subscriber.userId === loggedInUser.id,
+    ...('amountPaid' in subscriber ? {
+      amountPaid: subscriber.amountPaid,
+      fulfilled: subscriber.fulfilled,
+    } : {}),
+    editable,
   };
 };
+
+export const generateEditableBill: GenerateEditableBillHandler = ({ bill }) => ({
+  name: bill.name,
+  amount: bill.amount,
+  type: bill.type,
+  description: bill.description,
+  subscribers: bill.subscribers.map(subscriber => ({
+    userId: subscriber.userId,
+    amount: subscriber.amount,
+  })),
+  attachments: bill.attachments.map(attachment => ({
+    uri: attachment.file,
+    name: attachment.name,
+    fromState: true,
+  })),
+});

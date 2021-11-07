@@ -15,6 +15,10 @@ export const AttachIcon: IconComponent = props => (
   <Icon type="feather" name="paperclip" {...props} />
 );
 
+export const EditIcon: IconComponent = props => (
+  <Icon type="foundation" name="page-edit" {...props} />
+);
+
 export const EntertainmentIcon: IconComponent = props => (
   <Icon type="material-community" name="television-classic" {...props} />
 );

@@ -1,6 +1,3 @@
-import { BillSubscriberObject } from "./objects";
-
-
 export interface BillCardComponentProps {
   name: string;
   type: string;
@@ -21,9 +18,10 @@ export interface BillSubscriberComponentProps {
   name: string;
   avatar: string;
   amount: string;
-  amountPaid: string;
-  fulfilled: boolean;
-  self: boolean;
+  amountPaid?: string;
+  fulfilled?: boolean;
+  self?: boolean;
+  editable: boolean;
 };
 
 export type BillCardComponent = (props: BillCardComponentProps) => JSX.Element;

@@ -6,6 +6,7 @@ import {
   AttachIcon,
   BottomCurve,
   ContactPicker,
+  EditIcon,
   EntertainmentIcon,
   FoodIcon,
   LabeledContainer,
@@ -18,10 +19,10 @@ import {
   TitleInput,
 } from "$components/index";
 import { Styles, useAppTheme } from "$config/theme";
-import { billSubscriberPropsGenerator } from "$helpers/bill";
-import { generateDisplayDate } from "$helpers/index";
+import { billSubscriberPropsGenerator, generateEditableBill } from "$helpers/bill";
+import { generateDisplayDate } from "$helpers/date";
 import {
-  BillObject,
+  BillObjectInput,
   BillStatus,
   BillType,
   BillScreenElement,
@@ -30,18 +31,11 @@ import { ContactObjectMap } from "$types/store";
 import BillSubscriber from "../components/BillSubscriber";
 
 
-const initialBill: BillObject = {
-  id: 0,
+const initialBill: BillObjectInput = {
   name: "",
   amount: "",
-  settledAmt: "",
   type: BillType.DEFAULT,
-  eventName: "",
   description: "",
-  status: BillStatus.NEW,
-  createdBy: 0,
-  createdAt: new Date().toDateString(),
-  lastUpdatedAt: new Date().toDateString(),
   subscribers: [],
   attachments: [],
 };
@@ -49,15 +43,16 @@ const initialBill: BillObject = {
 const BillScreen: BillScreenElement = ({ route }) => {
   const ColorPalette = useAppTheme();
 
-  const { contactMap, user, billObj } = route.params;
-  const generateBillSubscriberProps = billSubscriberPropsGenerator({ contactMap, user });
+  const { billObj, contactMap, loggedInUser } = route.params;
+  const generateBillSubscriberProps = billSubscriberPropsGenerator({ contactMap, loggedInUser });
 
-  const [bill, setBill] = useState<BillObject>(billObj ?? initialBill);
+  const [bill, setBill] = useState(billObj ? generateEditableBill({ bill: billObj }) : initialBill);
+  const [editMode, setEditMode] = useState(billObj ? false : true);
   const [selectedContacts, setSelectedContacts] = useState<ContactObjectMap>({});
   const [selectedContactsCount, setSelectedCountactsCount] = useState(0);
   const [contactPopupVisible, setContactPopupVisible] = useState(false);
 
-  const updateBill = (billInput: Partial<BillObject>) => {
+  const updateBill = (billInput: Partial<BillObjectInput>) => {
     setBill({ ...bill, ...billInput });
   };
 
@@ -106,6 +101,7 @@ const BillScreen: BillScreenElement = ({ route }) => {
           onChangeText={(name: string) => updateBill({ name })}
           selectTextOnFocus={true}
           containerStyle={Styles.ContentContainer}
+          editable={editMode}
         />
         <View style={styles.pillContainer}>
           <AmountInput
@@ -115,9 +111,16 @@ const BillScreen: BillScreenElement = ({ route }) => {
             keyboardType="numeric"
             textContentType="telephoneNumber"
             containerStyle={styles.amountPill}
+            editable={editMode}
           />
-          <Pill label={bill.status.toUpperCase()} size={18} LeftIcon={MiscelleneousIcon} containerStyle={styles.statusPill} />
+          <Pill
+            label={billObj ? billObj.status.toUpperCase() : BillStatus.NEW.toUpperCase()}
+            size={18}
+            LeftIcon={MiscelleneousIcon}
+            containerStyle={styles.statusPill}
+          />
         </View>
+        {/* TODO: Fix this for non-edit mode */}
         <LabeledContainer label="Type" labelProps={{ style: Styles.ContentContainer }}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={{ width: 5 }} />
@@ -135,13 +138,14 @@ const BillScreen: BillScreenElement = ({ route }) => {
             multiline
             style={[styles.description, { color: ColorPalette.FONT.INPUT, borderBottomColor: ColorPalette.ACCENT }]}
             placeholderTextColor={ColorPalette.FONT.PLACEHOLDER}
+            editable={editMode}
           />
         </LabeledContainer>
         {
-          (bill.subscribers && bill.subscribers.length) ? (
+          bill.subscribers.length ? (
             <LabeledContainer label="Subscribers" containerStyle={{ ...Styles.ContentContainer, ...styles.subscriberContainer }}>
               <ScrollView showsVerticalScrollIndicator={false}>
-                {bill.subscribers.map(subscriber => <BillSubscriber key={subscriber.id} {...generateBillSubscriberProps(subscriber)} />)}
+                {bill.subscribers.map((subscriber, index) => <BillSubscriber key={index} {...generateBillSubscriberProps(subscriber, editMode)} />)}
               </ScrollView>
             </LabeledContainer>
           ) : undefined
@@ -149,45 +153,67 @@ const BillScreen: BillScreenElement = ({ route }) => {
       </ScrollView>
       <View style={styles.bottomToolbar}>
         {
-          billObj && (
+          (billObj && !editMode) ? (
             <View style={styles.bottomToolbarInfo}>
-              <Text style={[styles.bottomToolbarText, { color: ColorPalette.INVERT.PRIMARY }]}>Created: {generateDisplayDate(bill.createdAt)}</Text>
-              <Text style={[styles.bottomToolbarText, { color: ColorPalette.INVERT.PRIMARY }]}>Last Updated: {generateDisplayDate(bill.lastUpdatedAt)}</Text>
+              <Text style={[styles.bottomToolbarText, { color: ColorPalette.INVERT.PRIMARY }]}>Created: {generateDisplayDate(billObj.createdAt)}</Text>
+              <Text style={[styles.bottomToolbarText, { color: ColorPalette.INVERT.PRIMARY }]}>Last Updated: {generateDisplayDate(billObj.lastUpdatedAt)}</Text>
             </View>
-          )
+          ) : undefined
         }
         <View style={styles.bottomToolbarActions}>
-          <PeopleAddIcon
-            color={ColorPalette.INVERT.PRIMARY}
-            size={30}
-            containerStyle={styles.bottomToolbarIcon}
-            onPress={toggleContactPopup}
-          />
-          <AttachIcon
-            color={ColorPalette.INVERT.PRIMARY}
-            size={27}
-            containerStyle={styles.bottomToolbarIcon}
-          />
+          {
+            editMode ? (
+              <>
+                <PeopleAddIcon
+                  color={ColorPalette.INVERT.PRIMARY}
+                  size={30}
+                  containerStyle={styles.bottomToolbarIcon}
+                  onPress={toggleContactPopup}
+                />
+                <AttachIcon
+                  color={ColorPalette.INVERT.PRIMARY}
+                  size={27}
+                  containerStyle={styles.bottomToolbarIcon}
+                />
+              </>
+            ) : (
+              <>
+                <Text style={{ color: ColorPalette.INVERT.PRIMARY }}>Tap to edit</Text>
+                <EditIcon
+                  color={ColorPalette.INVERT.PRIMARY}
+                  size={27}
+                  containerStyle={styles.bottomToolbarIcon}
+                  onPress={() => setEditMode(true)}
+                />
+              </>
+            )
+          }
         </View>
       </View>
-      <Button
-        title={billObj ? "Save" : "Add"}
-        buttonStyle={[styles.button, { backgroundColor: ColorPalette.ACCENT }]}
-      />
+      {
+        editMode && (
+          <>
+            <Button
+              title={billObj ? "Save" : "Add"}
+              buttonStyle={[styles.button, { backgroundColor: ColorPalette.ACCENT }]}
+            />
+            <ContactPicker
+              overlayProps={{ isVisible: contactPopupVisible, onBackdropPress: toggleContactPopup }}
+              colors={{
+                title: ColorPalette.ACCENT,
+                subtext: ColorPalette.FONT.SUBTEXT,
+                selectedItem: ColorPalette.FONT.PLACEHOLDER,
+              }}
+              selectedContacts={{
+                count: selectedContactsCount,
+                objectMap: selectedContacts,
+                toggle: toggleContactSelected,
+              }}
+            />
+          </>
+        )
+      }
       <BottomCurve />
-      <ContactPicker
-        overlayProps={{ isVisible: contactPopupVisible, onBackdropPress: toggleContactPopup }}
-        colors={{
-          title: ColorPalette.ACCENT,
-          subtext: ColorPalette.FONT.SUBTEXT,
-          selectedItem: ColorPalette.FONT.PLACEHOLDER,
-        }}
-        selectedContacts={{
-          count: selectedContactsCount,
-          objectMap: selectedContacts,
-          toggle: toggleContactSelected,
-        }}
-      />
     </SafeAreaView>
   );
 };
