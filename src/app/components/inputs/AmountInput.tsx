@@ -10,19 +10,19 @@ class AmountInput extends React.Component<AmountInputProps> {
     const {
       appTheme,
       containerStyle,
+      size,
       ...textInputProps
     } = this.props;
     return (
       <View style={[styles.container, { borderColor: appTheme.ACCENT }, containerStyle]}>
-        <RupeeIcon color={appTheme.FONT.INPUT} size={20} containerStyle={styles.icon} />
+        <RupeeIcon color={appTheme.FONT.INPUT} size={size} containerStyle={styles.icon} />
         <TextInput
+          placeholderTextColor={appTheme.FONT.PLACEHOLDER}
           {...textInputProps}
           style={[
+            { color: appTheme.FONT.INPUT, fontSize: size },
             textInputProps.style,
-            { color: appTheme.FONT.INPUT },
-            styles.input,
           ]}
-          placeholderTextColor={appTheme.FONT.PLACEHOLDER}
         />
       </View>
     );
@@ -40,12 +40,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     paddingLeft: 4,
-    paddingTop: 4,
-  },
-  input: {
-    fontSize: 20,
-    padding: 8,
-    width: "100%",
+    paddingTop: 3,
   },
 });
 

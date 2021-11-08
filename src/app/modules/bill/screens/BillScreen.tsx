@@ -90,7 +90,8 @@ const BillScreen: BillScreenElement = ({ route }) => {
         ),
       });
     } else {
-      // updateBill({ subscribers: [] });     // TODO: Make this work after handling case for a bill already having subscribers
+      // TODO: Make this work after handling case for a bill already having subscribers
+      // updateBill({ subscribers: [] });
     }
     setContactPopupVisible(!contactPopupVisible);
   };
@@ -113,12 +114,14 @@ const BillScreen: BillScreenElement = ({ route }) => {
         <View style={styles.pillContainer}>
           <AmountInput
             value={bill.amount}
+            size={20}
             placeholder="Amount"
             onChangeText={(amount: string) => updateBill({ amount })}
             keyboardType="numeric"
             textContentType="telephoneNumber"
             containerStyle={styles.amountPill}
             editable={editMode}
+            style={styles.amountPillInput}
           />
           <Pill
             label={billObj ? billObj.status.toUpperCase() : BillStatus.NEW.toUpperCase()}
@@ -164,7 +167,17 @@ const BillScreen: BillScreenElement = ({ route }) => {
           bill.subscribers.length ? (
             <LabeledContainer label="Subscribers" containerStyle={{ ...Styles.ContentContainer, ...styles.subscriberContainer }}>
               <ScrollView showsVerticalScrollIndicator={false}>
-                {bill.subscribers.map((subscriber, index) => <BillSubscriber key={index} {...generateBillSubscriberProps(subscriber, editMode)} />)}
+                {
+                  // rendering billObj.subscribers incase of non-edit mode to showcase amountPaid and other details.
+                  // and bill.subscribers incase of edit mode as these details are not needed.
+                  (editMode ?
+                    bill.subscribers :
+                    (billObj?.subscribers ?? [])
+                  ).map((subscriber, index) => <BillSubscriber
+                    key={index}
+                    {...generateBillSubscriberProps(subscriber, editMode)}
+                  />)
+                }
               </ScrollView>
             </LabeledContainer>
           ) : undefined
@@ -254,6 +267,10 @@ const styles = StyleSheet.create({
   },
   amountPill: {
     maxWidth: "58%",
+  },
+  amountPillInput: {
+    width: "100%",
+    padding: 8,
   },
   statusPill: {
     width: "36%",

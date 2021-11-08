@@ -9,7 +9,9 @@ import { IconComponent } from "./icons";
 import { ContactObjectMap } from "$types/store";
 
 
-export interface AmountInputProps extends TextInputProps, AppThemeHookProps, ContainerProps { };
+export interface AmountInputProps extends TextInputProps, AppThemeHookProps, ContainerProps {
+  size: number;
+};
 
 export interface BadgePickerComponentProps extends PickerProps, ContainerProps { };
 
