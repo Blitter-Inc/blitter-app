@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, TextInput, Text, View } from "react-native";
+import { ScrollView, StyleSheet, TextInput, Text, TouchableOpacity, View } from "react-native";
 import { Button } from "react-native-elements";
 import {
   AmountInput,
@@ -209,15 +209,19 @@ const BillScreen: BillScreenElement = ({ route }) => {
                 />
               </>
             ) : (
-              <>
-                <Text style={{ color: ColorPalette.INVERT.PRIMARY }}>Tap to edit</Text>
-                <EditIcon
-                  color={ColorPalette.INVERT.PRIMARY}
-                  size={27}
-                  containerStyle={styles.bottomToolbarIcon}
-                  onPress={() => setEditMode(true)}
-                />
-              </>
+              <TouchableOpacity
+                style={{ flexDirection: "row", alignItems: "center" }}
+                onPress={() => setEditMode(true)}
+              >
+                <>
+                  <EditIcon
+                    color={ColorPalette.INVERT.PRIMARY}
+                    size={25}
+                    containerStyle={styles.bottomToolbarIcon}
+                  />
+                  <Text style={{ color: ColorPalette.INVERT.PRIMARY, fontSize: 15, marginLeft: 5 }}>Tap to edit</Text>
+                </>
+              </TouchableOpacity>
             )
           }
         </View>
