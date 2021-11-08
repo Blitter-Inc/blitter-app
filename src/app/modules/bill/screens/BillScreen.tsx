@@ -7,19 +7,19 @@ import {
   BottomCurve,
   ContactPicker,
   EditIcon,
-  EntertainmentIcon,
-  FoodIcon,
   LabeledContainer,
   MiscelleneousIcon,
   PeopleAddIcon,
   Pill,
   SafeAreaView,
-  ShoppingIcon,
-  StatusIcon,
   TitleInput,
 } from "$components/index";
 import { Styles, useAppTheme } from "$config/theme";
-import { billSubscriberPropsGenerator, generateEditableBill } from "$helpers/bill";
+import {
+  billSubscriberPropsGenerator,
+  generateBillTypeMap,
+  generateEditableBill,
+} from "$helpers/bill";
 import { generateDisplayDate } from "$helpers/date";
 import {
   BillObjectInput,
@@ -30,6 +30,8 @@ import {
 import { ContactObjectMap } from "$types/store";
 import BillSubscriber from "../components/BillSubscriber";
 
+
+const BillTypeMap = generateBillTypeMap();
 
 const initialBill: BillObjectInput = {
   name: "",
@@ -45,6 +47,7 @@ const BillScreen: BillScreenElement = ({ route }) => {
 
   const { billObj, contactMap, loggedInUser } = route.params;
   const generateBillSubscriberProps = billSubscriberPropsGenerator({ contactMap, loggedInUser });
+  const BillTypeChoices = Array.from(BillTypeMap.keys()).filter(key => key != billObj?.type);
 
   const [bill, setBill] = useState(billObj ? generateEditableBill({ bill: billObj }) : initialBill);
   const [editMode, setEditMode] = useState(billObj ? false : true);
@@ -54,6 +57,10 @@ const BillScreen: BillScreenElement = ({ route }) => {
 
   const updateBill = (billInput: Partial<BillObjectInput>) => {
     setBill({ ...bill, ...billInput });
+  };
+
+  const updateBillType = (type: BillType) => () => {
+    if (editMode) { updateBill({ type }) };
   };
 
   const toggleContactSelected = (contactId: number) => () => {
@@ -120,14 +127,26 @@ const BillScreen: BillScreenElement = ({ route }) => {
             containerStyle={styles.statusPill}
           />
         </View>
-        {/* TODO: Fix this for non-edit mode */}
         <LabeledContainer label="Type" labelProps={{ style: Styles.ContentContainer }}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} scrollEnabled={editMode}>
             <View style={{ width: 5 }} />
-            <Pill size={16} LeftIcon={FoodIcon} label="Food" onPress={() => updateBill({ type: BillType.FOOD })} containerStyle={billTypePillContainerStyle(BillType.FOOD)} />
-            <Pill size={16} LeftIcon={ShoppingIcon} label="Shopping" onPress={() => updateBill({ type: BillType.SHOPPING })} containerStyle={billTypePillContainerStyle(BillType.SHOPPING)} />
-            <Pill size={16} LeftIcon={EntertainmentIcon} label="Entertainment" onPress={() => updateBill({ type: BillType.ENTERTAINMENT })} containerStyle={billTypePillContainerStyle(BillType.ENTERTAINMENT)} />
-            <Pill size={16} LeftIcon={StatusIcon} label="Miscelleneous" onPress={() => updateBill({ type: BillType.MISC })} containerStyle={billTypePillContainerStyle(BillType.MISC)} />
+            {
+              billObj && <Pill
+                size={16}
+                LeftIcon={BillTypeMap.get(billObj.type)?.icon}
+                label={BillTypeMap.get(billObj.type)?.label ?? ""}
+                onPress={updateBillType(billObj.type)}
+                containerStyle={billTypePillContainerStyle(billObj.type)}
+              />
+            }
+            {BillTypeChoices.map((type, index) => <Pill
+              key={index}
+              size={16}
+              LeftIcon={BillTypeMap.get(type)?.icon}
+              label={BillTypeMap.get(type)?.label ?? ""}
+              onPress={updateBillType(type)}
+              containerStyle={billTypePillContainerStyle(type)}
+            />)}
           </ScrollView>
         </LabeledContainer>
         <LabeledContainer label="Description" containerStyle={Styles.ContentContainer}>

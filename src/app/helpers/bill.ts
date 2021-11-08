@@ -1,6 +1,22 @@
-import { BillCardPropsGeneratorHandler, BillSubscriberPropsGeneratorHandler, GenerateEditableBillHandler } from "$types/helpers";
+import { EntertainmentIcon, FoodIcon, ShoppingIcon, StatusIcon } from "$components/Icons";
+import { IconComponent } from "$types/components";
+import {
+  BillCardPropsGeneratorHandler,
+  BillSubscriberPropsGeneratorHandler,
+  GenerateEditableBillHandler,
+} from "$types/helpers";
+import { BillType } from "$types/modules/bill";
 import { generateDisplayDate } from "./date";
 
+
+export const generateBillTypeMap = () => {
+  return new Map<BillType, { label: string; icon: IconComponent }>([
+    [BillType.FOOD, { label: "Food", icon: FoodIcon }],
+    [BillType.SHOPPING, { label: "Shopping", icon: ShoppingIcon }],
+    [BillType.ENTERTAINMENT, { label: "Entertainment", icon: EntertainmentIcon }],
+    [BillType.MISC, { label: "Miscelleneous", icon: StatusIcon }],
+  ]);
+};
 
 export const billCardPropsGenerator: BillCardPropsGeneratorHandler = ({ contactMap, loggedInUser }) => bill => ({
   name: bill.name,
