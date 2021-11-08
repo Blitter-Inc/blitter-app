@@ -1,4 +1,4 @@
-import { FirebaseAuthApplicationVerifier } from "expo-firebase-recaptcha"
+import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha"
 import { AnyAction } from "@reduxjs/toolkit";
 import { ArgedPayloadAction, PayloadAction, Reducer } from "./abstract";
 import { UserObject, UserProfileInput } from "../modules/auth";
@@ -31,7 +31,7 @@ export interface CompleteAuthFlowActionPayload extends UserObject { };
 
 export interface InitPhoneSignInSagaArgs {
   phoneNumber: string;
-  recaptchaVerifier: FirebaseAuthApplicationVerifier | undefined;
+  recaptchaVerifier: FirebaseRecaptchaVerifierModal;
 };
 
 export interface CheckVerificationCodeSagaArgs {

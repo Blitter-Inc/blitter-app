@@ -33,7 +33,12 @@ sagaMiddleware.run(watchAuth);
 Axios.interceptors.request.use((config) => {
   const { auth: { credentials: { accessToken } } } = Store.getState();
   if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
+    if (config.headers) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    else {
+      config.headers = { Authorization: `Bearer ${accessToken}` }
+    }
   }
   return config;
 });

@@ -25,7 +25,7 @@ const SignInScreen: SignInScreenElement = ({ navigation }) => {
   const dispatch = useAppDispatch();
 
   const [phoneNumber, setPhoneNumber] = useState(state.phoneNumber);
-  const recaptchaVerifier = useRef<FirebaseAuthApplicationVerifier>();
+  const recaptchaVerifier = useRef<FirebaseRecaptchaVerifierModal>(null);
 
   useEffect(() => {
     if (state.codeSent) {

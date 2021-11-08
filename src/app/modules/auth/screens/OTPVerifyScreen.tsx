@@ -6,6 +6,7 @@ import { verifyCode } from "$store/slices/auth";
 import { OTPVerifyScreenElement } from "$types/modules/auth";
 import { AuthContainer } from "../components";
 import Styles from "./styles";
+import { CodeChangeEventType } from "$types/helpers";
 
 
 const useRequiredState = () => {
@@ -23,7 +24,7 @@ const OTPVerifyScreen: OTPVerifyScreenElement = ({ navigation }) => {
   const state = useRequiredState();
   const dispatch = useAppDispatch();
 
-  const codeRef = Array.from(Array(6), () => useRef(null));
+  const codeRef = Array.from(Array(6), () => useRef<TextInput>(null));
   const codeArray = Array.from(Array(6), () => {
     const [code, setCode] = useState("");
     return { code, setCode };
@@ -41,17 +42,17 @@ const OTPVerifyScreen: OTPVerifyScreenElement = ({ navigation }) => {
     }
     codeArray[index].setCode(text);
     if (index < 5) {
-      codeRef[index + 1].current.focus();
+      codeRef[index + 1].current?.focus();
     }
   }
 
-  const onCodeChange = (index: number) => ({ nativeEvent: { key: eventValue } }) => {
+  const onCodeChange = (index: number) => ({ nativeEvent: { key: eventValue } }: CodeChangeEventType) => {
     if (eventValue !== "Backspace") {
       return;
     }
     codeArray[index].setCode("");
     if (index > 0) {
-      codeRef[index - 1].current.focus();
+      codeRef[index - 1].current?.focus();
     }
   }
 
