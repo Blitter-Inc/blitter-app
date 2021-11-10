@@ -22,7 +22,7 @@ export const ContactPickerItem: ContactPickerItemComponent = ({ contact, selecte
   </TouchableWithoutFeedback>
 );
 
-const ContactPicker: ContactPickerComponent = ({ overlayProps, colors, selectedContacts }) => {
+const ContactPicker: ContactPickerComponent = ({ overlayProps, colors, selectedContacts, contactMap }) => {
   const contactState = useRequiredState();
 
   return (
@@ -39,11 +39,11 @@ const ContactPicker: ContactPickerComponent = ({ overlayProps, colors, selectedC
         selectedContacts?.count ? (
           <View style={styles.selectedContactPreview}>
             {
-              Object.entries(selectedContacts.objectMap).map(([contactId, { name, avatar }]) => (
+              Object.keys(selectedContacts.objectMap).map(contactId => (
                 <Avatar
                   key={contactId}
-                  title={name[0]}
-                  source={{ uri: avatar }}
+                  title={contactMap[contactId].name[0]}
+                  source={{ uri: contactMap[contactId].avatar }}
                   size={55}
                   rounded
                   containerStyle={styles.selectedContact}

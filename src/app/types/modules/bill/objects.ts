@@ -62,6 +62,4 @@ export interface BillObjectInput {
   amount: string;
   type: BillType;
   description: string;
-  subscribers: BillSubscriberObjectInput[];
-  attachments: BillAttachmentObjectInput[];
 };

@@ -25,14 +25,19 @@ const BillSubscriber: BillSubscriberComponent = props => {
         <Avatar title={props.name?.[0]} size={45} source={{ uri: props.avatar }} />
         <View style={{ marginLeft: 5 }}>
           <Text style={[styles.text, { color: ColorPalette.ACCENT }]}> {props.name}</Text>
-          {!props.editable && <Text style={[styles.subtext, { color: ColorPalette.SECONDARY }]}>Paid ₹ {props.fulfilled ? props.amount : `${props.amountPaid} / ${props.amount}`}</Text>}
+          {!props.editMode && (
+            <Text style={[styles.subtext, { color: ColorPalette.SECONDARY }]}>
+              Paid ₹ {props.fulfilled ? props.amount : `${props.amountPaid} / ${props.amount}`}
+            </Text>
+          )}
         </View>
       </View>
       <View style={styles.subcontainer}>
         {
-          props.editable ? (
+          props.editMode ? (
             <AmountInput
               value={props.amount}
+              onChangeText={props.updateAmount}
               placeholder="XXX"
               placeholderTextColor={ColorPalette.SECONDARY}
               size={16}

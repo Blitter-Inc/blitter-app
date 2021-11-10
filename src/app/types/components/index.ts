@@ -22,13 +22,14 @@ export interface ContactPickerComponentProps {
     subtext: string;
     selectedItem: string;
   };
-  chooseContactAction?: (contact: UserObject) => void;
-  contactActionWidget?: ReactNode;
+  contactMap: ContactObjectMap;
   selectedContacts?: {
     count: number;
-    objectMap: ContactObjectMap;
+    objectMap: { [id: string]: any };
     toggle: (contactId: number) => () => void;
   };
+  chooseContactAction?: (contact: UserObject) => void;
+  contactActionWidget?: ReactNode;
 };
 
 export interface ContactPickerItemComponentProps {

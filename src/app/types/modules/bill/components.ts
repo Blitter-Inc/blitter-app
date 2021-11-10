@@ -18,10 +18,11 @@ export interface BillSubscriberComponentProps {
   name: string;
   avatar: string;
   amount: string;
+  self: boolean;
+  editMode: boolean;
   amountPaid?: string;
   fulfilled?: boolean;
-  self?: boolean;
-  editable: boolean;
+  updateAmount?: (amount: string) => void;
 };
 
 export type BillCardComponent = (props: BillCardComponentProps) => JSX.Element;

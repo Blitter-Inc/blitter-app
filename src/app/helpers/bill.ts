@@ -4,6 +4,7 @@ import {
   BillCardPropsGeneratorHandler,
   BillSubscriberPropsGeneratorHandler,
   GenerateEditableBillHandler,
+  GenerateEditableBillSubscriberMapHandler,
 } from "$types/helpers";
 import { BillType } from "$types/modules/bill";
 import { generateDisplayDate } from "./date";
@@ -33,9 +34,10 @@ export const billCardPropsGenerator: BillCardPropsGeneratorHandler = ({ contactM
   lastUpdatedAt: generateDisplayDate(bill.lastUpdatedAt),
 });
 
-export const billSubscriberPropsGenerator: BillSubscriberPropsGeneratorHandler = ({ contactMap, loggedInUser }) => (subscriber, editable) => {
+export const billSubscriberPropsGenerator: BillSubscriberPropsGeneratorHandler = ({ contactMap, loggedInUser, editMode }) => subscriber => {
   const subscriberProfile = contactMap[subscriber.userId];
   return {
+    editMode,
     userId: subscriber.userId,
     name: (subscriber.userId === loggedInUser.id) ? "You" : (subscriberProfile.name ?? ""),
     avatar: subscriberProfile.avatar ?? "",
@@ -45,7 +47,6 @@ export const billSubscriberPropsGenerator: BillSubscriberPropsGeneratorHandler =
       amountPaid: subscriber.amountPaid,
       fulfilled: subscriber.fulfilled,
     } : {}),
-    editable,
   };
 };
 
@@ -64,3 +65,10 @@ export const generateEditableBill: GenerateEditableBillHandler = ({ bill }) => (
     fromState: true,
   })),
 });
+
+export const generateEditableBillSubscriberMap: GenerateEditableBillSubscriberMapHandler = (
+  subscribers,
+) => subscribers.reduce((prev, { userId, amount }) => ({
+  ...prev,
+  [userId]: { userId, amount },
+}), {});
