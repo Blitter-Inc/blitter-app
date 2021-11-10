@@ -22,6 +22,8 @@ import {
   generateEditableBillSubscriberMap,
 } from "$helpers/bill";
 import { generateDisplayDate } from "$helpers/date";
+import { useAppDispatch } from "$store/hooks";
+import { addBill } from "$store/slices/cache";
 import {
   BillObjectInput,
   BillStatus,
@@ -40,8 +42,9 @@ const initialBill: BillObjectInput = {
   description: "",
 };
 
-const BillScreen: BillScreenElement = ({ route }) => {
+const BillScreen: BillScreenElement = ({ navigation, route }) => {
   const ColorPalette = useAppTheme();
+  const dispatch = useAppDispatch();
 
   const { billObj, contactMap, loggedInUser } = route.params;
   const BillTypeChoices = Array.from(BillTypeMap.keys()).filter(key => key != billObj?.type);
@@ -80,6 +83,24 @@ const BillScreen: BillScreenElement = ({ route }) => {
 
   const toggleContactPicker = () => {
     setContactPickerVisible(!contactPickerVisible);
+  };
+
+  const submissionDisabled = () => (
+    bill.name === "" ||
+    bill.type === BillType.DEFAULT ||
+    bill.amount === ""
+  );
+
+  const onSubmit = () => {
+    if (billObj) {
+      // dispatch updateBill action here.
+    } else {
+      dispatch(addBill({
+        ...bill,
+        subscribers: Object.values(editableBillSubscriberMap),
+      }));
+      navigation.pop();
+    }
   };
 
   const billTypePillContainerStyle = (type: BillType) => {
@@ -221,6 +242,9 @@ const BillScreen: BillScreenElement = ({ route }) => {
             <Button
               title={billObj ? "Save" : "Add"}
               buttonStyle={[styles.button, { backgroundColor: ColorPalette.ACCENT }]}
+              onPress={onSubmit}
+              disabled={submissionDisabled()}
+              disabledStyle={{ backgroundColor: ColorPalette.SECONDARY }}
             />
             <ContactPicker
               overlayProps={{ isVisible: contactPickerVisible, onBackdropPress: toggleContactPicker }}

@@ -1,11 +1,11 @@
-import { BillStatus, BillType } from "$types/modules/bill";
+import { BillObject, BillStatus, BillSubscriberObjectInput, BillType } from "$types/modules/bill";
 import { BillState } from "$types/store";
 import { PaginatedAPIURLParams, PaginatedResponseAPIObject, TimeMixinAPIObject } from "./shared";
 
 
 export interface BillSubscriberAPIObject extends TimeMixinAPIObject {
   id: number;
-  user_id: number;
+  user: number;
   amount: string;
   amount_paid: string;
   fulfilled: boolean;
@@ -26,8 +26,6 @@ export interface BillAPIObject extends TimeMixinAPIObject {
   amount: string;
   settled_amount: string;
   created_by: number;
-  created_at: string;
-  updated_at: string;
   subscribers: BillSubscriberAPIObject[];
   attachments: BillAttachmentAPIObject[];
 };
@@ -59,5 +57,27 @@ export interface FetchBillsHandlerArgs extends PaginatedAPIURLParams<
  
 export interface FetchBillsSerializedResponseBody extends Omit<BillState, "inStateCount" | "lastRefreshed"> { };
 
+export interface CreateBillRequestPayload {
+  name: string;
+  type: BillType;
+  amount: string;
+  description: string;
+  subscribers?: {
+    user: number;
+    amount: string;
+  }[];
+};
+
+export interface CreateBillResponseBody extends Omit<BillAPIObject, "status" | "settled_amount"> { };
+
+export interface CreateBillHandlerArgs extends Omit<CreateBillRequestPayload, "subscribers"> {
+  subscribers?: BillSubscriberObjectInput[];
+};
+
+export interface CreateBillSerializedResponseBody extends BillObject { };
+
 export type FetchBillsResponseSerializer = (body: FetchBillsResponseBody) => FetchBillsSerializedResponseBody;
 export type FetchBillsHandler = (args: FetchBillsHandlerArgs) => Promise<FetchBillsSerializedResponseBody>;
+export type CreateBillRequestSerializer = (payload: CreateBillHandlerArgs) => CreateBillRequestPayload;
+export type CreateBillResponseSerializer = (body: CreateBillResponseBody) => CreateBillSerializedResponseBody;
+export type CreateBillHandler = (args: CreateBillHandlerArgs) => Promise<CreateBillSerializedResponseBody>;

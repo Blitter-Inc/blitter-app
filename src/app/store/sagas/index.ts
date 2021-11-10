@@ -6,6 +6,7 @@ import {
   skipOTPVerification as skipOTPVerificationAction,
 } from "../slices/auth";
 import {
+  addBill as addBillAction,
   initializeApp as initializeAppAction,
 } from "../slices/cache";
 import {
@@ -15,6 +16,7 @@ import {
   skipOTPVerification,
 } from "./auth";
 import {
+  addBill,
   initializeApp,
 } from "./cache";
 
@@ -25,4 +27,5 @@ export function* watchAuth() {
   yield takeEvery(updateProfileAction.type, updateProfile);
   yield takeEvery(skipOTPVerificationAction.type, skipOTPVerification);
   yield takeEvery(initializeAppAction.type, initializeApp);
+  yield takeEvery(addBillAction, addBill);
 };

@@ -19,6 +19,8 @@ export interface BillSubscriberObject {
   amount: string;
   amountPaid: string;
   fulfilled: boolean;
+  createdAt: string;
+  lastUpdatedAt: string;
 };
 
 export interface BillAttachmentObject {
@@ -39,10 +41,10 @@ export interface BillObject {
   description: string;
   status: BillStatus;
   createdBy: number;
-  createdAt: string;
-  lastUpdatedAt: string;
   subscribers: BillSubscriberObject[];
   attachments: BillAttachmentObject[];
+  createdAt: string;
+  lastUpdatedAt: string;
 };
 
 export interface BillSubscriberObjectInput {

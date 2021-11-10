@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  AddBillSagaArgs,
   BillState,
   CacheReducer,
   CacheState,
@@ -63,6 +64,10 @@ const CacheSlice = createSlice({
   name,
   initialState,
   reducers: {
+    addBill: {
+      reducer: () => { },
+      prepare: (args: AddBillSagaArgs) => ({ payload: { args } }),
+    },
     completeAppInitialization: completeAppInitializationReducer,
     initializeApp: () => { },
     setBillCache: {
@@ -78,6 +83,7 @@ const CacheSlice = createSlice({
 
 
 export const {
+  addBill,
   completeAppInitialization,
   initializeApp,
   setBillCache,
