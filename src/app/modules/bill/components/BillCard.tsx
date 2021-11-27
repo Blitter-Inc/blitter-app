@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text, Avatar, Badge } from "react-native-elements";
+import TextTicker from 'react-native-text-ticker'
 import { BillCardComponent, BillStatus } from "$types/modules/bill";
 import { useAppTheme } from "$config/theme";
 import { RupeeIcon } from "$components/Icons";
@@ -12,7 +13,14 @@ const BillCard: BillCardComponent = props => {
   return (
     <View style={[style.billCard, { backgroundColor: ColorPallete.PRIMARY }]}>
       <View style={style.topContainer}>
-        <Text style={[style.billName, { color: ColorPallete.ACCENT }]}># {props.name}</Text>
+        <TextTicker 
+          style={[style.billName, { color: ColorPallete.ACCENT }]} 
+          duration={5000}
+          loop
+          bounce
+          repeatSpacer={50}
+          marqueeDelay={1000}># {props.name}
+        </TextTicker>
         <View style={style.badgeContainer}>
           <Badge
             status="primary"
@@ -64,10 +72,14 @@ const style = StyleSheet.create({
     borderRadius: 10,
     shadowColor: "black",
     shadowOpacity: 1,
+    elevation: 1,
+    borderColor: "#ccc",
+    borderLeftWidth: 1
   },
   billName: {
     fontSize: 18,
     fontWeight: "bold",
+    width: 150,
   },
   topContainer: {
     flexDirection: "row",
@@ -77,6 +89,7 @@ const style = StyleSheet.create({
   badgeContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
+    marginLeft: 5,
   },
   amountText: {
     fontSize: 14,

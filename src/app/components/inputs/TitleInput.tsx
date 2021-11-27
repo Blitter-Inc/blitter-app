@@ -21,6 +21,7 @@ class TitleInput extends React.Component<TitleInputProps> {
             styles.input,
           ]}
           placeholderTextColor={appTheme.FONT.PLACEHOLDER}
+          multiline
         />
       </View>
     );
