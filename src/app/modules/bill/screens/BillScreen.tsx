@@ -23,7 +23,7 @@ import {
 } from "$helpers/bill";
 import { generateDisplayDate } from "$helpers/date";
 import { useAppDispatch } from "$store/hooks";
-import { addBill } from "$store/slices/cache";
+import { addBill, editBill } from "$store/slices/cache";
 import {
   BillObjectInput,
   BillStatus,
@@ -93,14 +93,20 @@ const BillScreen: BillScreenElement = ({ navigation, route }) => {
 
   const onSubmit = () => {
     if (billObj) {
-      // dispatch updateBill action here.
+      dispatch(editBill({
+        id: String(billObj.id),
+        payload: {
+          ...bill,
+          subscribers: Object.values(editableBillSubscriberMap),
+        },
+      }));
     } else {
       dispatch(addBill({
         ...bill,
         subscribers: Object.values(editableBillSubscriberMap),
       }));
-      navigation.pop();
     }
+    navigation.pop();
   };
 
   const billTypePillContainerStyle = (type: BillType) => {

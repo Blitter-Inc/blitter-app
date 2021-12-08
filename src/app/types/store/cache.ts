@@ -1,6 +1,11 @@
 import { Action, AnyAction } from "@reduxjs/toolkit";
 import { UserObject } from "$types/modules/auth";
-import { CreateBillHandlerArgs, FetchBillsOrderingOptions, FetchBillsSerializedResponseBody } from "$types/services/api/bill";
+import {
+  CreateBillHandlerArgs,
+  FetchBillsOrderingOptions,
+  FetchBillsSerializedResponseBody,
+  UpdateBillHandlerArgs,
+} from "$types/services/api/bill";
 import { PayloadAction, Reducer } from "./abstract";
 import { BillObject } from "../modules/bill";
 import { ArgedPayloadAction } from ".";
@@ -37,10 +42,16 @@ export interface SetBillCacheActionPayload extends FetchBillsSerializedResponseB
 
 export interface SetContactCacheActionPayload extends ContactObjectMap { };
 
+export interface SetExistingBillActionPayload extends BillObject { };
+
 export interface AddBillSagaArgs extends CreateBillHandlerArgs { };
+
+export interface EditBillSagaArgs extends UpdateBillHandlerArgs { };
 
 export type InitializeAppSagaAction = Action;
 export type SetBillCacheAction = PayloadAction<SetBillCacheActionPayload>;
 export type SetContactCacheAction = PayloadAction<SetContactCacheActionPayload>;
+export type SetExistingBillAction = PayloadAction<SetExistingBillActionPayload>;
 export type AddBillSagaAction = ArgedPayloadAction<AddBillSagaArgs>;
+export type EditBillSagaAction = ArgedPayloadAction<EditBillSagaArgs>;
 export type CacheReducer<ActionType = AnyAction> = Reducer<CacheState, ActionType>
