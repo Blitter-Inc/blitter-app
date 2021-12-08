@@ -3,19 +3,21 @@ import React from "react";
 import { ThemeProvider } from "react-native-elements";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import theme from "@config/theme";
-import Store, { persistor } from "@store/index";
-import Navigation from "@navigations/index";
+import { RNETheme } from "$config/theme";
+import { AppElement } from "$types/app";
+import Store, { persistor } from "$store/index";
+import Navigation from "$modules/Navigation";
 
 
-export default function App() {
-  return (
-    <Provider store={Store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ThemeProvider theme={theme}>
-          <Navigation />
-        </ThemeProvider>
-      </PersistGate>
-    </Provider>
-  );
-}
+const App: AppElement = () => (
+  <Provider store={Store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <ThemeProvider theme={RNETheme}>
+        <Navigation />
+      </ThemeProvider>
+    </PersistGate>
+  </Provider>
+);
+
+
+export default App;

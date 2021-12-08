@@ -7,14 +7,15 @@ module.exports = function (api) {
         'module-resolver',
         {
           alias: {
-            '@assets': './src/assets',
-            '@components': './src/app/components',
-            '@config': './src/app/config',
-            '@navigations': './src/app/navigations',
-            '@screens': './src/app/screens',
-            '@services': './src/app/services',
-            '@store': './src/app/store',
-            '@d': './src/types',
+            '$assets': './src/assets',
+            '$components': './src/app/components',
+            '$config': './src/app/config',
+            '$navigations': './src/app/navigations',
+            '$modules': './src/app/modules',
+            '$services': './src/app/services',
+            '$store': './src/app/store',
+            '$types': './src/app/types',
+            '$helpers': './src/app/helpers',
           },
         },
       ],
@@ -30,6 +31,7 @@ module.exports = function (api) {
           'verbose': false
         },
       ],
+      'react-native-reanimated/plugin',
     ],
   };
 };
