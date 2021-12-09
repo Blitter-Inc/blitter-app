@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavigationContainer, Theme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
+import { SearchContext } from "$config/context";
 import { useAppTheme } from "$config/theme";
 import { AuthNavigator } from "./auth";
 import { BillNavigator } from "./bill";
@@ -22,6 +23,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const RootNavigator: RootNavigatorElement = () => {
   const ColorPalette = useAppTheme();
 
+  const [search, setSearch] = useState('');
+
   const NavigationTheme: Theme = {
     dark: false,
     colors: {
@@ -37,20 +40,22 @@ const RootNavigator: RootNavigatorElement = () => {
   const { isAuthenticated } = useRequiredState();
 
   return (
-    <NavigationContainer theme={NavigationTheme}>
-      <StatusBar style="auto" />
-      <Stack.Navigator screenOptions={{ headerShown: false, animation: "flip" }} >
-        {isAuthenticated ? (
-          <>
-            <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: true, headerTitleAlign: "center" }} />
-            <Stack.Screen name="Initialize" component={InitializeScreen} />
-            <Stack.Screen name="BillNavigator" component={BillNavigator} />
-          </>
-        ) : (
-          <Stack.Screen name="AuthNavigator" component={AuthNavigator} />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <SearchContext.Provider value={{ search, setSearch }}>
+      <NavigationContainer theme={NavigationTheme}>
+        <StatusBar style="auto" />
+        <Stack.Navigator screenOptions={{ headerShown: false, animation: "flip" }} >
+          {isAuthenticated ? (
+            <>
+              <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: true, headerTitleAlign: "center" }} />
+              <Stack.Screen name="Initialize" component={InitializeScreen} />
+              <Stack.Screen name="BillNavigator" component={BillNavigator} />
+            </>
+          ) : (
+            <Stack.Screen name="AuthNavigator" component={AuthNavigator} />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SearchContext.Provider>
   );
 };
 

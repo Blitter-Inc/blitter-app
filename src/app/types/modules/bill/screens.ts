@@ -5,6 +5,18 @@ import { UserObject } from "../auth";
 import { BillStackParamList } from "../../navigation";
 
 
+export enum BillListMode {
+  COMPLETE = 'complete',
+  SEARCH = 'search',
+  FILTER = 'filter',
+};
+
+export interface BillListProps {
+  mode: BillListMode;
+  count: number;
+  sequence: number[];
+};
+
 export interface BillScreenParams {
   contactMap: ContactObjectMap;
   loggedInUser: UserObject;
