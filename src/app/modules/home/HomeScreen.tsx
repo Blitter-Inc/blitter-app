@@ -45,7 +45,7 @@ const HomeScreen: HomeScreenElement = ({ navigation }) => {
             <ListItem.Title>Bill Manager</ListItem.Title>
           </ListItem.Content>
         </ListItem>
-        <ListItem onPress={() => console.log("Event Organizer Pressed")}>
+        <ListItem onPress={() => navigatePage("EventNavigator")}>
           <ListItem.Content>
             <ListItem.Title>Event Organizer</ListItem.Title>
           </ListItem.Content>

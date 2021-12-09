@@ -6,6 +6,7 @@ import { SearchContext } from "$config/context";
 import { useAppTheme } from "$config/theme";
 import { AuthNavigator } from "./auth";
 import { BillNavigator } from "./bill";
+import { EventNavigator } from "./event";
 import { HomeScreen, InitializeScreen } from "./home";
 import { useAppSelector } from "$store/hooks";
 import { RootNavigatorElement, RootStackParamList } from "$types/navigation";
@@ -49,6 +50,7 @@ const RootNavigator: RootNavigatorElement = () => {
               <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: true, headerTitleAlign: "center" }} />
               <Stack.Screen name="Initialize" component={InitializeScreen} />
               <Stack.Screen name="BillNavigator" component={BillNavigator} />
+              <Stack.Screen name="EventNavigator" component={EventNavigator} />
             </>
           ) : (
             <Stack.Screen name="AuthNavigator" component={AuthNavigator} />

@@ -7,6 +7,7 @@ export type RootStackParamList = {
   "Initialize": undefined;
   "BillNavigator": undefined;
   "AuthNavigator": undefined;
+  "EventNavigator": undefined;
 };
 
 export type AuthStackParamList = {
@@ -20,9 +21,14 @@ export type BillStackParamList = {
   "Bill": BillScreenParams;
 };
 
+export type EventStackParamList = {
+  "EventManager": undefined;
+}
+
 export type RootNavigatorElement = () => JSX.Element;
 export type AuthNavigatorElement = () => JSX.Element;
 export type BillNavigatorElement = () => JSX.Element;
+export type EventNavigatorElement = () => JSX.Element;
 export type GetNavigatorScreenOptions = (headerPrimaryColor: string, headerAccentColor: string, disableBackButton?: boolean) => StackNavigationOptions;
 export type GetBaseScreenOptions = (enableSearch?: boolean) => StackNavigationOptions;
 export type GetSlidingScreenOptions = () => StackNavigationOptions;
