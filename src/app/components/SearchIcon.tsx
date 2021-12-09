@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useAppTheme } from "$config/theme";
+import { SearchIconComponent } from "$types/components";
 import { HeaderSearchIcon } from "./Icons";
 import SearchBar from "./SearchBar";
 
 
-type SearchIconComponent = () => JSX.Element;
 
 const SearchIcon: SearchIconComponent = () => {
   const ColorPalette = useAppTheme();
@@ -14,7 +14,7 @@ const SearchIcon: SearchIconComponent = () => {
 
   const openSearchBar = () => {
     navigation.setOptions({
-      header: SearchBar,
+      header: () => <SearchBar />,
     });
   };
 
