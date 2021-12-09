@@ -1,28 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { StyleSheet, StatusBar } from "react-native";
 import {
   SearchBar as RNESearchBar,
-  SearchBarProps as RNESearchBarProps,
 } from "react-native-elements";
+import { SearchContext } from "$config/context";
+import { SearchBarComponent } from "$types/components";
 
-
-interface SearchBarProps {
-  placeholder?: string;
-  searchBarProps: RNESearchBarProps;
-};
-
-type SearchBarComponent = (props: SearchBarProps) => JSX.Element;
 
 const SearchBar: SearchBarComponent = ({ placeholder = "Search", searchBarProps }) => {
-  // const [searchText, setSearchText] = useState('');
+  const { search, setSearch } = useContext(SearchContext);
 
   return (
     <RNESearchBar
       {...searchBarProps}
       {...styles}
       placeholder={placeholder}
-    // value={searchText}
-    // onChangeText={(text: string) => setSearchText(text)}
+      value={search}
+      onChangeText={setSearch}
     />
   );
 };

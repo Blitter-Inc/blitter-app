@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { ScrollViewProps, TextInputProps } from "react-native";
-import { OverlayProps, TextProps } from "react-native-elements";
+import { OverlayProps, SearchBarProps as RNESearchBarProps, TextProps } from "react-native-elements";
 import { PickerItemProps, PickerProps } from "@react-native-picker/picker";
 import { UserObject } from "$types/modules/auth";
 import { ActionProps, ChildrenProps, ContainerProps } from "./abstracts";
@@ -63,6 +63,11 @@ export interface PillComponentProps extends ActionProps, ContainerProps {
   RightIcon?: IconComponent;
 };
 
+export interface SearchBarComponentProps {
+  placeholder?: string;
+  searchBarProps?: RNESearchBarProps;
+};
+
 export interface TitleInputProps extends TextInputProps, AppThemeHookProps, ContainerProps { };
 
 export type BadgePickerComponent = (props: BadgePickerComponentProps) => JSX.Element;
@@ -75,5 +80,7 @@ export type ListContainerComponent = (props: ListContainerProps) => JSX.Element;
 export type PickerComponent = (props: PickerComponentProps) => JSX.Element;
 export type PickerItemComponent = (props: PickerItemProps) => JSX.Element;
 export type PillComponent = (props: PillComponentProps) => JSX.Element;
+export type SearchBarComponent = (props: SearchBarComponentProps) => JSX.Element;
+export type SearchIconComponent = () => JSX.Element;
 
 export * from "./icons";
