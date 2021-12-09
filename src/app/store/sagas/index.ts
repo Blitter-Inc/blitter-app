@@ -7,6 +7,7 @@ import {
 } from "../slices/auth";
 import {
   addBill as addBillAction,
+  editBill as editBillAction,
   initializeApp as initializeAppAction,
 } from "../slices/cache";
 import {
@@ -17,6 +18,7 @@ import {
 } from "./auth";
 import {
   addBill,
+  editBill,
   initializeApp,
 } from "./cache";
 
@@ -28,4 +30,5 @@ export function* watchAuth() {
   yield takeEvery(skipOTPVerificationAction.type, skipOTPVerification);
   yield takeEvery(initializeAppAction.type, initializeApp);
   yield takeEvery(addBillAction, addBill);
+  yield takeEvery(editBillAction, editBill);
 };

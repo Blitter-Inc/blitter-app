@@ -5,10 +5,13 @@ import {
   CacheReducer,
   CacheState,
   ContactState,
+  EditBillSagaArgs,
   SetBillCacheAction,
   SetBillCacheActionPayload,
   SetContactCacheAction,
   SetContactCacheActionPayload,
+  SetExistingBillAction,
+  SetExistingBillActionPayload,
 } from "$types/store";
 import { FetchBillsOrderingOptions } from "$types/services/api/bill";
 
@@ -60,6 +63,11 @@ const setContactCacheReducer: CacheReducer<SetContactCacheAction> = (state, acti
   };
 };
 
+const setExistingBillReducer: CacheReducer<SetExistingBillAction> = (state, action) => {
+  const { payload: billObj } = action;
+  state.bill.objectMap[billObj.id] = billObj;
+};
+
 const CacheSlice = createSlice({
   name,
   initialState,
@@ -67,6 +75,10 @@ const CacheSlice = createSlice({
     addBill: {
       reducer: () => { },
       prepare: (args: AddBillSagaArgs) => ({ payload: { args } }),
+    },
+    editBill: {
+      reducer: () => { },
+      prepare: (args: EditBillSagaArgs) => ({ payload: { args } }),
     },
     completeAppInitialization: completeAppInitializationReducer,
     initializeApp: () => { },
@@ -78,16 +90,22 @@ const CacheSlice = createSlice({
       reducer: setContactCacheReducer,
       prepare: (payload: SetContactCacheActionPayload) => ({ payload }),
     },
+    setExistingBill: {
+      reducer: setExistingBillReducer,
+      prepare: (payload: SetExistingBillActionPayload) => ({ payload }),
+    },
   },
 });
 
 
 export const {
   addBill,
+  editBill,
   completeAppInitialization,
   initializeApp,
   setBillCache,
   setContactCache,
+  setExistingBill,
 } = CacheSlice.actions;
 
 export default CacheSlice;
