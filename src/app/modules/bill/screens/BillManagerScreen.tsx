@@ -32,6 +32,7 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
   const generateBillCardProps = billCardPropsGenerator({ contactMap, loggedInUser });
 
   const initialized = useRef(false);
+  const sortState = useState(false);
   const [loading, setLoading] = useState(false);
   const [billEffectCounter, setBillEffectCounter] = useState(1);
   const triggerBillEffect = () => {
@@ -55,38 +56,51 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
   const updateBillParams = (newParams: FetchBillsHandlerArgs) => {
     setBillParams({ ...billParams, ...newParams });
   };
+  const toggleSortOrder = () => {
+    updateBillParams({
+      ordering: billParams.ordering === FetchAPIOrderingOptions.DEFAULT ?
+        FetchAPIOrderingOptions.REVERSE :
+        FetchAPIOrderingOptions.DEFAULT,
+    });
+  };
+
+  const fetch = async (billParams: FetchBillsHandlerArgs) => {
+    setLoading(true);
+    const { totalCount, orderedSequence } = await fetchBills(billParams);
+    updateBillListProps({ count: totalCount, sequence: orderedSequence });
+    setLoading(false);
+  };
 
   useEffect(() => {
+    // Enables re-rendering screen upon adding bill
     setBillListProps(generateInitialBillListProps());
   }, [billState.totalCount]);
 
   useEffect(() => {
     if (!initialized.current) {
+      // Prevents updating state on first render
       initialized.current = true;
       return;
     }
     if (search !== '') {
+      // Update params for search query and trigger fetch bills effect
       updateBillListProps({ mode: BillListMode.SEARCH });
       updateBillParams({ search });
       triggerBillEffect();
     } else {
-      updateBillListProps({
-        mode: BillListMode.COMPLETE,
-        count: billState.totalCount,
-        sequence: billState.orderedSequence,
+      // Disposes search state
+      updateBillListProps(generateInitialBillListProps());
+      updateBillParams({
+        ordering: FetchAPIOrderingOptions.DEFAULT,
       });
+      sortState[1](false);
     }
   }, [search]);
 
   useEffect(() => {
+    // Fetches bills for search and filter query
     if (billListProps.mode !== BillListMode.COMPLETE) {
-      setLoading(true);
-      const fetch = async () => {
-        const { totalCount, orderedSequence } = await fetchBills(billParams);
-        updateBillListProps({ count: totalCount, sequence: orderedSequence });
-        setLoading(false);
-      };
-      fetch();
+      fetch(billParams);
     }
   }, [billEffectCounter]);
 
@@ -111,6 +125,11 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
     return () => navigation.push("Bill", params);
   };
 
+  const sortBillsHandler = async () => {
+    toggleSortOrder();
+    updateBillListProps({ sequence: billListProps.sequence.reverse() });
+  };
+
   return (
     <TouchableWithoutFeedback onPress={closeSearchBar}>
       <SafeAreaView
@@ -120,13 +139,10 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
           loading ? <ActivityIndicator animating size={48} color={ColorPalette.ACCENT} /> : (
             <>
               <ActionBar
-                key="BILL_ACTION_BAR"
                 styles={[Styles.ActionBarContainer, Styles.FlexCenteredContainer]}
-                sortHandler={(ordering: string) => {
-                  updateBillParams({ ordering: ordering as FetchAPIOrderingOptions });
-                  updateBillListProps({ mode: BillListMode.SORT });
-                }}
                 addBtnHandler={navigateToBillScreen()}
+                sortState={sortState}
+                sortHandler={sortBillsHandler}
               />
               {
                 billState.inStateCount ? (
