@@ -13,7 +13,7 @@ import {
   SetExistingBillAction,
   SetExistingBillActionPayload,
 } from "$types/store";
-import { FetchBillsOrderingOptions } from "$types/services/api/bill";
+import { FetchAPIOrderingOptions } from "$types/services/api";
 
 
 const name = "cache";
@@ -24,7 +24,7 @@ const initialBillState: BillState = {
   inStateCount: 0,
   currentPage: 0,
   hasNext: false,
-  ordering: FetchBillsOrderingOptions.DEFAULT,
+  ordering: FetchAPIOrderingOptions.DEFAULT,
   orderedSequence: [],
   objectMap: {},
 };

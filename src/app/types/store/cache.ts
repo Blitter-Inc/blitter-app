@@ -2,10 +2,10 @@ import { Action, AnyAction } from "@reduxjs/toolkit";
 import { UserObject } from "$types/modules/auth";
 import {
   CreateBillHandlerArgs,
-  FetchBillsOrderingOptions,
+  FetchAPIOrderingOptions,
   FetchBillsSerializedResponseBody,
   UpdateBillHandlerArgs,
-} from "$types/services/api/bill";
+} from "$types/services/api";
 import { PayloadAction, Reducer } from "./abstract";
 import { BillObject } from "../modules/bill";
 import { ArgedPayloadAction } from ".";
@@ -19,7 +19,7 @@ export interface BillState {
   inStateCount: number;
   currentPage: number;
   hasNext: boolean;
-  ordering: FetchBillsOrderingOptions;
+  ordering: FetchAPIOrderingOptions;
   orderedSequence: number[];
   objectMap: BillObjectMap;
 };
