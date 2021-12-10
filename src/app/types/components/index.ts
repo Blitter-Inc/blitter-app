@@ -61,6 +61,7 @@ export interface PillComponentProps extends ActionProps, ContainerProps {
   size: number;
   LeftIcon?: IconComponent;
   RightIcon?: IconComponent;
+  outlined?: boolean;
 };
 
 export interface SearchBarComponentProps {

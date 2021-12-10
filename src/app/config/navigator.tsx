@@ -46,15 +46,15 @@ export const getSlidingScreenOptions: GetSlidingScreenOptions = () => ({
     open: {
       animation: "timing",
       config: {
-        duration: 500,
-        easing: Easing.ease,
+        duration: 300,
+        easing: Easing.out(Easing.ease),
       },
     },
     close: {
       animation: "timing",
       config: {
-        duration: 300,
-        easing: Easing.ease,
+        duration: 200,
+        easing: Easing.out(Easing.ease),
       },
     },
   },

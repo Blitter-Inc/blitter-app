@@ -3,7 +3,7 @@ import { fetchPhoneNumbers } from "$helpers/contacts";
 import { createBill, fetchBills, fetchUserProfiles, updateBill } from "$services/api";
 import { completeAppInitialization, setBillCache, setContactCache, setExistingBill } from "$store/slices/cache";
 import {
-  FetchBillsOrderingOptions,
+  FetchAPIOrderingOptions,
   FetchBillsSerializedResponseBody,
   FetchUserProfilesSerializedResponseBody,
   UpdateBillSerializedResponseBody,
@@ -14,7 +14,7 @@ import { AddBillSagaAction, EditBillSagaAction, InitializeAppSagaAction } from "
 export function* initializeApp(action: InitializeAppSagaAction) {
   try {
     const billRes: FetchBillsSerializedResponseBody = yield call(fetchBills, {
-      ordering: FetchBillsOrderingOptions.DEFAULT,
+      ordering: FetchAPIOrderingOptions.DEFAULT,
     });
     yield put(setBillCache(billRes));
     const phoneNumbers: string[] = yield call(fetchPhoneNumbers);
@@ -31,7 +31,7 @@ export function* addBill(action: AddBillSagaAction) {
   try {
     yield call(createBill, payload);
     const fetchbillsRes: FetchBillsSerializedResponseBody = yield call(fetchBills, {
-      ordering: FetchBillsOrderingOptions.DEFAULT,
+      ordering: FetchAPIOrderingOptions.DEFAULT,
     });
     yield put(setBillCache(fetchbillsRes));
   } catch (e) {

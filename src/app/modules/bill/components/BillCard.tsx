@@ -70,11 +70,9 @@ const style = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
+    elevation: 4,
     shadowColor: "black",
-    shadowOpacity: 1,
-    elevation: 1,
-    borderColor: "#ccc",
-    borderLeftWidth: 1
+    shadowOpacity: 4,
   },
   billName: {
     fontSize: 18,
