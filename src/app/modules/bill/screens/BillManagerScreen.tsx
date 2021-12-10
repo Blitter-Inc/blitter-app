@@ -38,12 +38,12 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
     setBillEffectCounter(billEffectCounter + 1);
   };
 
-  const initialBillListProps: BillListProps = {
+  const generateInitialBillListProps = (): BillListProps => ({
     mode: BillListMode.COMPLETE,
     count: billState.totalCount,
     sequence: billState.orderedSequence,
-  };
-  const [billListProps, setBillListProps] = useState(initialBillListProps);
+  });
+  const [billListProps, setBillListProps] = useState(generateInitialBillListProps());
   const updateBillListProps = (newProps: Partial<BillListProps>) => {
     setBillListProps({ ...billListProps, ...newProps });
   };
@@ -55,6 +55,10 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
   const updateBillParams = (newParams: FetchBillsHandlerArgs) => {
     setBillParams({ ...billParams, ...newParams });
   };
+
+  useEffect(() => {
+    setBillListProps(generateInitialBillListProps());
+  }, [billState.totalCount]);
 
   useEffect(() => {
     if (!initialized.current) {

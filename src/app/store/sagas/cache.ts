@@ -1,8 +1,9 @@
 import { call, put } from "redux-saga/effects";
 import { fetchPhoneNumbers } from "$helpers/contacts";
 import { createBill, fetchBills, fetchUserProfiles, updateBill } from "$services/api";
-import { completeAppInitialization, setBillCache, setContactCache, setExistingBill } from "$store/slices/cache";
+import { completeAppInitialization, setBillCache, setContactCache, setExistingBill, setNewBill } from "$store/slices/cache";
 import {
+  CreateBillSerializedResponseBody,
   FetchAPIOrderingOptions,
   FetchBillsSerializedResponseBody,
   FetchUserProfilesSerializedResponseBody,
@@ -27,23 +28,22 @@ export function* initializeApp(action: InitializeAppSagaAction) {
 };
 
 export function* addBill(action: AddBillSagaAction) {
-  const { args: payload } = action.payload;
+  const { args: { setLoading, ...payload } } = action.payload;
   try {
-    yield call(createBill, payload);
-    const fetchbillsRes: FetchBillsSerializedResponseBody = yield call(fetchBills, {
-      ordering: FetchAPIOrderingOptions.DEFAULT,
-    });
-    yield put(setBillCache(fetchbillsRes));
+    const newBill: CreateBillSerializedResponseBody = yield call(createBill, payload);
+    yield put(setNewBill(newBill));
+    yield call(setLoading, false);
   } catch (e) {
     console.error(e);
   }
 };
 
 export function* editBill(action: EditBillSagaAction) {
-  const { args: payload } = action.payload;
-  try {
+  const { args: { setLoading, ...payload } } = action.payload;
+  try { 
     const updatedBill: UpdateBillSerializedResponseBody = yield call(updateBill, payload);
     yield put(setExistingBill(updatedBill));
+    yield call(setLoading, false);
   } catch (e) {
     console.error(e);
   }

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ScrollView, StyleSheet, TextInput, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, TextInput, Text, TouchableOpacity, View, ActivityIndicator } from "react-native";
 import { Button } from "react-native-elements";
 import {
   AmountInput,
@@ -43,6 +43,8 @@ const initialBill: BillObjectInput = {
 };
 
 const BillScreen: BillScreenElement = ({ navigation, route }) => {
+  const [loading, setLoading] = useState(false);
+  const [initialized, setInitialized] = useState(false);
   const ColorPalette = useAppTheme();
   const dispatch = useAppDispatch();
 
@@ -57,6 +59,14 @@ const BillScreen: BillScreenElement = ({ navigation, route }) => {
   const [editMode, setEditMode] = useState(billObj ? false : true);
   const [contactPickerVisible, setContactPickerVisible] = useState(false);
   const generateBillSubscriberProps = billSubscriberPropsGenerator({ contactMap, loggedInUser, editMode });
+
+  useEffect(() => {
+    if (!initialized) {
+      setInitialized(true);
+    } else if (!loading) {
+      navigation.pop();
+    }
+  }, [loading]);
 
   const updateBill = (billInput: Partial<BillObjectInput>) => {
     setBill({ ...bill, ...billInput });
@@ -92,6 +102,7 @@ const BillScreen: BillScreenElement = ({ navigation, route }) => {
   );
 
   const onSubmit = () => {
+    setLoading(true);
     if (billObj) {
       dispatch(editBill({
         id: String(billObj.id),
@@ -99,21 +110,26 @@ const BillScreen: BillScreenElement = ({ navigation, route }) => {
           ...bill,
           subscribers: Object.values(editableBillSubscriberMap),
         },
+        setLoading,
       }));
     } else {
       dispatch(addBill({
         ...bill,
         subscribers: Object.values(editableBillSubscriberMap),
+        setLoading,
       }));
     }
-    navigation.pop();
   };
 
   const billTypePillContainerStyle = (type: BillType) => {
     return { backgroundColor: (bill.type === type) ? "green" : ColorPalette.ACCENT };
   };
 
-  return (
+  return loading ? (
+    <SafeAreaView style={[Styles.ExpandedContainer, Styles.FlexCenteredContainer]}>
+      <ActivityIndicator animating size={48} color={ColorPalette.ACCENT} />
+    </SafeAreaView>
+  ) : (
     <SafeAreaView style={[Styles.ExpandedContainer]}>
       <ScrollView style={[styles.container]} showsVerticalScrollIndicator={false}>
         <TitleInput
