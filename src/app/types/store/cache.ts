@@ -44,14 +44,21 @@ export interface SetContactCacheActionPayload extends ContactObjectMap { };
 
 export interface SetExistingBillActionPayload extends BillObject { };
 
-export interface AddBillSagaArgs extends CreateBillHandlerArgs { };
+export interface SetNewBillActionPayload extends BillObject { };
 
-export interface EditBillSagaArgs extends UpdateBillHandlerArgs { };
+export interface AddBillSagaArgs extends CreateBillHandlerArgs {
+  setLoading: (val: boolean) => void;
+};
+
+export interface EditBillSagaArgs extends UpdateBillHandlerArgs {
+  setLoading: (val: boolean) => void;
+};
 
 export type InitializeAppSagaAction = Action;
 export type SetBillCacheAction = PayloadAction<SetBillCacheActionPayload>;
 export type SetContactCacheAction = PayloadAction<SetContactCacheActionPayload>;
 export type SetExistingBillAction = PayloadAction<SetExistingBillActionPayload>;
+export type SetNewBillAction = PayloadAction<SetNewBillActionPayload>;
 export type AddBillSagaAction = ArgedPayloadAction<AddBillSagaArgs>;
 export type EditBillSagaAction = ArgedPayloadAction<EditBillSagaArgs>;
 export type CacheReducer<ActionType = AnyAction> = Reducer<CacheState, ActionType>

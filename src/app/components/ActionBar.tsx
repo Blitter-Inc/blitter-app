@@ -1,17 +1,18 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
+import { useAppTheme } from "$config/theme";
 import { ContainerProps } from "$types/config/theme";
+import { FilterIcon, SortAscendingIcon } from "./Icons";
 import Pill from "./Pill";
 import Text from "./defaults/Text";
 import View from "./defaults/View"
-import { useAppTheme } from "$config/theme";
-import { FilterIcon, SortAscendingIcon } from ".";
 
 
 interface ActionBarComponentProps {
   styles: ContainerProps;
   addBtnHandler: () => void;
-  sortHandler: (sort: string) => void;
+  sortState: [sortEnabled: boolean, setSortEnabled: (val: boolean) => void];
+  sortHandler: () => any;
 };
 
 type ActionBarComponent = (props: ActionBarComponentProps) => JSX.Element;
@@ -19,14 +20,33 @@ type ActionBarComponent = (props: ActionBarComponentProps) => JSX.Element;
 const ActionBar: ActionBarComponent = ({
   styles: propStyles,
   addBtnHandler,
+  sortState,
   sortHandler,
 }) => {
   const ColorPalette = useAppTheme();
+  const [sortEnabled, setSortEnabled] = sortState;
+
   return (
     <View style={[propStyles, styles.container, { borderColor: ColorPalette.ACCENT }]}>
       <View style={{ flexDirection: "row", justifyContent: "flex-start", flex: 1 }}>
-        <Pill label="Filter" size={16} containerStyle={styles.pill} outlined RightIcon={FilterIcon} />
-        <Pill label="Latest First" size={16} containerStyle={styles.pill} outlined RightIcon={SortAscendingIcon} />
+        <Pill
+          outlined
+          size={16}
+          containerStyle={styles.pill}
+          label="Filter"
+          RightIcon={FilterIcon}
+        />
+        <Pill
+          outlined
+          size={16}
+          containerStyle={styles.pill}
+          label={`${sortEnabled ? "Oldest" : "Latest"} First`}
+          RightIcon={SortAscendingIcon}
+          onPress={() => {
+            setSortEnabled(!sortEnabled);
+            sortHandler();
+          }}
+        />
       </View>
       <TouchableOpacity style={styles.addBtn} onPress={addBtnHandler}>
         <Text style={styles.text}>Add +</Text>

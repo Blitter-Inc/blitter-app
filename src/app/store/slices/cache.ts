@@ -12,6 +12,8 @@ import {
   SetContactCacheActionPayload,
   SetExistingBillAction,
   SetExistingBillActionPayload,
+  SetNewBillAction,
+  SetNewBillActionPayload,
 } from "$types/store";
 import { FetchAPIOrderingOptions } from "$types/services/api";
 
@@ -68,6 +70,14 @@ const setExistingBillReducer: CacheReducer<SetExistingBillAction> = (state, acti
   state.bill.objectMap[billObj.id] = billObj;
 };
 
+const setNewBillReducer: CacheReducer<SetNewBillAction> = (state, action) => {
+  const { payload: billObj } = action;
+  state.bill.objectMap[billObj.id] = billObj;
+  state.bill.orderedSequence.unshift(billObj.id);
+  state.bill.totalCount += 1
+  state.bill.inStateCount += 1
+};
+
 const CacheSlice = createSlice({
   name,
   initialState,
@@ -94,6 +104,10 @@ const CacheSlice = createSlice({
       reducer: setExistingBillReducer,
       prepare: (payload: SetExistingBillActionPayload) => ({ payload }),
     },
+    setNewBill: {
+      reducer: setNewBillReducer,
+      prepare: (payload: SetNewBillActionPayload) => ({ payload }),
+    },
   },
 });
 
@@ -106,6 +120,7 @@ export const {
   setBillCache,
   setContactCache,
   setExistingBill,
+  setNewBill,
 } = CacheSlice.actions;
 
 export default CacheSlice;

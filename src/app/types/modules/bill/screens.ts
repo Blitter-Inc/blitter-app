@@ -8,7 +8,6 @@ import { BillStackParamList } from "../../navigation";
 export enum BillListMode {
   COMPLETE = 'complete',
   SEARCH = 'search',
-  SORT = 'sort',
   FILTER = 'filter',
 };
 
