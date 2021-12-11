@@ -19,7 +19,9 @@ export default StyleSheet.create<StyleProps>({
   ListContainer: {
     height: "95%",
     width: "100%",
+    paddingHorizontal: 15, 
     paddingTop: 5,
+    marginBottom: 10,
   },
   FloatingIcon: {
     position: "absolute",

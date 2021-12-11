@@ -146,7 +146,7 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
               />
               {
                 billState.inStateCount ? (
-                  <ListContainer style={[Styles.ListContainer, { paddingHorizontal: 15 }]}>
+                  <ListContainer style={[Styles.ListContainer]}>
                     {
                       billListProps.sequence.map(billId => (
                         <TouchableOpacity

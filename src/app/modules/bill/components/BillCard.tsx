@@ -77,7 +77,7 @@ const style = StyleSheet.create({
   billName: {
     fontSize: 18,
     fontWeight: "bold",
-    width: 150,
+    width: 140,
   },
   topContainer: {
     flexDirection: "row",
@@ -87,7 +87,6 @@ const style = StyleSheet.create({
   badgeContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    marginLeft: 5,
   },
   amountText: {
     fontSize: 14,
