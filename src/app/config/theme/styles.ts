@@ -4,7 +4,7 @@ import { StyleProps } from "$types/config/theme";
 
 export default StyleSheet.create<StyleProps>({
   ActionBarContainer: {
-    height: "8%",
+    height: "5%",
     width: "100%",
     flexDirection: "row",
   },
@@ -17,13 +17,15 @@ export default StyleSheet.create<StyleProps>({
     width: "100%",
   },
   ListContainer: {
-    height: "92%",
+    height: "95%",
     width: "100%",
+    paddingTop: 5,
   },
   FloatingIcon: {
     position: "absolute",
     bottom: 12,
     right: 12,
+    borderRadius: 35,
   },
   ContentContainer: {
     marginHorizontal: 12,

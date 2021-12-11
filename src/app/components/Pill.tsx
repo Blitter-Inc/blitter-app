@@ -4,14 +4,14 @@ import { useAppTheme } from "$config/theme";
 import { PillComponent } from "$types/components";
 
 
-const Pill: PillComponent = ({ label, size, containerStyle, onPress, LeftIcon, RightIcon }) => {
+const Pill: PillComponent = ({ label, size, containerStyle, onPress, LeftIcon, RightIcon, outlined }) => {
   const ColorPalette = useAppTheme();
 
   return (
-    <TouchableOpacity style={[styles.container, { backgroundColor: ColorPalette.ACCENT }, containerStyle]} onPress={onPress}>
-      {LeftIcon && <LeftIcon color="white" size={size} containerStyle={styles.leftIcon} />}
-      <Text style={[styles.text, { fontSize: size - 3 }]}>{label}</Text>
-      {RightIcon && <RightIcon color="white" size={size} containerStyle={styles.rightIcon} />}
+    <TouchableOpacity style={[styles.container, outlined ? { borderWidth: 2, borderColor: ColorPalette.ACCENT } : { backgroundColor: ColorPalette.ACCENT }, containerStyle]} onPress={onPress}>
+      {LeftIcon && <LeftIcon color={outlined ? ColorPalette.ACCENT : "white"} size={size} containerStyle={styles.leftIcon} />}
+      <Text style={[styles.text, { fontSize: size - 3 }, outlined && { color: ColorPalette.ACCENT, fontWeight: "bold" }]}>{label}</Text>
+      {RightIcon && <RightIcon color={outlined ? ColorPalette.ACCENT : "white"} size={size} containerStyle={styles.rightIcon} />}
     </TouchableOpacity>
   );
 };

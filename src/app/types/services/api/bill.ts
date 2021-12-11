@@ -30,30 +30,11 @@ export interface BillAPIObject extends TimeMixinAPIObject {
   attachments: BillAttachmentAPIObject[];
 };
 
-export enum FetchBillsOrderingOptions {
-  DEFAULT = "-updated_at",
-  NAME_ASC = "name",
-  NAME_DEC = "-name",
-  TYPE_ASC = "type",
-  TYPE_DEC = "-type",
-  CREATED_AT_ASC = "created_at",
-  CREATED_AT_DEC = "-created_at",
-  AMOUNT_ASC = "amount",
-  AMOUNT_DEC = "-amount",
-  CREATED_BY_NAME_ASC = "created_by__name",
-  CREATED_BY_NAME_DEC = "-created_by__name",
-  UPDATED_AT_ASC = "updated_at",
-  UPDATED_AT_DEC = "-updated_at",
-};
-
 export enum FetchBillsFilterOptions { };
 
-export interface FetchBillsResponseBody extends PaginatedResponseAPIObject<FetchBillsOrderingOptions, BillAPIObject> { };
+export interface FetchBillsResponseBody extends PaginatedResponseAPIObject<BillAPIObject> { };
 
-export interface FetchBillsHandlerArgs extends PaginatedAPIURLParams<
-  FetchBillsOrderingOptions,
-  FetchBillsFilterOptions
-> { };
+export interface FetchBillsHandlerArgs extends PaginatedAPIURLParams<FetchBillsFilterOptions> { };
 
 export interface FetchBillsSerializedResponseBody extends Omit<BillState, "inStateCount" | "lastRefreshed"> { };
 

@@ -1,26 +1,56 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { useAppTheme } from "$config/theme";
 import { ContainerProps } from "$types/config/theme";
+import { FilterIcon, SortAscendingIcon } from "./Icons";
+import Pill from "./Pill";
 import Text from "./defaults/Text";
 import View from "./defaults/View"
-import { Button } from "react-native-elements";
 
 
-interface ActionBarProps {
+interface ActionBarComponentProps {
   styles: ContainerProps;
-  objectCount: number;
-  objectName: string;
-}
+  addBtnHandler: () => void;
+  sortState: [sortEnabled: boolean, setSortEnabled: (val: boolean) => void];
+  sortHandler: () => any;
+};
 
-const ActionBar = ({ styles: propStyles, objectCount, objectName }: ActionBarProps) => {
+type ActionBarComponent = (props: ActionBarComponentProps) => JSX.Element;
+
+const ActionBar: ActionBarComponent = ({
+  styles: propStyles,
+  addBtnHandler,
+  sortState,
+  sortHandler,
+}) => {
+  const ColorPalette = useAppTheme();
+  const [sortEnabled, setSortEnabled] = sortState;
 
   return (
-    <View style={[propStyles, styles.container]}>
-      <Text style={styles.text}>{objectCount} {objectName}{objectCount > 1 ? 's' : ''} found</Text>
-      <View style={{ flexDirection: "row" }}>
-        <Text style={styles.text}>Sort</Text>
-        <Text style={styles.text}>Filter</Text>
+    <View style={[propStyles, styles.container, { borderColor: ColorPalette.ACCENT }]}>
+      <View style={{ flexDirection: "row", justifyContent: "flex-start", flex: 1 }}>
+        <Pill
+          outlined
+          size={16}
+          containerStyle={styles.pill}
+          label="Filter"
+          RightIcon={FilterIcon}
+        />
+        <Pill
+          outlined
+          size={16}
+          containerStyle={styles.pill}
+          label={`${sortEnabled ? "Oldest" : "Latest"} First`}
+          RightIcon={SortAscendingIcon}
+          onPress={() => {
+            setSortEnabled(!sortEnabled);
+            sortHandler();
+          }}
+        />
       </View>
+      <TouchableOpacity style={styles.addBtn} onPress={addBtnHandler}>
+        <Text style={styles.text}>Add +</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -29,11 +59,19 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: 20,
-    borderBottomWidth: 2,
-    borderBottomRightRadius: 35,
-    borderBottomLeftRadius: 35,
-    marginBottom: 15,
+    alignItems: "flex-end",
+    paddingBottom: 2,
+    paddingHorizontal: 10,
+    marginBottom: 5,
+  },
+  pill: {
+    alignItems: "center",
+    height: 28,
+    margin: 0,
+    paddingVertical: 0,
+    paddingLeft: 12,
+    paddingRight: 8,
+    marginRight: 8,
   },
   text: {
     paddingHorizontal: 5,
@@ -41,6 +79,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
   },
+  addBtn: { height: "100%", justifyContent: "center", paddingTop: 10 },
 });
 
 

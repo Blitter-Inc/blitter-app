@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
-import { ActivityIndicator, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import { ActionBar, FloatAddIcon, ListContainer, NotFound, SafeAreaView } from "$components/index";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import { ActivityIndicator, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { ActionBar, ListContainer, NotFound, SafeAreaView } from "$components/index";
 import { SearchContext } from "$config/context";
 import { useAppTheme, Styles } from "$config/theme";
 import { billCardPropsGenerator } from "$helpers/bill";
@@ -13,7 +14,7 @@ import {
   BillScreenParams,
 } from "$types/modules/bill";
 import { BillCard } from "../components";
-import { FetchBillsHandlerArgs, FetchBillsOrderingOptions } from "$types/services/api";
+import { FetchBillsHandlerArgs, FetchAPIOrderingOptions } from "$types/services/api";
 
 
 const useRequiredState = () => {
@@ -27,61 +28,93 @@ const useRequiredState = () => {
 const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
   const ColorPalette = useAppTheme();
   const { loggedInUser, billState, contactMap } = useRequiredState();
-  const { search } = useContext(SearchContext);
+  const { search, setSearch } = useContext(SearchContext);
   const generateBillCardProps = billCardPropsGenerator({ contactMap, loggedInUser });
 
+  const initialized = useRef(false);
+  const sortState = useState(false);
   const [loading, setLoading] = useState(false);
   const [billEffectCounter, setBillEffectCounter] = useState(1);
   const triggerBillEffect = () => {
     setBillEffectCounter(billEffectCounter + 1);
   };
-  const [billListProps, setBillListProps] = useState<BillListProps>({
+
+  const generateInitialBillListProps = (): BillListProps => ({
     mode: BillListMode.COMPLETE,
     count: billState.totalCount,
     sequence: billState.orderedSequence,
   });
+  const [billListProps, setBillListProps] = useState(generateInitialBillListProps());
   const updateBillListProps = (newProps: Partial<BillListProps>) => {
     setBillListProps({ ...billListProps, ...newProps });
   };
-  const [billParams, setBillParams] = useState<FetchBillsHandlerArgs>({
+  const initialBillParams: FetchBillsHandlerArgs = {
     search: '',
-    ordering: FetchBillsOrderingOptions.DEFAULT,
-  });
+    ordering: FetchAPIOrderingOptions.DEFAULT,
+  };
+  const [billParams, setBillParams] = useState(initialBillParams);
   const updateBillParams = (newParams: FetchBillsHandlerArgs) => {
     setBillParams({ ...billParams, ...newParams });
   };
+  const toggleSortOrder = () => {
+    updateBillParams({
+      ordering: billParams.ordering === FetchAPIOrderingOptions.DEFAULT ?
+        FetchAPIOrderingOptions.REVERSE :
+        FetchAPIOrderingOptions.DEFAULT,
+    });
+  };
+
+  const fetch = async (billParams: FetchBillsHandlerArgs) => {
+    setLoading(true);
+    const { totalCount, orderedSequence } = await fetchBills(billParams);
+    updateBillListProps({ count: totalCount, sequence: orderedSequence });
+    setLoading(false);
+  };
 
   useEffect(() => {
+    // Enables re-rendering screen upon adding bill
+    setBillListProps(generateInitialBillListProps());
+  }, [billState.totalCount]);
+
+  useEffect(() => {
+    if (!initialized.current) {
+      // Prevents updating state on first render
+      initialized.current = true;
+      return;
+    }
     if (search !== '') {
+      // Update params for search query and trigger fetch bills effect
       updateBillListProps({ mode: BillListMode.SEARCH });
       updateBillParams({ search });
       triggerBillEffect();
     } else {
-      updateBillListProps({
-        mode: BillListMode.COMPLETE,
-        count: billState.totalCount,
-        sequence: billState.orderedSequence,
+      // Disposes search state
+      updateBillListProps(generateInitialBillListProps());
+      updateBillParams({
+        ordering: FetchAPIOrderingOptions.DEFAULT,
       });
+      sortState[1](false);
     }
   }, [search]);
 
   useEffect(() => {
+    // Fetches bills for search and filter query
     if (billListProps.mode !== BillListMode.COMPLETE) {
-      setLoading(true);
-      const fetch = async () => {
-        const { totalCount, orderedSequence } = await fetchBills(billParams);
-        updateBillListProps({ count: totalCount, sequence: orderedSequence });
-        setLoading(false);
-      };
-      fetch();
+      fetch(billParams);
     }
   }, [billEffectCounter]);
 
-  navigation.addListener("gestureStart", () => closeSearchBar());
+  useFocusEffect(() => {
+    navigation.addListener("gestureStart", () => closeSearchBar());
+    navigation.addListener("beforeRemove", () => setSearch(''));
+  });
+
   const closeSearchBar = () => {
-    navigation.setOptions({
-      header: undefined,
-    });
+    if (search === '') {
+      navigation.setOptions({
+        header: undefined,
+      });
+    }
   };
 
   const navigateToBillScreen = (params: BillScreenParams = { loggedInUser, contactMap }) => {
@@ -92,25 +125,24 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
     return () => navigation.push("Bill", params);
   };
 
+  const sortBillsHandler = async () => {
+    toggleSortOrder();
+    updateBillListProps({ sequence: billListProps.sequence.reverse() });
+  };
+
   return (
     <TouchableWithoutFeedback onPress={closeSearchBar}>
       <SafeAreaView
         style={[Styles.ExpandedContainer, Styles.FlexCenteredContainer]}
       >
         {
-          loading ? (
-            <View style={{
-              justifyContent: "center",
-              alignItems: "center",
-            }}>
-              <ActivityIndicator animating size={48} />
-            </View>
-          ) : (
+          loading ? <ActivityIndicator animating size={48} color={ColorPalette.ACCENT} /> : (
             <>
               <ActionBar
                 styles={[Styles.ActionBarContainer, Styles.FlexCenteredContainer]}
-                objectCount={billListProps.count}
-                objectName="bill"
+                addBtnHandler={navigateToBillScreen()}
+                sortState={sortState}
+                sortHandler={sortBillsHandler}
               />
               {
                 billState.inStateCount ? (
@@ -119,6 +151,8 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
                       billListProps.sequence.map(billId => (
                         <TouchableOpacity
                           key={billId}
+                          activeOpacity={0.75}
+                          onPressIn={closeSearchBar}
                           onPress={navigateToBillScreen({ billObj: billState.objectMap[billId], contactMap, loggedInUser })}
                         >
                           <BillCard {...generateBillCardProps(billState.objectMap[billId])} />
@@ -134,12 +168,13 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
                   />
                 )
               }
-              <FloatAddIcon
-                size={55}
-                color={ColorPalette.ACCENT}
+              {/* <FloatAddIcon
+                size={40}
+                color="white"
+                iconStyle={{ backgroundColor: ColorPalette.ACCENT, padding: 8 }}
                 containerStyle={Styles.FloatingIcon}
                 onPress={navigateToBillScreen()}
-              />
+              /> */}
             </>
           )
         }

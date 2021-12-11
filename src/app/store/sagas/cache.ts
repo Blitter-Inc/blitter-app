@@ -1,9 +1,10 @@
 import { call, put } from "redux-saga/effects";
 import { fetchPhoneNumbers } from "$helpers/contacts";
 import { createBill, fetchBills, fetchUserProfiles, updateBill } from "$services/api";
-import { completeAppInitialization, setBillCache, setContactCache, setExistingBill } from "$store/slices/cache";
+import { completeAppInitialization, setBillCache, setContactCache, setExistingBill, setNewBill } from "$store/slices/cache";
 import {
-  FetchBillsOrderingOptions,
+  CreateBillSerializedResponseBody,
+  FetchAPIOrderingOptions,
   FetchBillsSerializedResponseBody,
   FetchUserProfilesSerializedResponseBody,
   UpdateBillSerializedResponseBody,
@@ -14,7 +15,7 @@ import { AddBillSagaAction, EditBillSagaAction, InitializeAppSagaAction } from "
 export function* initializeApp(action: InitializeAppSagaAction) {
   try {
     const billRes: FetchBillsSerializedResponseBody = yield call(fetchBills, {
-      ordering: FetchBillsOrderingOptions.DEFAULT,
+      ordering: FetchAPIOrderingOptions.DEFAULT,
     });
     yield put(setBillCache(billRes));
     const phoneNumbers: string[] = yield call(fetchPhoneNumbers);
@@ -27,23 +28,22 @@ export function* initializeApp(action: InitializeAppSagaAction) {
 };
 
 export function* addBill(action: AddBillSagaAction) {
-  const { args: payload } = action.payload;
+  const { args: { setLoading, ...payload } } = action.payload;
   try {
-    yield call(createBill, payload);
-    const fetchbillsRes: FetchBillsSerializedResponseBody = yield call(fetchBills, {
-      ordering: FetchBillsOrderingOptions.DEFAULT,
-    });
-    yield put(setBillCache(fetchbillsRes));
+    const newBill: CreateBillSerializedResponseBody = yield call(createBill, payload);
+    yield put(setNewBill(newBill));
+    yield call(setLoading, false);
   } catch (e) {
     console.error(e);
   }
 };
 
 export function* editBill(action: EditBillSagaAction) {
-  const { args: payload } = action.payload;
-  try {
+  const { args: { setLoading, ...payload } } = action.payload;
+  try { 
     const updatedBill: UpdateBillSerializedResponseBody = yield call(updateBill, payload);
     yield put(setExistingBill(updatedBill));
+    yield call(setLoading, false);
   } catch (e) {
     console.error(e);
   }

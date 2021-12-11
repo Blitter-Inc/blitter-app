@@ -42,20 +42,20 @@ export const getSlidingScreenOptions: GetSlidingScreenOptions = () => ({
   headerLeft: undefined,
   headerTitle: "",
   ...TransitionPresets.RevealFromBottomAndroid,
-  transitionSpec: {
-    open: {
-      animation: "timing",
-      config: {
-        duration: 500,
-        easing: Easing.ease,
-      },
-    },
-    close: {
-      animation: "timing",
-      config: {
-        duration: 300,
-        easing: Easing.ease,
-      },
-    },
-  },
+  // transitionSpec: {
+  //   open: {
+  //     animation: "timing",
+  //     config: {
+  //       duration: 300,
+  //       easing: Easing.out(Easing.ease),
+  //     },
+  //   },
+  //   close: {
+  //     animation: "timing",
+  //     config: {
+  //       duration: 200,
+  //       easing: Easing.out(Easing.ease),
+  //     },
+  //   },
+  // },
 });

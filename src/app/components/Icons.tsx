@@ -23,8 +23,12 @@ export const EntertainmentIcon: IconComponent = props => (
   <Icon type="material-community" name="television-classic" {...props} />
 );
 
+export const FilterIcon: IconComponent = props => (
+  <Icon type="material-community" name="filter-outline" {...props} />
+);
+
 export const FloatAddIcon: IconComponent = props => (
-  <Icon type="antdesign" name="pluscircle" {...props} />
+  <Icon type="ionicons" name="add" {...props} />
 );
 
 export const FoodIcon: IconComponent = props => (
@@ -73,6 +77,14 @@ export const RupeeIcon: IconComponent = props => (
 
 export const ShoppingIcon: IconComponent = props => (
   <Icon type="entypo" name="shopping-cart" {...props} />
+);
+
+export const SortAscendingIcon: IconComponent = props => (
+  <Icon type="material-community" name="sort-ascending" {...props} />
+);
+
+export const SortDescendingIcon: IconComponent = props => (
+  <Icon type="material-community" name="sort-descending" {...props} />
 );
 
 export const StatusIcon: IconComponent = props => (
