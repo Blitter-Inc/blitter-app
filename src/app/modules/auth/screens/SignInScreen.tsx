@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Text, TextInput, Button } from "react-native";
-import { FirebaseRecaptchaVerifierModal, FirebaseAuthApplicationVerifier, FirebaseRecaptchaBanner } from "expo-firebase-recaptcha";
-import { AuthContainer } from "../components";
-import { Loader } from "$components/index";
+import { View, Text, TextInput, Button, ActivityIndicator } from "react-native";
+import { Overlay } from "react-native-elements";
+import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from "expo-firebase-recaptcha";
 import ENV from "$config/env";
 import Firebase from "$config/firebase";
 import { useAppDispatch, useAppSelector } from "$store/hooks";
 import { initPhoneSignIn, skipOTPVerification } from "$store/slices/auth";
 import { SignInScreenElement } from "$types/modules/auth";
 import Styles from "./styles";
+import { AuthContainer } from "../components";
 
 
 const useRequiredState = () => {
@@ -72,7 +72,9 @@ const SignInScreen: SignInScreenElement = ({ navigation }) => {
         </View>
       </View>
       <FirebaseRecaptchaBanner />
-      {state.isLoading && <Loader />}
+      <Overlay isVisible={state.isLoading} fullScreen>
+        <ActivityIndicator color="blue" size={48} style={{ height: "100%" }} />
+      </Overlay>
     </AuthContainer>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Button, Text, TextInput } from "react-native";
-import { Loader } from "$components/index";
+import { View, Button, Text, TextInput, ActivityIndicator } from "react-native";
+import { Overlay } from "react-native-elements";
 import { useAppDispatch, useAppSelector } from "$store/hooks";
 import { verifyCode } from "$store/slices/auth";
 import { OTPVerifyScreenElement } from "$types/modules/auth";
@@ -97,7 +97,9 @@ const OTPVerifyScreen: OTPVerifyScreenElement = ({ navigation }) => {
           />
         </View>
       </View>
-      {state.isLoading && <Loader />}
+      <Overlay isVisible={state.isLoading} fullScreen>
+        <ActivityIndicator color="blue" size={48} style={{ height: "100%" }} />
+      </Overlay>
     </AuthContainer>
   );
 };

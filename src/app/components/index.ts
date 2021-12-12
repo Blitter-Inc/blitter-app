@@ -7,7 +7,6 @@ import ContactPicker from "./ContactPicker";
 import FileGallery from "./FileGallery";
 import LabeledContainer from "./LabeledContainer";
 import ListContainer from "./ListContainer";
-import Loader from "./Loader";
 import NotFound from "./NotFound";
 import Pill from "./Pill";
 import SearchBar from "./SearchBar";
@@ -24,7 +23,6 @@ export {
   FileGallery,
   LabeledContainer,
   ListContainer,
-  Loader,
   NotFound,
   Pill,
   SearchBar,
