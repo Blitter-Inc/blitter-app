@@ -1,57 +1,61 @@
-import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { Overlay } from "react-native-elements";
 import { useAppTheme } from "$config/theme";
-import { ContainerProps } from "$types/config/theme";
+import { ActionBarComponent } from "$types/components";
 import { FilterIcon, SortAscendingIcon } from "./Icons";
+import FilterModal from "./FilterModal";
 import Pill from "./Pill";
-import Text from "./defaults/Text";
-import View from "./defaults/View"
 
-
-interface ActionBarComponentProps {
-  styles: ContainerProps;
-  addBtnHandler: () => void;
-  sortState: [sortEnabled: boolean, setSortEnabled: (val: boolean) => void];
-  sortHandler: () => any;
-};
-
-type ActionBarComponent = (props: ActionBarComponentProps) => JSX.Element;
 
 const ActionBar: ActionBarComponent = ({
-  styles: propStyles,
+  containerStyle,
   addBtnHandler,
   sortState,
   sortHandler,
 }) => {
   const ColorPalette = useAppTheme();
   const [sortEnabled, setSortEnabled] = sortState;
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const hideFilterModal = () => setShowFilterModal(false);
 
   return (
-    <View style={[propStyles, styles.container, { borderColor: ColorPalette.ACCENT }]}>
-      <View style={{ flexDirection: "row", justifyContent: "flex-start", flex: 1 }}>
-        <Pill
-          outlined
-          size={16}
-          containerStyle={styles.pill}
-          label="Filter"
-          RightIcon={FilterIcon}
-        />
-        <Pill
-          outlined
-          size={16}
-          containerStyle={styles.pill}
-          label={`${sortEnabled ? "Oldest" : "Latest"} First`}
-          RightIcon={SortAscendingIcon}
-          onPress={() => {
-            setSortEnabled(!sortEnabled);
-            sortHandler();
-          }}
-        />
+    <>
+      <View style={[styles.container, { borderColor: ColorPalette.ACCENT }, containerStyle]}>
+        <View style={{ flexDirection: "row", justifyContent: "flex-start", flex: 1 }}>
+          <Pill
+            outlined
+            size={16}
+            containerStyle={styles.pill}
+            label="Filter"
+            RightIcon={FilterIcon}
+            onPress={() => {
+              setShowFilterModal(true);
+            }}
+          />
+          <Pill
+            outlined
+            size={16}
+            containerStyle={styles.pill}
+            label={`${sortEnabled ? "Oldest" : "Latest"} First`}
+            RightIcon={SortAscendingIcon}
+            onPress={() => {
+              setSortEnabled(!sortEnabled);
+              sortHandler();
+            }}
+          />
+        </View>
+        <TouchableOpacity style={styles.addBtn} onPress={addBtnHandler}>
+          <Text style={styles.text}>Add +</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.addBtn} onPress={addBtnHandler}>
-        <Text style={styles.text}>Add +</Text>
-      </TouchableOpacity>
-    </View>
+      <Overlay isVisible={showFilterModal} onBackdropPress={hideFilterModal} overlayStyle={{
+        width: "90%",
+        padding: 15,
+      }}>
+        <FilterModal hideOverlayHandler={hideFilterModal} />
+      </Overlay>
+    </>
   );
 };
 

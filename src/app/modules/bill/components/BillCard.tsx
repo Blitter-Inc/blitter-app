@@ -13,14 +13,20 @@ const BillCard: BillCardComponent = props => {
   return (
     <View style={[style.billCard, { backgroundColor: ColorPallete.PRIMARY }]}>
       <View style={style.topContainer}>
-        <TextTicker 
-          style={[style.billName, { color: ColorPallete.ACCENT }]} 
-          duration={5000}
-          loop
-          bounce
-          repeatSpacer={50}
-          marqueeDelay={1000}># {props.name}
-        </TextTicker>
+        {props.name.length > 12 ? (
+          <TextTicker 
+            style={[style.billName, { color: ColorPallete.ACCENT }]} 
+            duration={5000}
+            loop
+            bounce
+            repeatSpacer={50}
+            marqueeDelay={1000}
+          >
+            # {props.name}
+          </TextTicker>
+        ) : (
+          <Text style={[style.billName, { color: ColorPallete.ACCENT }]} ># {props.name}</Text>
+        )}
         <View style={style.badgeContainer}>
           <Badge
             status="primary"
