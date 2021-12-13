@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Overlay } from "react-native-elements";
+import { ActionBarContext } from "$config/context";
 import { useAppTheme } from "$config/theme";
 import { ActionBarComponent } from "$types/components";
 import { FilterIcon, SortAscendingIcon } from "./Icons";
@@ -11,11 +12,10 @@ import Pill from "./Pill";
 const ActionBar: ActionBarComponent = ({
   containerStyle,
   addBtnHandler,
-  sortState,
-  sortHandler,
 }) => {
   const ColorPalette = useAppTheme();
-  const [sortEnabled, setSortEnabled] = sortState;
+  const { sort: { reverseOrderingEnabled, toggleOrdering } } = useContext(ActionBarContext);
+
   const [showFilterModal, setShowFilterModal] = useState(false);
   const hideFilterModal = () => setShowFilterModal(false);
 
@@ -37,12 +37,9 @@ const ActionBar: ActionBarComponent = ({
             outlined
             size={16}
             containerStyle={styles.pill}
-            label={`${sortEnabled ? "Oldest" : "Latest"} First`}
+            label={`${reverseOrderingEnabled ? "Oldest" : "Latest"} First`}
             RightIcon={SortAscendingIcon}
-            onPress={() => {
-              setSortEnabled(!sortEnabled);
-              sortHandler();
-            }}
+            onPress={toggleOrdering}
           />
         </View>
         <TouchableOpacity style={styles.addBtn} onPress={addBtnHandler}>

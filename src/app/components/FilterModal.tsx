@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { CheckBox } from "react-native-elements";
 import { useAppTheme } from "$config/theme";
-import { FilterContext } from "$config/context";
+import { ActionBarContext } from "$config/context";
 import { SetFilterComponent, ToggleFilterComponent } from "$types/components";
 import { FilterStateObject } from "$types/config/context";
 import { FilterType, UseStateObject } from "$types/modules/shared";
@@ -106,7 +106,12 @@ const ToggleFilter: ToggleFilterComponent = ({ filterName, state }) => {
 
 const FilterModal = ({ hideOverlayHandler }: { hideOverlayHandler: () => void; }) => {
   const ColorPalette = useAppTheme();
-  const { filters, status, activate, refresh, reset, renderOptions, state } = useContext(FilterContext);
+  const {
+    filter: {
+      filters, status, activate, refresh,
+      reset, renderOptions, state,
+    },
+  } = useContext(ActionBarContext);
 
   const renderFilter: (params: {
     filterName: string;
