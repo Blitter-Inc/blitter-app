@@ -1,8 +1,8 @@
-import FilterContext from "./filter";
+import ActionBarContext from "./action-bar";
 import SearchContext from "./search";
 
 
 export {
-  FilterContext,
+  ActionBarContext,
   SearchContext,
 };

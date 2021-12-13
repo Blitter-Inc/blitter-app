@@ -27,3 +27,13 @@ export interface FilterContextData {
   };
   state: UseStateObject<FilterStateObject>;
 };
+
+export interface SortContextData {
+  reverseOrderingEnabled: boolean;
+  toggleOrdering: () => void;
+};
+
+export interface ActionBarContextObject {
+  filter: FilterContextData;
+  sort: SortContextData;
+};

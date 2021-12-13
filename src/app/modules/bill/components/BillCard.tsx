@@ -25,7 +25,7 @@ const BillCard: BillCardComponent = props => {
             # {props.name}
           </TextTicker>
         ) : (
-          <Text style={[style.billName, { color: ColorPallete.ACCENT }]} ># {props.name}</Text>
+          <Text style={[style.billName, { color: ColorPallete.ACCENT }]} numberOfLines={1} ># {props.name}</Text>
         )}
         <View style={style.badgeContainer}>
           <Badge

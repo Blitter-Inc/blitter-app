@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { ActivityIndicator, FlatList, TouchableOpacity } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { ActionBar, NotFound, SafeAreaView } from "$components/index";
-import { FilterContext } from "$config/context";
+import { ActionBarContext } from "$config/context";
 import { useAppTheme, Styles } from "$config/theme";
 import {
   BillListMode,
@@ -20,13 +20,12 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
   const {
     search,
     setSearch,
-    filterContextData,
+    actionBarContextValue,
     loggedInUser,
     billState,
     contactMap,
     generateBillCardProps,
     initialized,
-    sortState,
     loading,
     billEffectCounter,
     triggerBillEffect,
@@ -35,14 +34,13 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
     resetBillListProps,
     billParams,
     updateBillParams,
-    toggleSortOrder,
     fetchBills,
   } = useBillManagerState();
 
   useEffect(() => {
-    // Enables re-rendering screen upon adding bill
+    // Enables re-rendering screen upon adding and updating bill
     resetBillListProps();
-  }, [billState.totalCount]);
+  }, [billState.totalCount, billState.orderedSequence]);
 
   useEffect(() => {
     if (!initialized.current) {
@@ -52,7 +50,7 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
     }
     if (search !== '') {
       // Update params for search query and trigger fetch bills effect
-      updateBillListProps({ mode: BillListMode.SEARCH });
+      updateBillListProps({ mode: BillListMode.SEARCH }, billListProps);
       updateBillParams({ search });
       triggerBillEffect();
     } else {
@@ -61,7 +59,6 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
       updateBillParams({
         ordering: FetchAPIOrderingOptions.DEFAULT,
       });
-      sortState[1](false);
     }
   }, [search]);
 
@@ -95,23 +92,18 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
     return () => navigation.push("Bill", params);
   };
 
-  const sortBillsHandler = async () => {
-    toggleSortOrder();
-    updateBillListProps({ sequence: billListProps.sequence.reverse() });
-  };
-
   useEffect(() => {
-    if (filterContextData.status.active) {
+    if (actionBarContextValue.filter.status.active) {
       updateBillListProps({
         sequence: billState.orderedSequence.filter(billFilter),
-      });
+      }, billListProps);
     } else {
       resetBillListProps();
     }
-  }, [filterContextData.status]);
+  }, [actionBarContextValue.filter.status]);
 
   const billFilter = (billId: number) => {
-    const filterStateData = filterContextData.state[0];
+    const filterStateData = actionBarContextValue.filter.state[0];
     if (filterStateData.fulfilled.active && (
       (filterStateData.fulfilled.data === true && billState.objectMap[billId].status !== BillStatus.FULFILLED) ||
       (filterStateData.fulfilled.data === false && billState.objectMap[billId].status === BillStatus.FULFILLED)
@@ -122,7 +114,7 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
   };
 
   return (
-    <FilterContext.Provider value={filterContextData}>
+    <ActionBarContext.Provider value={actionBarContextValue}>
       <SafeAreaView
         style={[Styles.ExpandedContainer, Styles.FlexCenteredContainer]}
       >
@@ -132,11 +124,9 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
               <ActionBar
                 containerStyle={{ ...Styles.ActionBarContainer, ...Styles.FlexCenteredContainer }}
                 addBtnHandler={navigateToBillScreen()}
-                sortState={sortState}
-                sortHandler={sortBillsHandler}
               />
               {
-                billState.inStateCount ? (
+                billListProps.count ? (
                   <FlatList
                     style={[Styles.ListContainer, { paddingHorizontal: 15 }]}
                     data={billListProps.sequence}
@@ -155,7 +145,7 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
                   <NotFound
                     entity="bills"
                     iconColor={ColorPalette.ACCENT}
-                    styles={[Styles.ExpandedContainer, Styles.FlexCenteredContainer]}
+                    styles={[Styles.ListContainer, Styles.FlexCenteredContainer]}
                   />
                 )
               }
@@ -170,7 +160,7 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
           )
         }
       </SafeAreaView>
-    </FilterContext.Provider>
+    </ActionBarContext.Provider>
   );
 };
 

@@ -26,5 +26,5 @@ export interface UserProfileInput extends Omit<UserProfileObject, "id" | "avatar
 };
 
 export function isAvatarFormDataValue(object: any): boolean {
-  return 'uri' in object && 'type' in object;
+  return (object instanceof Object && 'uri' in object) && 'type' in object;
 };

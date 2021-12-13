@@ -68,6 +68,9 @@ const setContactCacheReducer: CacheReducer<SetContactCacheAction> = (state, acti
 const setExistingBillReducer: CacheReducer<SetExistingBillAction> = (state, action) => {
   const { payload: billObj } = action;
   state.bill.objectMap[billObj.id] = billObj;
+  const sequenceIndex = state.bill.orderedSequence.indexOf(billObj.id);
+  state.bill.orderedSequence.splice(sequenceIndex, 1);
+  state.bill.orderedSequence.unshift(billObj.id);
 };
 
 const setNewBillReducer: CacheReducer<SetNewBillAction> = (state, action) => {

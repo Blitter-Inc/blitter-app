@@ -13,8 +13,6 @@ import { ContactObjectMap } from "$types/store";
 
 export interface ActionBarComponentProps extends ContainerProps {
   addBtnHandler: () => void;
-  sortState: [sortEnabled: boolean, setSortEnabled: (val: boolean) => void];
-  sortHandler: () => any;
 };
 
 export interface AmountInputProps extends TextInputProps, AppThemeHookProps, ContainerProps {

@@ -10,7 +10,7 @@ import {
 } from "$types/modules/bill";
 import { FetchBillsHandlerArgs, FetchAPIOrderingOptions } from "$types/services/api";
 import { FilterType } from "$types/modules/shared";
-import { FilterContextData, FilterStateObject } from "$types/config/context";
+import { ActionBarContextObject, FilterContextData, FilterStateObject, SortContextData } from "$types/config/context";
 
 
 const useRequiredState = () => {
@@ -29,15 +29,17 @@ const useBillManagerState = () => {
   );
 
   // BILL LIST PROPS
-  const initialBillListProps = useMemo<BillListProps>(() => ({
-    mode: BillListMode.COMPLETE,
-    count: billState.totalCount,
-    sequence: billState.orderedSequence,
-  }), [billState]);
+  const initialBillListProps = useMemo<BillListProps>(() => {
+    return {
+      mode: BillListMode.COMPLETE,
+      count: billState.totalCount,
+      sequence: billState.orderedSequence,
+    };
+  }, [billState]);
   const [billListProps, setBillListProps] = useState(initialBillListProps);
-  const updateBillListProps = (newProps: Partial<BillListProps>) => {
-    setBillListProps({ ...billListProps, ...newProps });
-  };
+  const updateBillListProps = useCallback((newProps: Partial<BillListProps>, currentProps: BillListProps) => {
+    setBillListProps({ ...currentProps, ...newProps });
+  }, []);
   const resetBillListProps = () => {
     setBillListProps(initialBillListProps);
   };
@@ -49,7 +51,6 @@ const useBillManagerState = () => {
   }, [billEffectCounter]);
 
   const initialized = useRef(false);
-  const sortState = useState(false);
   const [loading, setLoading] = useState(false);
 
   // BILL PARAMS
@@ -64,20 +65,13 @@ const useBillManagerState = () => {
   const resetBillParams = () => {
     setBillParams(initialBillParams);
   };
-  const toggleSortOrder = useCallback(() => {
-    updateBillParams({
-      ordering: billParams.ordering === FetchAPIOrderingOptions.DEFAULT ?
-        FetchAPIOrderingOptions.REVERSE :
-        FetchAPIOrderingOptions.DEFAULT,
-    });
-  }, [billParams.ordering]);
 
   const fetchBills = useCallback(async (billParams: FetchBillsHandlerArgs) => {
     setLoading(true);
     const { totalCount, orderedSequence } = await fetchBillService(billParams);
-    updateBillListProps({ count: totalCount, sequence: orderedSequence });
+    updateBillListProps({ count: totalCount, sequence: orderedSequence }, billListProps);
     setLoading(false);
-  }, [billParams]);
+  }, []);
 
 
   const { search, setSearch } = useContext(SearchContext);
@@ -130,19 +124,29 @@ const useBillManagerState = () => {
     state: filterState,
   };
 
+  const [reverseOrderingEnabled, setReverseOrderingEnabled] = useState(false);
+  const toggleOrdering = useCallback(() => {
+    setReverseOrderingEnabled(!reverseOrderingEnabled);
+    console.log(billListProps.sequence);
+    updateBillListProps({ sequence: [...billListProps.sequence].reverse() }, billListProps);
+  }, [reverseOrderingEnabled]);
+  const sortContextData: SortContextData = { reverseOrderingEnabled, toggleOrdering };
+
+  const actionBarContextValue: ActionBarContextObject = {
+    filter: filterContextData,
+    sort: sortContextData,
+  };
+
   return {
     search,
     setSearch,
-    filterContextData,
-
+    actionBarContextValue,
     loggedInUser,
     billState,
     contactMap,
     generateBillCardProps,
 
     initialized,
-    sortState,
-
     loading,
     setLoading,
 
@@ -156,7 +160,6 @@ const useBillManagerState = () => {
     billParams,
     updateBillParams,
     resetBillParams,
-    toggleSortOrder,
 
     fetchBills,
   };
