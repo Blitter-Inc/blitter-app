@@ -136,7 +136,7 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
                 sortHandler={sortBillsHandler}
               />
               {
-                billState.inStateCount ? (
+                billListProps.count ? (
                   <FlatList
                     style={[Styles.ListContainer, { paddingHorizontal: 15 }]}
                     data={billListProps.sequence}
@@ -155,7 +155,7 @@ const BillManagerScreen: BillManagerScreenElement = ({ navigation }) => {
                   <NotFound
                     entity="bills"
                     iconColor={ColorPalette.ACCENT}
-                    styles={[Styles.ExpandedContainer, Styles.FlexCenteredContainer]}
+                    styles={[Styles.ListContainer, Styles.FlexCenteredContainer]}
                   />
                 )
               }
